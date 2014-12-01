@@ -4,7 +4,9 @@
 
     using Codefarts.UIControls.Interfaces;
 
+#if UNITY3D
     using UnityEngine;
+     
 
     public class ListBoxRenderer : IControlRenderer
     {
@@ -48,4 +50,5 @@
         {
         }
     }
+#endif
 }

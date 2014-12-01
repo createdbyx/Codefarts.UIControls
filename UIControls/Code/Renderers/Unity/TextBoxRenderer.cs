@@ -4,8 +4,9 @@
 
     using Codefarts.UIControls.Interfaces;
 
+#if UNITY3D
     using UnityEngine;
-
+    
     public class TextBoxRenderer : IControlRenderer
     {
         public Type ControlType
@@ -47,4 +48,6 @@
         {
         }
     }
+#endif
+
 }

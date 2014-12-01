@@ -5,9 +5,9 @@
     using Codefarts.UIControls.Interfaces;
     using Codefarts.UIControls.Unity;
 
+#if UNITY3D
     using UnityEngine;
-
-    public class TextFieldRenderer : IControlRenderer
+      public class TextFieldRenderer : IControlRenderer
     {
         public Type ControlType
         {
@@ -31,4 +31,5 @@
         {
         }
     }
+#endif
 }

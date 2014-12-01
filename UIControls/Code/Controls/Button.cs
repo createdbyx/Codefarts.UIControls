@@ -11,8 +11,12 @@ namespace Codefarts.UIControls
 {
     using System;
 
+#if UNITY3D
     using UnityEngine;
-
+#endif
+#if WINDOWS
+    using Microsoft.Xna.Framework.Graphics;
+#endif
     /// <summary>
     /// The button.
     /// </summary>
@@ -31,7 +35,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets Texture.
         /// </summary>
-        public image Texture Texture { get; set; }
+        public Texture Texture { get; set; }
 
         #endregion
 

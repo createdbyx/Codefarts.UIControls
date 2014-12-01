@@ -4,8 +4,9 @@
 
     using Codefarts.UIControls.Interfaces;
 
+#if UNITY3D
     using UnityEngine;
-
+    
     public class StackPanelRenderer : IControlRenderer
     {
         public Type ControlType
@@ -43,4 +44,5 @@
         {
         }
     }
+#endif
 }

@@ -4,8 +4,9 @@
 
     using Codefarts.UIControls.Interfaces;
 
+#if UNITY3D
     using UnityEngine;
-
+    
     public class LabelRenderer : IControlRenderer
     {
         public Type ControlType
@@ -26,4 +27,5 @@
         {
         }
     }
+#endif
 }
