@@ -1,10 +1,8 @@
 namespace Codefarts.UIControls
 {
     using System;
-
-    using Codefarts.UIControls.Unity;
-
-    public class NumericTextField : TextField
+                                     
+    public class NumericTextField : TextBox
     {
         private float minimum;
         private float maximum = 1;
