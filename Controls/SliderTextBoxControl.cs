@@ -121,12 +121,12 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public void Draw(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             manager.DrawControl(this.container, elapsedGameTime, totalGameTime);
         }
 
-        public void Update(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             manager.UpdateControl(this.container, elapsedGameTime, totalGameTime);
         }
