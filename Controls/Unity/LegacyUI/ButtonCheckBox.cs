@@ -1,3 +1,4 @@
+#if UNITY3D
 namespace Codefarts.UIControls
 {
     using UnityEngine;
@@ -14,4 +15,5 @@ namespace Codefarts.UIControls
         {
         }
     }
-}
+} 
+#endif

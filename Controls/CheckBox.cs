@@ -25,11 +25,13 @@ namespace Codefarts.UIControls
 
         private bool isChecked;
 
+#if UNITY3D || WINDOWS
         protected CheckBox(Texture2D texture)
             : this()
         {
             this.Texture = texture;
         }
+#endif
 
         public CheckBox()
             : base()
