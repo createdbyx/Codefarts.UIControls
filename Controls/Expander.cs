@@ -7,10 +7,11 @@
 </copyright>
 */
 
-using System.Collections.Generic;
 
 namespace Codefarts.UIControls
 {
+    using System.Collections.Generic;
+
     public class Expander : Control
     {
         public bool IsExpanded { get; set; }

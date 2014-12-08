@@ -1,4 +1,4 @@
-namespace Codefarts.UIControls.Code
+namespace Codefarts.UIControls
 {
     using System;
     using System.Collections.Generic;
@@ -23,6 +23,8 @@ namespace Codefarts.UIControls.Code
                 return singleton;
             }
         }
+
+        public GUISkin Skin { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ControlRendererManager"/> class.
@@ -93,7 +95,7 @@ namespace Codefarts.UIControls.Code
                         {
                             if (string.CompareOrdinal(inter.FullName, fullName) == 0)
                             {
-                                
+
                                 var obj = asm.CreateInstance(type.FullName);
                                 var instance = obj as IControlRenderer;
                                 list.Add(instance);
@@ -130,7 +132,7 @@ namespace Codefarts.UIControls.Code
             {
                 this.UnloadPlugins();
             }
-            catch (Exception ex)
+            catch (Exception ex)                            
             {
                 Debug.LogError(ex);
             }
@@ -156,14 +158,23 @@ namespace Codefarts.UIControls.Code
 
         public void DrawControl(Control control, float elapsedGameTime, float totalGameTime)
         {
-            IControlRenderer renderer;
+            if (control == null)
+            {
+                return;
+            }
+
+            IControlRenderer renderer = null;
             lock (this.controlRenderers)
             {
-                renderer = this.controlRenderers[control.GetType()];
-            }
+                if (this.controlRenderers.ContainsKey(control.GetType()))
+                {
+                    renderer = this.controlRenderers[control.GetType()];
+                }
+            }                                                                         
 
             if (renderer != null)
             {
+                GUI.skin = this.Skin;
                 if (this.drawingNestingCount + 1 > this.MaximumNesting)
                 {
                     this.drawingNestingCount = 0;
@@ -180,14 +191,30 @@ namespace Codefarts.UIControls.Code
                     this.drawingNestingCount--;
                 }
             }
+            else
+            {
+                if (control is ICustomRendering)
+                {
+                    var custom = control as ICustomRendering;
+                    custom.Draw(this, control, elapsedGameTime, totalGameTime);
+                }
+            }
         }
 
         public void UpdateControl(Control control, float elapsedGameTime, float totalGameTime)
         {
-            IControlRenderer renderer;
+            if (control == null)
+            {
+                return;
+            }
+
+            IControlRenderer renderer = null;
             lock (this.controlRenderers)
             {
-                renderer = this.controlRenderers[control.GetType()];
+                if (this.controlRenderers.ContainsKey(control.GetType()))
+                {
+                    renderer = this.controlRenderers[control.GetType()];
+                }
             }
 
             if (renderer != null)
@@ -206,6 +233,14 @@ namespace Codefarts.UIControls.Code
                 finally
                 {
                     this.updateNestingCount--;
+                }
+            }
+            else
+            {
+                if (control is ICustomRendering)
+                {
+                    var custom = control as ICustomRendering;
+                    custom.Update(this, control, elapsedGameTime, totalGameTime);
                 }
             }
         }

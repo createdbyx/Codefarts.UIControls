@@ -1,9 +1,7 @@
 ﻿namespace Codefarts.UIControls.Interfaces
 {
     using System;
-
-    using Codefarts.UIControls.Code;
-
+                                          
     public interface IControlRenderer
     {
         Type ControlType { get; }

@@ -7,10 +7,8 @@
 </copyright>
 */
 
-namespace Codefarts.UIControls.Unity
-{
-    using Codefarts.UIControls.Code;
-
+namespace Codefarts.UIControls
+{                                       
     public abstract class CustomControl : Control
     {
         public abstract void OnDraw(ControlRendererManager manager, float elapsedGameTime, float totalGameTime);

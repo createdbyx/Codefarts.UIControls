@@ -7,10 +7,11 @@
 </copyright>
 */
 
-using System.Collections.Generic;
 
 namespace Codefarts.UIControls
 {
+    using System.Collections.Generic;
+
     public class ItemsCollection : List<object>
     {
 

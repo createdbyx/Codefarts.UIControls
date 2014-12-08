@@ -57,7 +57,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the height of the control.
         /// </summary>
-        public float Height
+        public virtual float Height
         {
             get
             {
@@ -84,57 +84,57 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets a value indicating whether the control is enabled.
         /// </summary>
-        public bool IsEnabled { get; set; }
+        public virtual bool IsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the left position of the control.
         /// </summary>
-        public float Left { get; set; }
+        public virtual float Left { get; set; }
 
         /// <summary>
         /// Gets or sets the max height of the control.
         /// </summary>
-        public float MaxHeight { get; set; }
+        public virtual float MaxHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the max width of the control.
         /// </summary>
-        public float MaxWidth { get; set; }
+        public virtual float MaxWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the min height of the control.
         /// </summary>
-        public float MinHeight { get; set; }
+        public virtual float MinHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the min width of the control.
         /// </summary>
-        public float MinWidth { get; set; }
+        public virtual float MinWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the control.
         /// </summary>
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the tag.
         /// </summary>
-        public object Tag { get; set; }
+        public virtual object Tag { get; set; }
 
         /// <summary>
         /// Gets or sets the top of the control.
         /// </summary>
-        public float Top { get; set; }
+        public virtual float Top { get; set; }
 
         /// <summary>
         /// Gets or sets the controls visibility.
         /// </summary>
-        public Visibility Visibility { get; set; }
+        public virtual Visibility Visibility { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the control.
         /// </summary>
-        public float Width
+        public virtual float Width
         {
             get
             {

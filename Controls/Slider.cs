@@ -2,15 +2,12 @@ namespace Codefarts.UIControls
 {
     using System;
 
-    using Codefarts.UIControls.Code;
-    using Codefarts.UIControls.Unity;
+    // using UnityEngine;
 
-    using UnityEngine;
-
-    public class Slider : CustomControl
+    public class Slider : Control
     {
         private float minimum;
-        private float maximum=10;
+        private float maximum = 10;
         private float value;
 
         public event EventHandler<RoutedPropertyChangedEventArgs<float>> ValueChanged;
@@ -83,47 +80,12 @@ namespace Codefarts.UIControls
                 var changed = this.value != value;
                 var oldValue = this.value;
                 this.value = value;
-                if (changed)
+                var handler = this.ValueChanged;
+                if (changed && handler != null)
                 {
-                    var handler = this.ValueChanged;
-                    if (handler != null)
-                    {
-                        handler(this, new RoutedPropertyChangedEventArgs<float>(oldValue, value) { Source = this });
-                    }
+                    handler(this, new RoutedPropertyChangedEventArgs<float>(oldValue, value) { Source = this });
                 }
             }
-        }
-
-        public override void OnDraw(ControlRendererManager manager, float elapsedGameTime, float totalGameTime)
-        {
-            float value;
-            switch (this.Orientation)
-            {
-                case Orientation.Horizontial:
-                    value = GUILayout.HorizontalSlider(this.value, this.minimum, this.maximum, ControlDrawingHelpers.StandardDimentionOptions(this));
-                    if (this.IsEnabled)
-                    {
-                        this.Value = value;
-                    }
-
-                    break;
-
-                case Orientation.Vertical:
-                    value = GUILayout.VerticalSlider(this.value, this.minimum, this.maximum, ControlDrawingHelpers.StandardDimentionOptions(this));
-                    if (this.IsEnabled)
-                    {
-                        this.Value = value;
-                    }
-
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public override void OnUpdate(ControlRendererManager manager, float elapsedGameTime, float totalGameTime)
-        {
         }
     }
 }

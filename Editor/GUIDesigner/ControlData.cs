@@ -11,8 +11,6 @@ namespace CBX.Unity.Editor.GUIDesigner
 {
     using System;
 
-    using CBX.Controls;
-
     using Codefarts.UIControls;
 
     internal class ControlData

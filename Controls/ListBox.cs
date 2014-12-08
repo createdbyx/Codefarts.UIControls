@@ -7,11 +7,12 @@
 </copyright>
 */
 
-using System;
-using System.Collections.Generic;
 
 namespace Codefarts.UIControls
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ListBox : ScrollViewer
     {
         public event EventHandler SelectionChanged;
@@ -46,7 +47,7 @@ namespace Codefarts.UIControls
         {
             this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
             this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            this.Items = new ItemsCollection();                   
+            this.Items = new ItemsCollection();
         }
     }
 }

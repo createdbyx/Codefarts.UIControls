@@ -11,7 +11,6 @@ namespace Codefarts.UIControls.Unity.Editor
 {
     using System;
 
-    using CBX.Common;
     using Codefarts.UIControls;
     using Codefarts.UIControls.Code;
 

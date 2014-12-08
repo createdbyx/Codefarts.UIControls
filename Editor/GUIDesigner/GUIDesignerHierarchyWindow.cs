@@ -10,10 +10,9 @@ namespace CBX.Unity.Editor.GUIDesigner
 {
     using System;
 
-    using CBX.Controls;
-    using CBX.Controls.Unity;
-
+    using Codefarts.UIControls;
     using Codefarts.UIControls.Code;
+    using Codefarts.UIControls.Unity;
 
     using UnityEditor;
 

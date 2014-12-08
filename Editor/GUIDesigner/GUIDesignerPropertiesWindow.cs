@@ -11,7 +11,7 @@ namespace CBX.Unity.Editor.GUIDesigner
     using System;
     using System.Linq;
 
-    using CBX.Controls;
+    using Codefarts.UIControls.Unity;
 
     using UnityEditor;
 
@@ -43,7 +43,7 @@ namespace CBX.Unity.Editor.GUIDesigner
 
         void Tree_SelectionChanged(object sender, EventArgs e)
         {
-            var tree = (CBX.Controls.Unity.TreeView)sender;
+            var tree = (TreeView)sender;
             this.SelectedObject = tree.SelectedNode.Value;
         }
 

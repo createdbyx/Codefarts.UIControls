@@ -2,8 +2,7 @@
 {
     using System;
 
-    using Codefarts.UIControls.Interfaces;
-    using Codefarts.UIControls.Unity;     
+    using Codefarts.UIControls.Interfaces;   
 
     public class CustomControlRenderer : IControlRenderer
     {

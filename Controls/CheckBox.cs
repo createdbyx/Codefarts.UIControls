@@ -11,15 +11,45 @@ namespace Codefarts.UIControls
 {
     using System;
 
+#if UNITY3D
+    using UnityEngine;
+#endif
+#if WINDOWS
+    using Microsoft.Xna.Framework.Graphics;
+#endif
+
     public class CheckBox : Control
     {
         public event EventHandler Checked;
-        public string Text { get; set; }
+        public virtual string Text { get; set; }
+
         private bool isChecked;
 
-        public bool IsChecked
+        protected CheckBox(Texture2D texture)
+            : this()
         {
-            get { return this.isChecked; }
+            this.Texture = texture;
+        }
+
+        public CheckBox()
+            : base()
+        {
+        }
+
+#if UNITY3D || WINDOWS
+        /// <summary>
+        /// Gets or sets Texture.
+        /// </summary>
+        public virtual Texture Texture { get; set; }
+#endif
+
+        public virtual bool IsChecked
+        {
+            get
+            {
+                return this.isChecked;
+            }
+
             set
             {
                 var changed = this.isChecked != value;
@@ -33,9 +63,10 @@ namespace Codefarts.UIControls
 
         public void OnChecked(EventArgs e)
         {
-            if (this.Checked != null)
+            var handler = this.Checked;
+            if (handler != null)
             {
-                this.Checked(this, e);
+                handler(this, e);
             }
         }
     }

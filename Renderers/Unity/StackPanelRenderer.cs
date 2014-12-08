@@ -6,7 +6,7 @@
 
 #if UNITY3D
     using UnityEngine;
-    
+
     public class StackPanelRenderer : IControlRenderer
     {
         public Type ControlType
@@ -22,21 +22,35 @@
             var panel = control as StackPanel;
             if (panel.Orientation == Orientation.Horizontial)
             {
-                GUILayout.BeginHorizontal(ControlDrawingHelpers.StandardDimentionOptions(control));
-                foreach (var child in panel.Children)
+                try
                 {
-                    manager.DrawControl(child, elapsedGameTime, totalGameTime);
+                    GUILayout.BeginHorizontal(ControlDrawingHelpers.StandardDimentionOptions(control));
+                     //for (int i = panel.Children.Count - 1; i >= 0; i--)
+                     for (int i = 0; i < panel.Children.Count; i++)
+                    {
+                        var child = panel.Children[i];
+                        manager.DrawControl(child, elapsedGameTime, totalGameTime);
+                    }
                 }
-                GUILayout.EndHorizontal();
+                finally
+                {
+                    GUILayout.EndHorizontal();
+                }
             }
             else
             {
-                GUILayout.BeginVertical(ControlDrawingHelpers.StandardDimentionOptions(control));
-                foreach (var child in panel.Children)
+                try
                 {
-                    manager.DrawControl(child, elapsedGameTime, totalGameTime);
+                    GUILayout.BeginVertical(ControlDrawingHelpers.StandardDimentionOptions(control));
+                    foreach (var child in panel.Children)
+                    {
+                        manager.DrawControl(child, elapsedGameTime, totalGameTime);
+                    }
                 }
-                GUILayout.EndVertical();
+                finally
+                {
+                    GUILayout.EndVertical();
+                }
             }
         }
 

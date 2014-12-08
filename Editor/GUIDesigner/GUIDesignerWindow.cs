@@ -10,10 +10,7 @@ namespace CBX.Unity.Editor.GUIDesigner
 {
     using System;
 
-    using CBX.Controls;
-    using CBX.Unity.Editor.Windows;
-
-    using Codefarts.UIControls.Code;
+    using Codefarts.UIControls;
 
     using UnityEditor;
 
@@ -24,11 +21,11 @@ namespace CBX.Unity.Editor.GUIDesigner
     /// </summary>
     public class GUIDesignerWindow : EditorWindow
     {
-        public ControlLayoutDesigner DesignArea;
+        public ScrollViewer DesignArea;
 
         private static GUIDesignerWindow singleton;
 
-      //  private ControlRendererManager manager;
+        //  private ControlRendererManager manager;
 
         public static GUIDesignerWindow Instance
         {
@@ -47,8 +44,8 @@ namespace CBX.Unity.Editor.GUIDesigner
 
         public GUIDesignerWindow()
         {
-            this.DesignArea = new ControlLayoutDesigner();
-       //     this.manager = new ControlRendererManager();
+            this.DesignArea = new ScrollViewer();
+            //     this.manager = new ControlRendererManager();
         }
 
         /// <summary>

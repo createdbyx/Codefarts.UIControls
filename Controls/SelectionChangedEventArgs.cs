@@ -6,9 +6,7 @@
   http://www.codefarts.com
 </copyright>
 */
-
-using System;
-
+                   
 namespace Codefarts.UIControls
 {
     public class SelectionChangedEventArgs : System.EventArgs

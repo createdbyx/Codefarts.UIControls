@@ -17,11 +17,23 @@ namespace Codefarts.UIControls
 #if WINDOWS
     using Microsoft.Xna.Framework.Graphics;
 #endif
+
     /// <summary>
     /// The button.
     /// </summary>
     public class Button : Control
-    {                   
+    {
+        public Button(string text)
+            : this()
+        {
+            this.Text = text;
+        }
+
+        public Button()
+            : base()
+        {
+        }
+
         #region Public Events
 
         public event EventHandler Click;
@@ -30,12 +42,14 @@ namespace Codefarts.UIControls
 
         #region Public Properties
 
-        public string Text { get; set; }
+        public virtual string Text { get; set; }
 
+#if UNITY3D || WINDOWS
         /// <summary>
         /// Gets or sets Texture.
         /// </summary>
-        public Texture Texture { get; set; }
+        public virtual Texture Texture { get; set; }
+#endif
 
         #endregion
 

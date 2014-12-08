@@ -1,10 +1,8 @@
 ﻿namespace Codefarts.UIControls.Code.Renderers
 {
-    using System;
+    using System;             
 
-    using Codefarts.UIControls.Unity;
-
-    public abstract class GenericCustomControlRenderer<T> : CustomControlRenderer where T : CustomControl
+    public abstract class GenericCustomControlRenderer<T> : CustomControlRenderer
     {
         public override Type ControlType
         {

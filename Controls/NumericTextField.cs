@@ -1,6 +1,8 @@
-namespace Codefarts.UIControls.Unity
+namespace Codefarts.UIControls
 {
     using System;
+
+    using Codefarts.UIControls.Unity;
 
     public class NumericTextField : TextField
     {
@@ -27,11 +29,20 @@ namespace Codefarts.UIControls.Unity
             //  var acceptedValue = new[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.' };
             var i = 0;
             var periodIndex = -1;
-            var newValue = value;
+            var newValue = value.Trim();
             while (i < newValue.Length)
             {
                 switch (newValue[i])
                 {
+                    case '-':
+                        if (i > 0)
+                        {
+                            newValue = newValue.Remove(i, 1);
+                            continue;
+                        }
+
+                        break;
+
                     case '0':
                         if (i == 0)
                         {

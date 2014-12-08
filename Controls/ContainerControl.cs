@@ -11,24 +11,26 @@ namespace Codefarts.UIControls
 {
     using System.Collections.Generic;
 
-    using Codefarts.UIControls.Code;
-    using Codefarts.UIControls.Unity;
-
-    public class ContainerControl : CustomControl
+    public class ContainerControl : Control
     {
-        public IList<Control> Children { get; set; }
+        protected IList<Control> children;
+
+        public virtual IList<Control> Children
+        {
+            get
+            {
+                return this.children;
+            }
+
+            set
+            {
+                this.children = value;
+            }
+        }
 
         public ContainerControl()
         {
-            this.Children = new List<Control>();
-        }
-
-        public override void OnDraw(ControlRendererManager manager, float elapsedGameTime, float totalGameTime)
-        {
-            }
-
-        public override void OnUpdate(ControlRendererManager manager, float elapsedGameTime, float totalGameTime)
-        {
-        }
+            this.children = new List<Control>();
+        }       
     }
 }
