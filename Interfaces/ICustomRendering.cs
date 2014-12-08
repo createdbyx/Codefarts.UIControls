@@ -4,8 +4,8 @@ namespace Codefarts.UIControls.Interfaces
 
     public interface ICustomRendering
     {
-        void Draw(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
+        void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
 
-        void Update(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
+        void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
     }
 }

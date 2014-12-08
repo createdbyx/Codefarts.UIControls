@@ -14,7 +14,7 @@
             }
         }
 
-        public virtual void Draw(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public virtual void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             var customControl = control as CustomControl;
             if (customControl == null)
@@ -25,7 +25,7 @@
             customControl.OnDraw(manager, elapsedGameTime, totalGameTime);
         }
 
-        public virtual void Update(ControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public virtual void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             var customControl = control as CustomControl;
             if (customControl == null)
