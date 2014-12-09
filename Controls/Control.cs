@@ -50,6 +50,41 @@ namespace Codefarts.UIControls
         #region Public Properties
 
         /// <summary>
+        /// Gets or sets the length of the margins left side.
+        /// </summary>
+        public float MarginLeft { get; set; }
+
+        /// <summary>
+        /// Gets or sets the length of the margins top side.
+        /// </summary>
+        public float MarginTop { get; set; }
+
+        /// <summary>
+        /// Gets or sets the length of the margins right side.
+        /// </summary>
+        public float MarginRight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the length of the margins bottom side.
+        /// </summary>
+        public float MarginBottom { get; set; }
+
+        /// <summary>
+        /// Gets or sets the horizontal alignment characteristics applied to this element when it is composed within a parent control.
+        /// </summary>
+        public HorizontalAlignment HorizontalAlignment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vertical alignment characteristics applied to this element when it is composed within a parent control.
+        /// </summary>
+        public VerticalAlignment VerticalAlignment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tool tip for the control.
+        /// </summary>
+        public string ToolTip { get; set; }
+
+        /// <summary>
         /// Gets or sets the data context.
         /// </summary>
         public object DataContext { get; set; }
@@ -77,19 +112,14 @@ namespace Codefarts.UIControls
                 else
                 {
                     this.height = value;
-                } 
+                }
             }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether the control is enabled.
         /// </summary>
-        public virtual bool IsEnabled { get; set; }
-
-        /// <summary>
-        /// Gets or sets the left position of the control.
-        /// </summary>
-        public virtual float Left { get; set; }
+        public virtual bool IsEnabled { get; set; }     
 
         /// <summary>
         /// Gets or sets the max height of the control.
@@ -120,12 +150,7 @@ namespace Codefarts.UIControls
         /// Gets or sets the tag.
         /// </summary>
         public virtual object Tag { get; set; }
-
-        /// <summary>
-        /// Gets or sets the top of the control.
-        /// </summary>
-        public virtual float Top { get; set; }
-
+      
         /// <summary>
         /// Gets or sets the controls visibility.
         /// </summary>
