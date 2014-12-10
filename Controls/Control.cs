@@ -52,42 +52,42 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the length of the margins left side.
         /// </summary>
-        public float MarginLeft { get; set; }
+        public virtual float MarginLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the margins top side.
         /// </summary>
-        public float MarginTop { get; set; }
+        public virtual float MarginTop { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the margins right side.
         /// </summary>
-        public float MarginRight { get; set; }
+        public virtual float MarginRight { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the margins bottom side.
         /// </summary>
-        public float MarginBottom { get; set; }
+        public virtual float MarginBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal alignment characteristics applied to this element when it is composed within a parent control.
         /// </summary>
-        public HorizontalAlignment HorizontalAlignment { get; set; }
+        public virtual HorizontalAlignment HorizontalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the vertical alignment characteristics applied to this element when it is composed within a parent control.
         /// </summary>
-        public VerticalAlignment VerticalAlignment { get; set; }
+        public virtual VerticalAlignment VerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the tool tip for the control.
         /// </summary>
-        public string ToolTip { get; set; }
+        public virtual string ToolTip { get; set; }
 
         /// <summary>
         /// Gets or sets the data context.
         /// </summary>
-        public object DataContext { get; set; }
+        public virtual object DataContext { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the control.
