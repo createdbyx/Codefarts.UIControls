@@ -11,24 +11,24 @@ namespace Codefarts.UIControls
 {
     using System;
 
-#if UNITY3D
-    using UnityEngine;
-#endif
-#if WINDOWS
-    using Microsoft.Xna.Framework.Graphics;
-#endif
-
     /// <summary>
     /// The button.
     /// </summary>
     public class Button : Control
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Button"/> class.
+        /// </summary>
+        /// <param name="text">The text for the button.</param>
         public Button(string text)
             : this()
         {
             this.Text = text;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Button"/> class.
+        /// </summary>
         public Button()
             : base()
         {
@@ -43,13 +43,11 @@ namespace Codefarts.UIControls
         #region Public Properties
 
         public virtual string Text { get; set; }
-
-#if UNITY3D || WINDOWS
+                                                                                   
         /// <summary>
-        /// Gets or sets Texture.
+        /// Gets or sets button icon image.
         /// </summary>
-        public virtual Texture Texture { get; set; }
-#endif
+        public virtual ImageSource Image { get; set; }
 
         #endregion
 

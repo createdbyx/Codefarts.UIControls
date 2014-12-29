@@ -1,22 +1,22 @@
 namespace Codefarts.GridMapGame.EditorTools
 {
-    using System;
+    using System;                 
 
     using Codefarts.UIControls;
     using Codefarts.UIControls.Interfaces;
 
     public class SliderTextBoxControl : Control, ICustomRendering
     {
-        private NumericTextField textField;
+        protected NumericTextField textField;
 
-        private Slider slider;
+        protected Slider slider;
 
-        private Label label;
+        protected Label label;
 
-        private StackPanel container;
+        protected StackPanel container;
         public event EventHandler<RoutedPropertyChangedEventArgs<float>> ValueChanged;
 
-        public float Minimum
+        public virtual float Minimum
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public float Maximum
+        public virtual float Maximum
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public string Text
+        public virtual string Text
         {
             get
             {
@@ -57,7 +57,7 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public float Value
+        public virtual float Value
         {
             get
             {
@@ -70,7 +70,7 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public Orientation Orientation
+        public virtual Orientation Orientation
         {
             get
             {
@@ -83,6 +83,22 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
+        public virtual int Precision
+        {
+            get
+            {
+                return this.textField.Precision;
+            }
+
+            set
+            {
+                this.textField.Precision = value;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SliderTextBoxControl"/> class.
+        /// </summary>
         public SliderTextBoxControl()
             : base()
         {
@@ -91,10 +107,16 @@ namespace Codefarts.GridMapGame.EditorTools
             this.slider = new Slider() { Orientation = Orientation.Horizontial, Value = 1, Minimum = 1, Maximum = 256 };
             this.slider.ValueChanged += this.SliderValueChanged;
             this.textField.TextChanged += this.TextFieldTextChanged;
+            this.textField.ValueChanged += this.TextFieldValueChanged;
             this.label = new Label();
             this.container.Children.Add(this.label);
             this.container.Children.Add(this.textField);
             this.container.Children.Add(this.slider);
+        }
+
+        private void TextFieldValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
+        {
+            this.slider.Value = e.NewValue;
         }
 
         public SliderTextBoxControl(string text, float value, float min, float max)
@@ -106,14 +128,15 @@ namespace Codefarts.GridMapGame.EditorTools
             this.Value = value;
         }
 
-        void TextFieldTextChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
+        protected virtual void TextFieldTextChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
         {
-            this.slider.Value = Single.Parse(e.NewValue);
+            var newValue = this.slider.Value;
+            this.slider.Value = float.TryParse(e.NewValue, out newValue) ? newValue : this.slider.Value;
         }
 
-        void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
+        protected virtual void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
         {
-            this.textField.Text = e.NewValue.ToString();
+            this.textField.Value = e.NewValue;
             var handler = this.ValueChanged;
             if (handler != null)
             {
@@ -121,12 +144,12 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public virtual void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             manager.DrawControl(this.container, elapsedGameTime, totalGameTime);
         }
 
-        public void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public virtual void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
             manager.UpdateControl(this.container, elapsedGameTime, totalGameTime);
         }

@@ -10,14 +10,7 @@
 namespace Codefarts.UIControls
 {
     using System;
-
-#if UNITY3D
-    using UnityEngine;
-#endif
-#if WINDOWS
-    using Microsoft.Xna.Framework.Graphics;
-#endif
-
+                                       
     public class CheckBox : Control
     {
         public event EventHandler Checked;
@@ -25,26 +18,38 @@ namespace Codefarts.UIControls
 
         private bool isChecked;
 
-#if UNITY3D || WINDOWS
-        protected CheckBox(Texture2D texture)
+        protected CheckBox(ImageSource image)
             : this()
         {
-            this.Texture = texture;
+            this.Image = image;
         }
-#endif
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckBox"/> class.
+        /// </summary>
         public CheckBox()
             : base()
         {
         }
 
-#if UNITY3D || WINDOWS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckBox"/> class.
+        /// </summary>
+        /// <param name="text">The text to display.</param>
+        public CheckBox(string text)
+            : this()
+        {
+            this.Text = text;
+        }
+
         /// <summary>
         /// Gets or sets Texture.
         /// </summary>
-        public virtual Texture Texture { get; set; }
-#endif
+        public virtual ImageSource Image { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the checkbox checked.
+        /// </summary>   
         public virtual bool IsChecked
         {
             get

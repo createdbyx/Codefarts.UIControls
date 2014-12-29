@@ -12,10 +12,10 @@ namespace Codefarts.UIControls
     public class TextBox : Control
     {
         public event System.EventHandler<RoutedPropertyChangedEventArgs<string>> TextChanged;
-        private string text;
-        public ScrollBarVisibility HorizontialScrollBarVisibility { get; set; }
+        protected string text;
+        public ScrollBarVisibility HorizontalScrollBarVisibility { get; set; }
         public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
-        public float HorizontialOffset { get; set; }
+        public float HorizontalOffset { get; set; }
         public float VerticalOffset { get; set; }
 
         public virtual string Text
@@ -28,16 +28,21 @@ namespace Codefarts.UIControls
             set
             {
                 var changed = this.text != value;
+                if (!changed)
+                {
+                    return;
+                }
+
+                value = !this.AcceptsReturn ? value.Replace("\r\n", string.Empty) : value;
+
                 var oldValue = this.text;
                 this.text = value;
-                if (changed)
-                {
-                    this.OnTextChanged(new RoutedPropertyChangedEventArgs<string>(oldValue, value));
-                }
+                this.OnTextChanged(new RoutedPropertyChangedEventArgs<string>(oldValue, value));
             }
         }
 
-        public void OnTextChanged(RoutedPropertyChangedEventArgs<string> e)
+
+        protected virtual void OnTextChanged(RoutedPropertyChangedEventArgs<string> e)
         {
             var handler = this.TextChanged;
             if (handler != null)
@@ -46,10 +51,19 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the text box accepts return keys.
+        /// </summary> 
+        public virtual bool AcceptsReturn { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextBox"/> class.
+        /// </summary>
         public TextBox()
         {
-            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.AcceptsReturn = true;
         }
     }
 }

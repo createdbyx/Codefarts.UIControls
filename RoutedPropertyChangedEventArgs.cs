@@ -42,9 +42,17 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="oldValue">Previous value of the property, prior to the event being raised.</param><param name="newValue">Current value of the property at the time of the event.</param>
         public RoutedPropertyChangedEventArgs(T oldValue, T newValue)
+            : this()
         {
             this._oldValue = oldValue;
             this._newValue = newValue;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoutedPropertyChangedEventArgs{T}"/> class.
+        /// </summary>
+        public RoutedPropertyChangedEventArgs()
+        {
         }
     }
 }

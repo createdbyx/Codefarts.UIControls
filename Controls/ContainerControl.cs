@@ -13,8 +13,14 @@ namespace Codefarts.UIControls
 
     public class ContainerControl : Control
     {
+        /// <summary>
+        /// Holds the child controls.
+        /// </summary>
         protected IList<Control> children;
 
+        /// <summary>
+        /// Gets or sets the child control list.
+        /// </summary> 
         public virtual IList<Control> Children
         {
             get
@@ -28,6 +34,9 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContainerControl"/> class.
+        /// </summary>
         public ContainerControl()
         {
             this.children = new List<Control>();
