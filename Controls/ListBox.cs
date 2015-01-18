@@ -18,7 +18,6 @@ namespace Codefarts.UIControls
     public class ListBox : ScrollViewer
     {
         public event EventHandler SelectionChanged;
-        private new IList<Control> Children { get; set; }
         public ItemsCollection Items { get; internal set; }
 
         public IList SelectedItems
@@ -29,14 +28,27 @@ namespace Codefarts.UIControls
             }
         }
 
-        private int selectedIndex;
+        private int selectedIndex = -1;
 
         private List<object> selectedItems;
+
+        protected DrawMode drawMode = DrawMode.Normal;
 
         public event EventHandler<ListBoxItemInformationArgs> DrawItem;
         public event EventHandler<ListBoxItemInformationArgs> MeasureItem;
 
-        public DrawMode DrawMode { get; set; }
+        public virtual DrawMode DrawMode
+        {
+            get
+            {
+                return this.drawMode;
+            }
+
+            set
+            {
+                this.drawMode = value;
+            }
+        }
 
         public void OnSelectionChanged()
         {
@@ -50,7 +62,7 @@ namespace Codefarts.UIControls
         {
             get
             {
-                var noSelection = this.Items == null || this.Items.Count == 0 || this.selectedIndex < 0;
+                var noSelection = this.Items.Count == 0 || this.selectedIndex < 0;
                 return noSelection ? null : this.Items[this.selectedIndex];
             }
         }
