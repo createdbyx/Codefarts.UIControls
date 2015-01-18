@@ -8,4 +8,14 @@ namespace Codefarts.UIControls
 
         public object Source { get; set; }
     }
+
+    public class InputEventArgs : RoutedEventArgs
+    {
+
+    }
+
+    public class KeyboardEventArgs : InputEventArgs
+    {
+
+    }
 }
