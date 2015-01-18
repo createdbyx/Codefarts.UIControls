@@ -8,10 +8,12 @@
 */
 
 namespace Codefarts.UIControls
-{
+{                                   
     public class TextBox : Control
     {
         public event System.EventHandler<RoutedPropertyChangedEventArgs<string>> TextChanged;
+       
+
         protected string text;
         public ScrollBarVisibility HorizontalScrollBarVisibility { get; set; }
         public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
@@ -55,6 +57,11 @@ namespace Codefarts.UIControls
         /// Gets or sets a value indicating whether the text box accepts return keys.
         /// </summary> 
         public virtual bool AcceptsReturn { get; set; }
+      
+        /// <summary>
+        /// Gets or sets a value indicating whether the text box accepts tab keys.
+        /// </summary> 
+        public bool AcceptsTab { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBox"/> class.
