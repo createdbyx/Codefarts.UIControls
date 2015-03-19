@@ -1,9 +1,11 @@
 namespace Codefarts.GridMapGame.EditorTools
 {
-    using System;                 
+    using System;
 
     using Codefarts.UIControls;
     using Codefarts.UIControls.Interfaces;
+
+    using UnityEngine;
 
     public class SliderTextBoxControl : Control, ICustomRendering
     {
@@ -144,14 +146,68 @@ namespace Codefarts.GridMapGame.EditorTools
             }
         }
 
-        public virtual void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        /// <summary>
+        ///     Gets or sets a value indicating whether the control is enabled.
+        /// </summary>
+        public override bool IsEnabled
         {
-            manager.DrawControl(this.container, elapsedGameTime, totalGameTime);
+            get
+            {
+                return base.IsEnabled;
+            }
+
+            set
+            {
+                base.IsEnabled = value;
+                this.container.IsEnabled = value;
+            }
         }
 
+        /// <summary>
+        ///     Gets or sets the controls visibility.
+        /// </summary>
+        public override Visibility Visibility
+        {
+            get
+            {
+                return base.Visibility;
+            }
+
+            set
+            {
+                base.Visibility = value;
+                this.container.Visibility = value;
+            }
+        }
+
+        /// <summary>
+        /// Draws the specified manager.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <param name="control">The control.</param>
+        /// <param name="elapsedGameTime">The elapsed game time.</param>
+        /// <param name="totalGameTime">The total game time.</param>
+        public virtual void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        {
+            if (this.Visibility == Visibility.Visible)
+            {
+                manager.DrawControl(this.container, elapsedGameTime, totalGameTime);
+            }
+        }
+
+        /// <summary>
+        /// Updates the specified manager.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <param name="control">The control.</param>
+        /// <param name="elapsedGameTime">The elapsed game time.</param>
+        /// <param name="totalGameTime">The total game time.</param>
         public virtual void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
         {
-            manager.UpdateControl(this.container, elapsedGameTime, totalGameTime);
+            if (this.IsEnabled && this.Visibility == Visibility.Visible)
+            {
+                manager.UpdateControl(this.container, elapsedGameTime, totalGameTime);
+            }
         }
     }
 }

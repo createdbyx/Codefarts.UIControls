@@ -10,18 +10,46 @@
 namespace Codefarts.UIControls
 {
     using System;
-                                       
+         
     public class CheckBox : Control
     {
         public event EventHandler Checked;
-        public virtual string Text { get; set; }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>            
+        public virtual string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                if (this.text != value)
+                {
+                    return;
+                }
+
+                this.text = value;
+                this.OnPropertyChanged("Text");
+            }
+        }
+        
         private bool isChecked;
+
+        private ImageSource image;
+                                                                             
+        /// <summary>
+        /// Holds the value of the text
+        /// </summary>
+        protected string text;
 
         protected CheckBox(ImageSource image)
             : this()
         {
-            this.Image = image;
+            this.image = image;
         }
 
         /// <summary>
@@ -39,13 +67,30 @@ namespace Codefarts.UIControls
         public CheckBox(string text)
             : this()
         {
-            this.Text = text;
+            this.text = text;
         }
 
         /// <summary>
         /// Gets or sets Texture.
         /// </summary>
-        public virtual ImageSource Image { get; set; }
+        public virtual ImageSource Image
+        {
+            get
+            {
+                return this.image;
+            }
+
+            set
+            {
+                if (this.image == value)
+                {
+                    return;
+                }
+
+                this.image = value;
+                this.OnPropertyChanged("Image");
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the checkbox checked.
@@ -59,12 +104,14 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.isChecked != value;
-                this.isChecked = value;
-                if (changed)
+                if (this.isChecked == value)
                 {
-                    this.OnChecked(EventArgs.Empty);
+                    return;
                 }
+
+                this.isChecked = value;
+                this.OnChecked(EventArgs.Empty);
+                this.OnPropertyChanged("IsChecked");
             }
         }
 

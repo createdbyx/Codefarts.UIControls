@@ -1,6 +1,6 @@
 ﻿namespace Codefarts.UIControls.Code.Renderers
 {
-    using System;        
+    using System;
 
     public class CustomControlRenderer : BaseRenderer
     {

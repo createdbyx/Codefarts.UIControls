@@ -8,7 +8,7 @@
 */
 
 namespace Codefarts.UIControls
-{                                       
+{
     public abstract class CustomControl : Control
     {
         public abstract void OnDraw(IControlRendererManager manager, float elapsedGameTime, float totalGameTime);
