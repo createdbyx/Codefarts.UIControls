@@ -11,7 +11,7 @@ namespace Codefarts.UIControls
 {
     using System.Collections.Generic;
 
-    public class ContainerControl : Control
+    public class ItemsControl : Control
     {
         /// <summary>
         /// Holds the child controls.
@@ -35,9 +35,9 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContainerControl"/> class.
+        /// Initializes a new instance of the <see cref="ItemsControl"/> class.
         /// </summary>
-        public ContainerControl()
+        public ItemsControl()
         {
             this.children = new List<Control>();
         }       

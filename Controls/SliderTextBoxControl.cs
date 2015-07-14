@@ -106,7 +106,7 @@ namespace Codefarts.GridMapGame.EditorTools
         {
             this.container = new StackPanel() { Orientation = Orientation.Vertical };
             this.textField = new NumericTextField() { Text = "1", Width = 64, Minimum = 1, Maximum = 256 };
-            this.slider = new Slider() { Orientation = Orientation.Horizontial, Value = 1, Minimum = 1, Maximum = 256 };
+            this.slider = new Slider() { Orientation = Orientation.Horizontial, Value = 1, Minimum = 1, Maximum = 256, HorizontalAlignment = HorizontalAlignment.Stretch };
             this.slider.ValueChanged += this.SliderValueChanged;
             this.textField.TextChanged += this.TextFieldTextChanged;
             this.textField.ValueChanged += this.TextFieldValueChanged;

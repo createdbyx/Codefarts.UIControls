@@ -11,7 +11,7 @@ namespace Codefarts.UIControls
 {
     using System;
 
-    public class ScrollViewer : ContainerControl
+    public class ScrollViewer : Panel
     {
         public ScrollBarVisibility HorizontialScrollBarVisibility { get; set; }
         public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
@@ -28,9 +28,9 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Scroll content by one line to the bottom. 
-        /// </summary> 
+        /// </summary>                                                                                                             
         public void LineDown()
-        {
+        {                                                                                            
             throw new NotImplementedException();
         }
 

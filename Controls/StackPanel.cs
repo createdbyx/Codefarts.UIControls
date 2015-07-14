@@ -9,7 +9,7 @@
 
 namespace Codefarts.UIControls
 {
-    public class StackPanel : ContainerControl
+    public class StackPanel : ItemsControl
     {
         public StackPanel(Orientation orientation)
             : this()
