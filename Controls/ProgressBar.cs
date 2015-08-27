@@ -1,6 +1,8 @@
 namespace Codefarts.UIControls
 {
-    using Codefarts.Imaging;
+#if UNITY3D
+    using UnityEngine;
+#endif
 
     public class ProgressBar : RangeBase
     {
@@ -10,7 +12,7 @@ namespace Codefarts.UIControls
         public ProgressBar()
             : base()
         {
-            this.Foreground = new SolidColorBrush(Color.Green);
+            this.Foreground = new SolidColorBrush(new Color(0, 1, 0));
             this.Maximum = 100;
         }
     }

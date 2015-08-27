@@ -147,6 +147,16 @@ namespace Codefarts.UIControls
         /// </summary>
         private VerticalAlignment verticalContentAlignment;
 
+        /// <summary>
+        /// The value for the <see cref="Parent"/> property.
+        /// </summary>
+        private Control parent;
+
+        /// <summary>
+        /// The controls collection that holds the children. Used by the <see cref="Controls"/> property.
+        /// </summary>
+        private readonly ControlsCollection controls;
+
         #endregion
 
         #region Constructors and Destructors
@@ -156,6 +166,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public Control()
         {
+            this.controls = new ControlsCollection(this);
             this.clipToBounds = true;
             this.extendedProperties = new PropertyCollection();
         }
@@ -192,6 +203,44 @@ namespace Codefarts.UIControls
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the control collection containing the child controls.
+        /// </summary>
+        public ControlsCollection Controls
+        {
+            get
+            {
+                return this.controls;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent control.
+        /// </summary>
+        public Control Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+
+            set
+            {
+                if (this.parent != value)
+                {
+                    if (value != null)
+                    {
+                        value.Controls.Add(this);
+                        this.OnPropertyChanged("Parent");
+                        return;
+                    }
+
+                    this.parent.Controls.Remove(this);
+                    this.OnPropertyChanged("Parent");
+                }
+            }
+        }
 
         /// <summary>
         ///     Gets or sets a brush that describes the background of a control.
@@ -328,7 +377,7 @@ namespace Codefarts.UIControls
                 }
                 else
                 {
-                    var changed = value != this.height;
+                    var changed = Math.Abs(value - this.height) > float.Epsilon;
                     this.height = value;
                     if (changed)
                     {
@@ -417,8 +466,6 @@ namespace Codefarts.UIControls
 
                 return false;
             }
-
-            private set { }
         }
 
         /// <summary>
@@ -433,7 +480,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.marginBottom != value;
+                var changed = Math.Abs(this.marginBottom - value) > float.Epsilon;
                 this.marginBottom = value;
                 if (changed)
                 {
@@ -454,7 +501,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.marginLeft != value;
+                var changed = Math.Abs(this.marginLeft - value) > float.Epsilon;
                 this.marginLeft = value;
                 if (changed)
                 {
@@ -475,7 +522,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.marginRight != value;
+                var changed = Math.Abs(this.marginRight - value) > float.Epsilon;
                 this.marginRight = value;
                 if (changed)
                 {
@@ -496,7 +543,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.marginTop != value;
+                var changed = Math.Abs(this.marginTop - value) > float.Epsilon;
                 this.marginTop = value;
                 if (changed)
                 {
@@ -517,7 +564,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.maxHeight != value;
+                var changed = Math.Abs(this.maxHeight - value) > float.Epsilon;
                 this.maxHeight = value;
                 if (changed)
                 {
@@ -538,7 +585,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.maxWidth != value;
+                var changed = Math.Abs(this.maxWidth - value) > float.Epsilon;
                 this.maxWidth = value;
                 if (changed)
                 {
@@ -559,7 +606,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.minHeight != value;
+                var changed = Math.Abs(this.minHeight - value) > float.Epsilon;
                 this.minHeight = value;
                 if (changed)
                 {
@@ -580,7 +627,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.minWidth != value;
+                var changed = Math.Abs(this.minWidth - value) > float.Epsilon;
                 this.minWidth = value;
                 if (changed)
                 {
@@ -740,7 +787,7 @@ namespace Codefarts.UIControls
                 }
                 else
                 {
-                    var changed = value != this.width;
+                    var changed = Math.Abs(value - this.width) > float.Epsilon;
                     this.width = value;
                     if (changed)
                     {
