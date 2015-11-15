@@ -1,6 +1,6 @@
 namespace Codefarts.UIControls
 {
-#if UNITY3D
+#if UNITY_5
     using UnityEngine;
 #endif
 
