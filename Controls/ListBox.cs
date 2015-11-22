@@ -114,11 +114,11 @@ namespace Codefarts.UIControls
             this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
             this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.Items = new ItemsCollection();
-            this.Items.CollectionChanged += Items_CollectionChanged;
+            this.Items.CollectionChanged += this.ItemsCollectionChanged;
             this.selectedItems = new List<object>();
         }
 
-        void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -136,6 +136,7 @@ namespace Codefarts.UIControls
 
                 case NotifyCollectionChangedAction.Reset:
                     this.selectedItems.Clear();
+                    this.selectedIndex = -1;
                     break;
             }
         }
