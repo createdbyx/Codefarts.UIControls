@@ -142,15 +142,16 @@ namespace Codefarts.UIControls
                     throw new ArgumentOutOfRangeException("value", "Parameter must be greater than or equal to zero.");
                 }
 
-                value = value > this.text.Length ? this.text.Length : value;
+                var stringValue = this.text == null ? string.Empty : this.text;
+                value = value > stringValue.Length ? stringValue.Length : value;
                 this.selectionStart = value;
-                this.selectionLength = value + this.selectionLength > this.text.Length ? this.text.Length - this.selectionStart : this.selectionLength;
+                this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;
 
                 var props = this.ExtendedProperties;
                 if (props == null)
                 {
                     props = new PropertyCollection();
-                    props = this.ExtendedProperties;
+                    this.ExtendedProperties = props;
                 }
 
                 props["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
