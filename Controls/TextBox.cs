@@ -30,6 +30,10 @@ namespace Codefarts.UIControls
         public float HorizontalOffset { get; set; }
         public float VerticalOffset { get; set; }
 
+        /// <summary>Gets or sets the maximum number of characters that can be manually entered into the text box.</summary>
+        /// <returns>The maximum number of characters that can be manually entered into the text box. The default is 0, which indicates no limit.</returns>
+        public int MaxLength { get; set; }
+
         public virtual string Text
         {
             get
@@ -103,7 +107,7 @@ namespace Codefarts.UIControls
                 if (props == null)
                 {
                     props = new PropertyCollection();
-                    props = this.ExtendedProperties;
+                    this.ExtendedProperties = props;
                 }
 
                 props["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
@@ -150,7 +154,7 @@ namespace Codefarts.UIControls
                 if (props == null)
                 {
                     props = new PropertyCollection();
-                    props = this.ExtendedProperties;
+                    this.ExtendedProperties = props;
                 }
 
                 props["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
