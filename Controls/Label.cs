@@ -14,6 +14,8 @@ namespace Codefarts.UIControls
     /// </summary>
     public class Label : Control
     {
+        protected string text;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Label"/> class.
         /// </summary>
@@ -28,12 +30,23 @@ namespace Codefarts.UIControls
         public Label(string text)
             : this()
         {
-            this.Text = text;
+            this.text = text;
         }
 
         /// <summary>
         /// Gets or sets the label text.
         /// </summary>    
-        public string Text { get; set; }
+        public virtual string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                this.text = value;
+            }
+        }
     }
 }
