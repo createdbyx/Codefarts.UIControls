@@ -11,7 +11,7 @@ namespace Codefarts.UIControls
 {
     using System;
 
-    public class ScrollViewer : Panel
+    public class ScrollViewer : Control
     {
         public ScrollBarVisibility HorizontialScrollBarVisibility { get; set; }
         public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }

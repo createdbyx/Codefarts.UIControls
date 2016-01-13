@@ -152,11 +152,6 @@ namespace Codefarts.UIControls
         /// </summary>
         private Control parent;
 
-        /// <summary>
-        /// The controls collection that holds the children. Used by the <see cref="Controls"/> property.
-        /// </summary>
-        private readonly ControlsCollection controls;
-
         #endregion
 
         #region Constructors and Destructors
@@ -166,7 +161,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public Control()
         {
-            this.controls = new ControlsCollection(this);
+            this.Controls = new ControlsCollection(this);
             this.clipToBounds = true;
             this.extendedProperties = new PropertyCollection();
         }
@@ -205,13 +200,37 @@ namespace Codefarts.UIControls
         #region Public Properties
 
         /// <summary>
+        /// This property is not relevant for this class.
+        /// </summary>
+        /// <returns>
+        /// true if enabled; otherwise, false.
+        /// </returns>
+        public virtual bool AutoSize { get; set; }
+
+        /// <summary>
         /// Gets the control collection containing the child controls.
         /// </summary>
-        public ControlsCollection Controls
+        public ControlsCollection Controls { get; private set; }
+
+        /// <summary>
+        /// Brings the control to the front of the z-order.
+        /// </summary>
+        public void BringToFront()
         {
-            get
+            if (this.parent != null)
             {
-                return this.controls;
+                this.parent.Controls.SetChildIndex(this, 0);
+            }
+        }
+
+        /// <summary>
+        /// Sends the control to the back of the z-order.
+        /// </summary>
+        public void SendToBack()
+        {
+            if (this.parent != null)
+            {
+                this.parent.Controls.SetChildIndex(this, -1);
             }
         }
 
@@ -232,12 +251,10 @@ namespace Codefarts.UIControls
                     if (value != null)
                     {
                         value.Controls.Add(this);
-                        this.OnPropertyChanged("Parent");
                         return;
                     }
 
                     this.parent.Controls.Remove(this);
-                    this.OnPropertyChanged("Parent");
                 }
             }
         }
@@ -904,6 +921,21 @@ namespace Codefarts.UIControls
 
                 handler(this, this.propertyArgs[propertyName]);
             }
+        }
+
+        /// <summary>
+        /// Assigns the parent to the internal <see cref="parent"/> field.
+        /// </summary>
+        /// <param name="owner">The control that will be the owner/parent of this control.</param>
+        internal virtual void AssignParent(Control owner)
+        {
+            if (this.parent == owner)
+            {
+                return;
+            }
+
+            this.parent = owner;
+            this.OnPropertyChanged("Parent");
         }
     }
 }

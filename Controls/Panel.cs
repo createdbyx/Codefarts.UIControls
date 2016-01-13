@@ -13,48 +13,19 @@
 namespace Codefarts.UIControls
 {
     /// <summary>
-    /// The panel.
+    /// Used to group collections of controls.
     /// </summary>
-    public class Panel : Control
+    public class Panel : ScrollViewer
     {
-        #region Fields
-
-        /// <summary>
-        /// Holds the child controls.
-        /// </summary>
-        protected ControlCollection children;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Panel"/> class.
-        /// </summary>
-        public Panel()
-        {
-            this.children = new ControlCollection();
-        }
-
-        #endregion
-
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the child control list.
-        /// </summary> 
-        public virtual ControlCollection Children
-        {
-            get
-            {
-                return this.children;
-            }
-
-            set
-            {
-                this.children = value;
-            }
-        }
+        /// Indicates the automatic sizing behavior of the control.
+        /// </summary>
+        /// <returns>
+        /// One of the <see cref="AutoSizeMode" /> values.
+        /// </returns>
+        public virtual AutoSizeMode AutoSizeMode { get; set; }
 
         #endregion
     }
