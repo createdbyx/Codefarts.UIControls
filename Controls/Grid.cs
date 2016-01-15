@@ -14,7 +14,7 @@ namespace Codefarts.UIControls
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
     /// </summary>
-    public class Grid : ItemsControl
+    public class Grid :  Control
     {
         /// <summary>
         /// The rows varible used by the <see cref="Rows"/> property.

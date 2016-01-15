@@ -111,9 +111,9 @@ namespace Codefarts.GridMapGame.EditorTools
             this.textField.TextChanged += this.TextFieldTextChanged;
             this.textField.ValueChanged += this.TextFieldValueChanged;
             this.label = new Label();
-            this.container.Children.Add(this.label);
-            this.container.Children.Add(this.textField);
-            this.container.Children.Add(this.slider);
+            this.container.Controls.Add(this.label);
+            this.container.Controls.Add(this.textField);
+            this.container.Controls.Add(this.slider);
         }
 
         private void TextFieldValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
