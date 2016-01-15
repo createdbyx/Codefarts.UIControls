@@ -17,6 +17,7 @@ namespace Codefarts.UIControls
     /// </summary>
     public class Control : INotifyPropertyChanged
     {
+        public const string ControlStyle = "ControlStyle_009FE297-D820-45B6-8AAC-DD2FC42FDE0A";
         public const string IsMouseOverKey = "IsMouseOver_F87213B4-B311-4B40-B7BB-39B6083309D0";
         public const string PreviousMousePositionKey = "PreviousMousePosition_422715F7-53E9-4177-845A-627F388F4608";
 
@@ -81,6 +82,11 @@ namespace Codefarts.UIControls
         /// The background brush property value.
         /// </summary>
         private Brush background;
+
+        /// <summary>
+        /// The font property value.
+        /// </summary>
+        private Font font;
 
         /// <summary>
         /// The data context property value.
@@ -261,10 +267,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         ///     Gets or sets a brush that describes the background of a control.
-        /// </summary>
-        /// <returns>
-        ///     The brush that is used to fill the background of the control.
-        /// </returns>
+        /// </summary>   
         public virtual Brush Background
         {
             get
@@ -279,6 +282,27 @@ namespace Codefarts.UIControls
                 if (changed)
                 {
                     this.OnPropertyChanged("Background");
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Gets or sets the font of the text displayed by the control. 
+        /// </summary>   
+        public virtual Font Font
+        {
+            get
+            {
+                return this.font;
+            }
+
+            set
+            {
+                var changed = this.font!= value;
+                this.font = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Font");
                 }
             }
         }
