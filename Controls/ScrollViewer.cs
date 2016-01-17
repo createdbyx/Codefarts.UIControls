@@ -155,8 +155,8 @@ namespace Codefarts.UIControls
         /// </summary>
         public ScrollViewer()
         {
-            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Hidden;
-            this.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
     }
 }
