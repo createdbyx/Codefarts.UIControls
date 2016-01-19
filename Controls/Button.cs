@@ -12,10 +12,20 @@ namespace Codefarts.UIControls
     using System;
 
     /// <summary>
-    /// The button.
+    /// A button control.
     /// </summary>
     public class Button : Control
     {
+        /// <summary>
+        /// The text for the <see cref="Text"/> property.
+        /// </summary>
+        protected string text;
+
+        /// <summary>
+        /// The image for the <see cref="Image"/> property.
+        /// </summary>
+        protected ImageSource image;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Button"/> class.
         /// </summary>
@@ -23,14 +33,13 @@ namespace Codefarts.UIControls
         public Button(string text)
             : this()
         {
-            this.Text = text;
+            this.text = text;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Button"/> class.
         /// </summary>
         public Button()
-            : base()
         {
         }
 
@@ -42,12 +51,47 @@ namespace Codefarts.UIControls
 
         #region Public Properties
 
-        public virtual string Text { get; set; }
-                                                                                   
+        /// <summary>
+        /// Gets or sets the button text.
+        /// </summary>               
+        public virtual string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                var changed = this.text!=value;
+                this.text = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Text");
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets button icon image.
         /// </summary>
-        public virtual ImageSource Image { get; set; }
+        public virtual ImageSource Image
+        {
+            get
+            {
+                return this.image;
+            }
+
+            set
+            {
+                var changed = this.image != value;
+                this.image = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Image");
+                }
+            }
+        }
 
         #endregion
 
