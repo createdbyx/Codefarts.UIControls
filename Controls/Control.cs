@@ -13,7 +13,7 @@ namespace Codefarts.UIControls
     using System.ComponentModel;
 
     /// <summary>
-    ///     The control.
+    /// The base control implementation.
     /// </summary>
     public class Control : INotifyPropertyChanged
     {
@@ -24,44 +24,34 @@ namespace Codefarts.UIControls
         #region Fields
 
         /// <summary>
-        ///     The height of the control.
-        /// </summary>
-        private float height;
-
-        /// <summary>
-        ///     The horizontal alignment.
+        /// The horizontal alignment.
         /// </summary>
         private HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left;
 
         /// <summary>
-        ///     Holds weather the control is enabled.
+        /// Holds weather the control is enabled.
         /// </summary>
         private bool isEnabled = true;
 
         /// <summary>
-        ///     The maximum height.
-        /// </summary>
-        private float maxHeight = float.MaxValue;
-
-        /// <summary>
-        ///     The maximum width.
-        /// </summary>
-        private float maxWidth = float.MaxValue;
-
-        /// <summary>
-        ///     The vertical alignment.
+        /// The vertical alignment.
         /// </summary>
         private VerticalAlignment verticalAlignment = VerticalAlignment.Top;
 
         /// <summary>
-        ///     The visibility of the control.
+        /// The visibility of the control.
         /// </summary>
         private Visibility visibility = Visibility.Visible;
 
         /// <summary>
-        ///     The width of the control.
+        /// The size of the control.
         /// </summary>
-        private float width;
+        private Size size;
+
+        /// <summary>
+        /// The location of the control.
+        /// </summary>
+        private Point location;
 
         /// <summary>
         /// The cached property arguments.
@@ -104,36 +94,6 @@ namespace Codefarts.UIControls
         private HorizontalAlignment horizontalContentAlignment;
 
         /// <summary>
-        /// The margin bottom property value.
-        /// </summary>
-        private float marginBottom;
-
-        /// <summary>
-        /// The margin left property value.
-        /// </summary>
-        private float marginLeft;
-
-        /// <summary>
-        /// The margin right property value.
-        /// </summary>
-        private float marginRight;
-
-        /// <summary>
-        /// The margin top property value.
-        /// </summary>
-        private float marginTop;
-
-        /// <summary>
-        /// The minimum height property value.
-        /// </summary>
-        private float minHeight;
-
-        /// <summary>
-        /// The minimum width property value.
-        /// </summary>
-        private float minWidth;
-
-        /// <summary>
         /// The name property value.
         /// </summary>
         private string name;
@@ -158,12 +118,22 @@ namespace Codefarts.UIControls
         /// </summary>
         private Control parent;
 
+        /// <summary>
+        /// The minimum size for the control.
+        /// </summary>
+        private Size minSize;
+
+        /// <summary>
+        /// The maximum size for the control.
+        /// </summary>
+        private Size maxSize;
+
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Control" /> class.
+        /// Initializes a new instance of the <see cref="Control" /> class.
         /// </summary>
         public Control()
         {
@@ -177,27 +147,27 @@ namespace Codefarts.UIControls
         #region Public Events
 
         /// <summary>
-        ///     Occurs when the control has focus and a key is pressed.
+        /// Occurs when the control has focus and a key is pressed.
         /// </summary>
         public event EventHandler<KeyEventArgs> KeyDown;
 
         /// <summary>
-        ///     Occurs when the control has focus and a key is released.
+        /// Occurs when the control has focus and a key is released.
         /// </summary>
         public event EventHandler<KeyEventArgs> KeyUp;
 
         /// <summary>
-        ///     Occurs when the mouse pointer enters the bounds of this element.
+        /// Occurs when the mouse pointer enters the bounds of this element.
         /// </summary>
         public event EventHandler<MouseEventArgs> MouseEnter;
 
         /// <summary>
-        ///     Occurs when the mouse pointer leaves the bounds of this element.
+        /// Occurs when the mouse pointer leaves the bounds of this element.
         /// </summary>
         public event EventHandler<MouseEventArgs> MouseLeave;
 
         /// <summary>
-        ///     Occurs when the mouse pointer moves while over this element. 
+        /// Occurs when the mouse pointer moves while over this element. 
         /// </summary>
         public event EventHandler<MouseEventArgs> MouseMove;
 
@@ -266,7 +236,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets a brush that describes the background of a control.
+        /// Gets or sets a brush that describes the background of a control.
         /// </summary>   
         public virtual Brush Background
         {
@@ -298,7 +268,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.font!= value;
+                var changed = this.font != value;
                 this.font = value;
                 if (changed)
                 {
@@ -308,7 +278,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether child controls are clipped to the bounds of this control.
+        /// Gets or sets a value indicating whether child controls are clipped to the bounds of this control.
         /// </summary>
         public virtual bool ClipToBounds
         {
@@ -329,7 +299,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the data context.
+        /// Gets or sets the data context.
         /// </summary>
         public virtual object DataContext
         {
@@ -350,7 +320,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the extended properties collection.
+        /// Gets or sets the extended properties collection.
         /// </summary>
         public virtual PropertyCollection ExtendedProperties
         {
@@ -371,10 +341,10 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets a brush that describes the foreground color.
+        /// Gets or sets a brush that describes the foreground color.
         /// </summary>
         /// <returns>
-        ///     The brush that paints the foreground of the control.
+        /// The brush that paints the foreground of the control.
         /// </returns>
         public virtual Brush Foreground
         {
@@ -395,42 +365,43 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the height of the control.
+        /// Gets or sets the height of the control.
         /// </summary>
         public virtual float Height
         {
             get
             {
-                return this.height;
+                return this.size.Height;
             }
 
             set
             {
-                if (value < this.MinHeight)
+                if (value < this.minSize.Height && !this.minSize.IsEmpty)
                 {
-                    this.height = this.MinHeight;
+                    this.size.Height = this.minSize.Height;
                     this.OnPropertyChanged("Height");
                 }
-                else if (value > this.MaxHeight)
+                else if (value > this.maxSize.Height && !this.maxSize.IsEmpty)
                 {
-                    this.height = this.MaxHeight;
+                    this.size.Height = this.maxSize.Height;
                     this.OnPropertyChanged("Height");
                 }
                 else
                 {
-                    var changed = Math.Abs(value - this.height) > float.Epsilon;
-                    this.height = value;
+                    var changed = Math.Abs(value - this.size.Height) > float.Epsilon;
+                    this.size.Height = value;
                     if (changed)
                     {
                         this.OnPropertyChanged("Height");
+                        this.OnPropertyChanged("Bottom");
                     }
                 }
             }
         }
 
         /// <summary>
-        ///     Gets or sets the horizontal alignment characteristics applied to this element when it is composed within a parent
-        ///     control.
+        /// Gets or sets the horizontal alignment characteristics applied to this element when it is composed within a parent
+        /// control.
         /// </summary>
         public virtual HorizontalAlignment HorizontalAlignment
         {
@@ -451,7 +422,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the horizontal alignment of the control's content.
+        /// Gets or sets the horizontal alignment of the control's content.
         /// </summary>
         public virtual HorizontalAlignment HorizontalContentAlignment
         {
@@ -472,7 +443,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the control is enabled.
+        /// Gets or sets a value indicating whether the control is enabled.
         /// </summary>
         public virtual bool IsEnabled
         {
@@ -509,176 +480,124 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary>
-        ///     Gets or sets the length of the margins bottom side.
-        /// </summary>
-        public virtual float MarginBottom
+        /// <summary>Gets or sets the distance, between the bottom edge of the control and the bottom edge of its container's client area.</summary>
+        /// <returns>An <see cref="float" /> representing the distance, between the bottom edge of the control and the bottom edge of its container's client area.</returns>
+        public virtual float Bottom
         {
             get
             {
-                return this.marginBottom;
+                var p = this.parent;
+                return p == null ? this.location.Y + this.size.Height : p.Height - (this.location.Y + this.size.Height);
             }
 
             set
             {
-                var changed = Math.Abs(this.marginBottom - value) > float.Epsilon;
-                this.marginBottom = value;
+                var p = this.parent;
+                this.Height = (p == null ? value - this.location.Y : p.Height - value - this.location.Y);
+            }
+        }
+
+        /// <summary>Gets or sets the distance, between the left edge of the control and the left edge of its container's client area.</summary>
+        /// <returns>An <see cref="float" /> representing the distance, between the left edge of the control and the left edge of its container's client area.</returns>
+        public virtual float Left
+        {
+            get
+            {
+                return this.location.X;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.location.X - value) > float.Epsilon;
+                this.location.X = value;
                 if (changed)
                 {
-                    this.OnPropertyChanged("MarginBottom");
+                    this.OnPropertyChanged("Left");
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the distance, between the right edge of the control and the right edge of its container's client area.</summary>
+        /// <returns>An <see cref="float" /> representing the distance, between the right edge of the control and the right edge of its container's client area.</returns>
+        public virtual float Right
+        {
+            get
+            {
+                var p = this.parent;
+                return p == null ? this.location.X + this.size.Width : p.Width - (this.location.X + this.size.Width);
+            }
+
+            set
+            {
+                var p = this.parent;
+                this.Width = (p == null ? value - this.location.X : p.Width - value - this.location.X);
+            }
+        }
+
+        /// <summary>Gets or sets the distance, between the top edge of the control and the top edge of its container's client area.</summary>
+        /// <returns>An <see cref="float" /> representing the distance, between the bottom edge of the control and the top edge of its container's client area.</returns>
+        public virtual float Top
+        {
+            get
+            {
+                return this.location.X;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.location.X - value) > float.Epsilon;
+                this.location.X = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Top");
                 }
             }
         }
 
         /// <summary>
-        ///     Gets or sets the length of the margins left side.
+        /// Gets or sets the maximum size of the control.
         /// </summary>
-        public virtual float MarginLeft
+        public virtual Size MaximumSize
         {
             get
             {
-                return this.marginLeft;
+                return this.maxSize;
             }
 
             set
             {
-                var changed = Math.Abs(this.marginLeft - value) > float.Epsilon;
-                this.marginLeft = value;
+                var changed = this.maxSize != value;
+                this.maxSize = value;
                 if (changed)
                 {
-                    this.OnPropertyChanged("MarginLeft");
+                    this.OnPropertyChanged("MaximumSize");
                 }
             }
         }
 
         /// <summary>
-        ///     Gets or sets the length of the margins right side.
+        /// Gets or sets the minimum size of the control.
         /// </summary>
-        public virtual float MarginRight
+        public virtual Size MinimumSize
         {
             get
             {
-                return this.marginRight;
+                return this.minSize;
             }
 
             set
             {
-                var changed = Math.Abs(this.marginRight - value) > float.Epsilon;
-                this.marginRight = value;
+                var changed = this.minSize != value;
+                this.minSize = value;
                 if (changed)
                 {
-                    this.OnPropertyChanged("MarginRight");
+                    this.OnPropertyChanged("MinimumSize");
                 }
             }
         }
 
         /// <summary>
-        ///     Gets or sets the length of the margins top side.
-        /// </summary>
-        public virtual float MarginTop
-        {
-            get
-            {
-                return this.marginTop;
-            }
-
-            set
-            {
-                var changed = Math.Abs(this.marginTop - value) > float.Epsilon;
-                this.marginTop = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("MarginTop");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the max height of the control.
-        /// </summary>
-        public virtual float MaxHeight
-        {
-            get
-            {
-                return this.maxHeight;
-            }
-
-            set
-            {
-                var changed = Math.Abs(this.maxHeight - value) > float.Epsilon;
-                this.maxHeight = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("MaxHeight");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the max width of the control.
-        /// </summary>
-        public virtual float MaxWidth
-        {
-            get
-            {
-                return this.maxWidth;
-            }
-
-            set
-            {
-                var changed = Math.Abs(this.maxWidth - value) > float.Epsilon;
-                this.maxWidth = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("MaxWidth");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the min height of the control.
-        /// </summary>
-        public virtual float MinHeight
-        {
-            get
-            {
-                return this.minHeight;
-            }
-
-            set
-            {
-                var changed = Math.Abs(this.minHeight - value) > float.Epsilon;
-                this.minHeight = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("MinHeight");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the min width of the control.
-        /// </summary>
-        public virtual float MinWidth
-        {
-            get
-            {
-                return this.minWidth;
-            }
-
-            set
-            {
-                var changed = Math.Abs(this.minWidth - value) > float.Epsilon;
-                this.minWidth = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("MinWidth");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the name of the control.
+        /// Gets or sets the name of the control.
         /// </summary>
         public virtual string Name
         {
@@ -699,7 +618,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the tag.
+        /// Gets or sets the tag.
         /// </summary>
         public virtual object Tag
         {
@@ -720,7 +639,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the tool tip for the control.
+        /// Gets or sets the tool tip for the control.
         /// </summary>
         public virtual string ToolTip
         {
@@ -741,8 +660,8 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the vertical alignment characteristics applied to this element when it is composed within a parent
-        ///     control.
+        /// Gets or sets the vertical alignment characteristics applied to this element when it is composed within a parent
+        /// control.
         /// </summary>
         public virtual VerticalAlignment VerticalAlignment
         {
@@ -763,7 +682,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the vertical alignment of the control's content.
+        /// Gets or sets the vertical alignment of the control's content.
         /// </summary>
         public virtual VerticalAlignment VerticalContentAlignment
         {
@@ -784,7 +703,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///     Gets or sets the controls visibility.
+        /// Gets or sets the controls visibility.
         /// </summary>
         public virtual Visibility Visibility
         {
@@ -804,35 +723,75 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>Gets or sets the height and width of the control.</summary>
+        /// <returns>The <see cref="Size" /> that represents the height and width of the control.</returns>
+        public Size Size
+        {
+            get
+            {
+                return this.size;
+            }
+
+            set
+            {
+                var changed = this.size != value;
+                this.size = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Size");
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the coordinates of the upper-left corner of the control relative to the upper-left corner of its container.</summary>
+        /// <returns>The <see cref="Point" /> that represents the upper-left corner of the control relative to the upper-left corner of its container.</returns>
+        public Point Location
+        {
+            get
+            {
+                return this.location;
+            }
+            set
+            {
+                var changed = this.location != value;
+                this.location = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Location");
+                }
+            }
+        }
+
         /// <summary>
-        ///     Gets or sets the width of the control.
+        /// Gets or sets the width of the control.
         /// </summary>
         public virtual float Width
         {
             get
             {
-                return this.width;
+                return this.size.Width;
             }
 
             set
             {
-                if (value < this.MinWidth)
+                if (value < this.minSize.Width && !this.minSize.IsEmpty)
                 {
-                    this.width = this.MinWidth;
+                    this.size.Width = this.minSize.Width;
                     this.OnPropertyChanged("Width");
                 }
-                else if (value > this.MaxWidth)
+                else if (value > this.maxSize.Width && !this.maxSize.IsEmpty)
                 {
-                    this.width = this.MaxWidth;
+                    this.size.Width = this.maxSize.Width;
                     this.OnPropertyChanged("Width");
                 }
                 else
                 {
-                    var changed = Math.Abs(value - this.width) > float.Epsilon;
-                    this.width = value;
+                    var changed = Math.Abs(value - this.size.Width) > float.Epsilon;
+                    this.size.Width = value;
                     if (changed)
                     {
                         this.OnPropertyChanged("Width");
+                        this.OnPropertyChanged("Right");
                     }
                 }
             }
