@@ -1,4 +1,4 @@
-﻿namespace Codefarts.UIControls.Code.Renderers
+﻿namespace Codefarts.UIControls.Renderers
 {
     using System;             
 
