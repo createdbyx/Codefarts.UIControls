@@ -36,7 +36,12 @@
 
             set
             {
+                var changed = this.imageSource != value;
                 this.imageSource = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("ImageSource");
+                }
             }
         }
     }

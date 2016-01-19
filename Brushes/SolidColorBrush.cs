@@ -56,7 +56,12 @@
                     return;
                 }
 
+                var changes = this.color != value;
                 this.color = value;
+                if (changes)
+                {
+                    this.OnPropertyChanged("Color");
+                }
             }
         }
 
