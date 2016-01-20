@@ -103,5 +103,16 @@ namespace Codefarts.UIControls
                 onClosed.Invoke(this, EventArgs.Empty);
             }
         }
+
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(300,300);
+            }
+        }
     }
 }
