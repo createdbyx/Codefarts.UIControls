@@ -11,10 +11,12 @@ namespace Codefarts.UIControls
 {
     using System;
 
+    /// <summary>
+    /// Implements the basic functionality required by text controls.
+    /// </summary>
     public class TextBox : Control
     {
-        public event System.EventHandler<RoutedPropertyChangedEventArgs<string>> TextChanged;
-
+        public event EventHandler<RoutedPropertyChangedEventArgs<string>> TextChanged;
 
         protected string text;
 
@@ -57,6 +59,16 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(100, 32);
+            }
+        }
 
         protected virtual void OnTextChanged(RoutedPropertyChangedEventArgs<string> e)
         {
