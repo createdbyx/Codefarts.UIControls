@@ -45,7 +45,23 @@ namespace Codefarts.UIControls
 
             set
             {
+                var changed = this.text != value;
                 this.text = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Text");
+                }
+            }
+        }
+
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(100, 23);
             }
         }
     }
