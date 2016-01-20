@@ -9,19 +9,49 @@
 namespace Codefarts.UIControls
 {
     using System.Collections.Generic;
-    using System;
 
-    using Codefarts.UIControls.Unity;
-
+    /// <summary>
+    /// Displays a hierarchical collection of labeled items, each represented by a <see cref="TreeViewNode" />.
+    /// </summary>
     public class TreeView : ScrollViewer
     {
-        private TreeViewNode selectedNode;
+        /// <summary>
+        /// The selected node used by the <see cref="SelectedNode"/> property.
+        /// </summary>
+        protected TreeViewNode selectedNode;
 
-        public List<TreeViewNode> Nodes { get; set; }
+        /// <summary>
+        /// The node list used by the <see cref="Nodes"/> property.
+        /// </summary>
+        protected List<TreeViewNode> nodes;
 
-        public event EventHandler SelectionChanged;
+        /// <summary>
+        /// Gets the collection of tree nodes that are assigned to the tree view control.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="List{TreeViewNode}" /> that represents the tree nodes assigned to the tree view control.
+        /// </returns>
+        public virtual List<TreeViewNode> Nodes
+        {
+            get
+            {
+                return this.nodes;
+            }
 
-        public TreeViewNode SelectedNode
+            set
+            {
+                var changed = this.nodes != value;
+                this.nodes = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Nodes");
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the tree node that is currently selected in the tree view control.</summary>
+        /// <returns>The <see cref="TreeViewNode" /> that is currently selected in the tree view control.</returns>
+        public virtual TreeViewNode SelectedNode
         {
             get
             {
@@ -32,18 +62,30 @@ namespace Codefarts.UIControls
             {
                 var changed = this.selectedNode != value;
                 this.selectedNode = value;
-                var handler = this.SelectionChanged;
-                if (changed && handler != null)
+                if (changed)
                 {
-                    handler(this, EventArgs.Empty);
+                    this.OnPropertyChanged("SelectedNode");
                 }
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeView" /> class.
+        /// </summary>
         public TreeView()
-            : base()
         {
-            this.Nodes = new List<TreeViewNode>();
+            this.nodes = new List<TreeViewNode>();
+        }
+
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(121, 97);
+            }
         }
     }
 }
