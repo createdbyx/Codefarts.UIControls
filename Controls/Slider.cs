@@ -1,6 +1,6 @@
 namespace Codefarts.UIControls
 {
-    public class Slider : RangeBase
+      public class Slider : RangeBase
     {
     }
 }

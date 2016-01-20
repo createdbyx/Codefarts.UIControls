@@ -1,6 +1,6 @@
 namespace Codefarts.UIControls
 {
-    public class RowDefinition:DefinitionBase
+    public class RowDefinition : DefinitionBase
     {
         public float MinHeight { get; set; }
         public float MaxHeight { get; set; }

@@ -3,9 +3,7 @@ namespace Codefarts.GridMapGame.EditorTools
     using System;
 
     using Codefarts.UIControls;
-    using Codefarts.UIControls.Interfaces;
-
-    using UnityEngine;
+    using Codefarts.UIControls.Interfaces;    
 
     public class SliderTextBoxControl : Control, ICustomRendering
     {
@@ -147,7 +145,7 @@ namespace Codefarts.GridMapGame.EditorTools
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the control is enabled.
+        /// Gets or sets a value indicating whether the control is enabled.
         /// </summary>
         public override bool IsEnabled
         {
@@ -164,7 +162,7 @@ namespace Codefarts.GridMapGame.EditorTools
         }
 
         /// <summary>
-        ///     Gets or sets the controls visibility.
+        /// Gets or sets the controls visibility.
         /// </summary>
         public override Visibility Visibility
         {

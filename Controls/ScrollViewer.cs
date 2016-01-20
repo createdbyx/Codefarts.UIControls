@@ -30,7 +30,7 @@ namespace Codefarts.UIControls
         /// Scroll content by one line to the bottom. 
         /// </summary>                                                                                                             
         public void LineDown()
-        {                                                                                            
+        {
             throw new NotImplementedException();
         }
 
