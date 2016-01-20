@@ -49,6 +49,11 @@ namespace Codefarts.UIControls
         private Size size;
 
         /// <summary>
+        /// The previous size of the control.
+        /// </summary>
+        private Size previousSize;
+
+        /// <summary>
         /// The location of the control.
         /// </summary>
         private Point location;
@@ -140,6 +145,86 @@ namespace Codefarts.UIControls
             this.Controls = new ControlsCollection(this);
             this.clipToBounds = true;
             this.extendedProperties = new PropertyCollection();
+            this.PropertyChanged += this.PropertyChangedHandler;
+            this.size = this.DefaultSize;
+        }
+
+        /// <summary>
+        /// Internal properties changed handler for internal use.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs" /> instance containing the event data.</param>
+        private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Size":
+                    this.PerformLayout();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Forces the control to apply layout logic to all its child controls.
+        /// </summary>
+        public virtual void PerformLayout()
+        {
+            var center = new Point(this.Width / 2, this.Height / 2);
+            foreach (var control in this.Controls)
+            {
+                var pos = control.Location;
+                var size = control.Size;
+                switch (control.HorizontalAlignment)
+                {
+                    case HorizontalAlignment.Left:
+                        break;
+
+                    case HorizontalAlignment.Center:
+                        pos.X = center.X - (control.Width / 2);
+                        break;
+
+                    case HorizontalAlignment.Right:
+                        pos.X += this.Width - this.previousSize.Width;
+                        break;
+
+                    case HorizontalAlignment.Stretch:
+                        size.Width += this.Width - this.previousSize.Width;
+                        break;
+                }
+
+                switch (control.VerticalAlignment)
+                {
+                    case VerticalAlignment.Top:
+                        break;
+
+                    case VerticalAlignment.Center:
+                        pos.Y = center.Y - (control.Height / 2);
+                        break;
+
+                    case VerticalAlignment.Bottom:
+                        pos.Y += this.Height - this.previousSize.Height;
+                        break;
+
+                    case VerticalAlignment.Stretch:
+                        size.Height += this.Height - this.previousSize.Height;
+                        break;
+                }
+
+                control.SetBounds(pos.X, pos.Y, size.Width, size.Height);
+            }
+        }
+
+        /// <summary>Sets the bounds of the control to the specified location and size.</summary>
+        /// <param name="x">The new <see cref="Control.Left" /> property value of the control. </param>
+        /// <param name="y">The new <see cref="Control.Top" /> property value of the control. </param>
+        /// <param name="width">The new <see cref="Control.Width" /> property value of the control. </param>
+        /// <param name="height">The new <see cref="Control.Height" /> property value of the control. </param>
+        public void SetBounds(float x, float y, float width, float height)
+        {
+            var newLocation = new Point(x, y);
+            var newSize = new Size(width, height);
+            this.Location = newLocation;
+            this.Size = newSize;
         }
 
         #endregion
@@ -319,6 +404,16 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>Gets the default size of the control.</summary>
+        /// <returns>The default <see cref="Size" /> of the control.</returns>
+        protected virtual Size DefaultSize
+        {
+            get
+            {
+                return Size.Empty;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the extended properties collection.
         /// </summary>
@@ -376,26 +471,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (value < this.minSize.Height && !this.minSize.IsEmpty)
-                {
-                    this.size.Height = this.minSize.Height;
-                    this.OnPropertyChanged("Height");
-                }
-                else if (value > this.maxSize.Height && !this.maxSize.IsEmpty)
-                {
-                    this.size.Height = this.maxSize.Height;
-                    this.OnPropertyChanged("Height");
-                }
-                else
-                {
-                    var changed = Math.Abs(value - this.size.Height) > float.Epsilon;
-                    this.size.Height = value;
-                    if (changed)
-                    {
-                        this.OnPropertyChanged("Height");
-                        this.OnPropertyChanged("Bottom");
-                    }
-                }
+                this.Size = new Size(this.size.Width, value);
             }
         }
 
@@ -508,12 +584,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = Math.Abs(this.location.X - value) > float.Epsilon;
-                this.location.X = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("Left");
-                }
+                this.Location = new Point(value, this.location.Y);
             }
         }
 
@@ -540,17 +611,12 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.location.X;
+                return this.location.Y;
             }
 
             set
             {
-                var changed = Math.Abs(this.location.X - value) > float.Epsilon;
-                this.location.X = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("Top");
-                }
+                this.Location = new Point(this.location.X, value);
             }
         }
 
@@ -571,6 +637,7 @@ namespace Codefarts.UIControls
                 if (changed)
                 {
                     this.OnPropertyChanged("MaximumSize");
+                    this.Size = this.size;
                 }
             }
         }
@@ -592,6 +659,7 @@ namespace Codefarts.UIControls
                 if (changed)
                 {
                     this.OnPropertyChanged("MinimumSize");
+                    this.Size = this.size;
                 }
             }
         }
@@ -734,11 +802,73 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.size != value;
-                this.size = value;
-                if (changed)
+                if (value.Width < this.minSize.Width && Math.Abs(this.minSize.Width) > float.Epsilon)
                 {
-                    this.OnPropertyChanged("Size");
+                    value.Width = this.minSize.Width;
+                }
+                else if (value.Width > this.maxSize.Width && Math.Abs(this.maxSize.Width) > float.Epsilon)
+                {
+                    value.Width = this.maxSize.Width;
+                }
+
+                if (value.Height < this.minSize.Height && Math.Abs(this.minSize.Height) > float.Epsilon)
+                {
+                    value.Height = this.minSize.Height;
+                }
+                else if (value.Height > this.maxSize.Height && Math.Abs(this.maxSize.Height) > float.Epsilon)
+                {
+                    value.Height = this.maxSize.Height;
+                }
+
+                if (this.size == value)
+                {
+                    return;
+                }
+
+                var widthChanged = Math.Abs(this.size.Width - value.Width) > float.Epsilon;
+                var heightChanged = Math.Abs(this.size.Height - value.Height) > float.Epsilon;
+
+                this.previousSize = this.size;
+                this.size = value;
+                this.OnPropertyChanged("Size");
+                if (widthChanged)
+                {
+                    this.OnPropertyChanged("Width");
+                    switch (this.horizontalAlignment)
+                    {
+                        case HorizontalAlignment.Left:
+                        case HorizontalAlignment.Center:
+                            this.OnPropertyChanged("Right");
+                            break;
+
+                        case HorizontalAlignment.Right:
+                            this.Left -= this.size.Width - this.previousSize.Width;
+                            break;
+
+                        case HorizontalAlignment.Stretch:
+                            // do nothing
+                            break;
+                    }
+                }
+
+                if (heightChanged)
+                {
+                    this.OnPropertyChanged("Height");
+                    switch (this.verticalAlignment)
+                    {
+                        case VerticalAlignment.Top:
+                        case VerticalAlignment.Center:
+                            this.OnPropertyChanged("Bottom");
+                            break;
+
+                        case VerticalAlignment.Bottom:
+                            this.Top -= this.size.Height - this.previousSize.Height;
+                            break;
+
+                        case VerticalAlignment.Stretch:
+                            // do nothing
+                            break;
+                    }
                 }
             }
         }
@@ -753,11 +883,60 @@ namespace Codefarts.UIControls
             }
             set
             {
-                var changed = this.location != value;
-                this.location = value;
-                if (changed)
+                var leftChanged = Math.Abs(this.location.X - value.X) > float.Epsilon;
+                var topChanged = Math.Abs(this.location.Y - value.Y) > float.Epsilon;
+
+                if (leftChanged && this.horizontalAlignment == HorizontalAlignment.Center)
                 {
-                    this.OnPropertyChanged("Location");
+                    value.X = this.location.X;
+                }
+
+                if (topChanged && this.verticalAlignment == VerticalAlignment.Center)
+                {
+                    value.Y = this.location.Y;
+                }
+
+                if (this.location == value)
+                {
+                    return;
+                }
+
+                leftChanged = Math.Abs(this.location.X - value.X) > float.Epsilon;
+                topChanged = Math.Abs(this.location.Y - value.Y) > float.Epsilon;
+
+                this.location = value;
+                this.OnPropertyChanged("Location");
+                if (leftChanged)
+                {
+                    this.OnPropertyChanged("Left");
+                    switch (this.horizontalAlignment)
+                    {
+
+                        case HorizontalAlignment.Center:
+                            // ignore
+                            break;
+                        case HorizontalAlignment.Left:
+                        case HorizontalAlignment.Right:
+                        case HorizontalAlignment.Stretch:
+                            this.OnPropertyChanged("Right");
+                            break;
+                    }
+                }
+
+                if (topChanged)
+                {
+                    this.OnPropertyChanged("Top");
+                    switch (this.verticalAlignment)
+                    {
+                        case VerticalAlignment.Center:
+                            // ignore
+                            break;
+                        case VerticalAlignment.Top:
+                        case VerticalAlignment.Bottom:
+                        case VerticalAlignment.Stretch:
+                            this.OnPropertyChanged("Bottom");
+                            break;
+                    }
                 }
             }
         }
@@ -774,26 +953,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (value < this.minSize.Width && !this.minSize.IsEmpty)
-                {
-                    this.size.Width = this.minSize.Width;
-                    this.OnPropertyChanged("Width");
-                }
-                else if (value > this.maxSize.Width && !this.maxSize.IsEmpty)
-                {
-                    this.size.Width = this.maxSize.Width;
-                    this.OnPropertyChanged("Width");
-                }
-                else
-                {
-                    var changed = Math.Abs(value - this.size.Width) > float.Epsilon;
-                    this.size.Width = value;
-                    if (changed)
-                    {
-                        this.OnPropertyChanged("Width");
-                        this.OnPropertyChanged("Right");
-                    }
-                }
+                this.Size = new Size(value, this.size.Height);
             }
         }
 
@@ -864,7 +1024,6 @@ namespace Codefarts.UIControls
                 handler(this, e);
             }
         }
-
 
         /// <summary>
         /// Raises the <see cref="E:MouseMove"/> event.
