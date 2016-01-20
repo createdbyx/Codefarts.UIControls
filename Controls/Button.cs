@@ -45,6 +45,9 @@ namespace Codefarts.UIControls
 
         #region Public Events
 
+        /// <summary>
+        /// Occurs when the button is clicked.
+        /// </summary>
         public event EventHandler Click;
 
         #endregion
@@ -63,7 +66,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.text!=value;
+                var changed = this.text != value;
                 this.text = value;
                 if (changed)
                 {
