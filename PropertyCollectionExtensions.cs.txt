@@ -37,7 +37,7 @@
                 throw new ArgumentNullException("propertiesCollection");
             }
 
-            if (!propertiesCollection.ContainsName(name))
+            if (!propertiesCollection.ContainsKey(name))
             {
                 value = defaultValue;
                 return false;
