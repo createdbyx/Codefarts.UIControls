@@ -9,43 +9,35 @@
 
 namespace Codefarts.UIControls
 {
-    using System;
-         
+    /// <summary>
+    /// Represents a <see cref="CheckBox" />.
+    /// </summary>
     public class CheckBox : Control
     {
-        public event EventHandler Checked;
+        /// <summary>
+        /// Holds the value of the appearance
+        /// </summary>
+        protected Appearance appearance = Appearance.Normal;
 
         /// <summary>
-        /// Gets or sets the text.
-        /// </summary>            
-        public virtual string Text
-        {
-            get
-            {
-                return this.text;
-            }
+        /// Holds the value of the image.
+        /// </summary>
+        protected ImageSource image;
 
-            set
-            {
-                if (this.text != value)
-                {
-                    return;
-                }
+        /// <summary>
+        /// The is value for the <see cref="IsChecked"/> property.
+        /// </summary>
+        protected bool isChecked;
 
-                this.text = value;
-                this.OnPropertyChanged("Text");
-            }
-        }
-        
-        private bool isChecked;
-
-        private ImageSource image;
-                                                                             
         /// <summary>
         /// Holds the value of the text
         /// </summary>
         protected string text;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckBox" /> class.
+        /// </summary>
+        /// <param name="image">The image.</param>
         protected CheckBox(ImageSource image)
             : this()
         {
@@ -56,7 +48,6 @@ namespace Codefarts.UIControls
         /// Initializes a new instance of the <see cref="CheckBox"/> class.
         /// </summary>
         public CheckBox()
-            : base()
         {
         }
 
@@ -71,7 +62,52 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets Texture.
+        /// Gets or sets the value that determines the appearance of a <see cref="CheckBox" /> control.
+        /// </summary>
+        /// <returns>
+        /// One of the <see cref="Appearance" /> values. The default value is <see cref="Appearance.Normal" />.
+        /// </returns>
+        public virtual Appearance Appearance
+        {
+            get
+            {
+                return this.appearance;
+            }
+
+            set
+            {
+                var changed = this.appearance != value;
+                this.appearance = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Appearance");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>            
+        public virtual string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                var changed = this.text != value;
+                this.text = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Text");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets image that is displayed in the checkbox.
         /// </summary>
         public virtual ImageSource Image
         {
@@ -82,13 +118,12 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (this.image == value)
-                {
-                    return;
-                }
-
+                var changed = this.image == value;
                 this.image = value;
-                this.OnPropertyChanged("Image");
+                if (changed)
+                {
+                    this.OnPropertyChanged("Image");
+                }
             }
         }
 
@@ -104,23 +139,22 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (this.isChecked == value)
-                {
-                    return;
-                }
-
+                var changed = this.isChecked == value;
                 this.isChecked = value;
-                this.OnChecked(EventArgs.Empty);
-                this.OnPropertyChanged("IsChecked");
+                if (changed)
+                {
+                    this.OnPropertyChanged("IsChecked");
+                }
             }
         }
-
-        public void OnChecked(EventArgs e)
+         
+        /// <summary>Gets the default size of the control.</summary>
+        /// <returns>The default size.</returns>
+        protected override Size DefaultSize
         {
-            var handler = this.Checked;
-            if (handler != null)
+            get
             {
-                handler(this, e);
+                return new Size(104, 24);
             }
         }
     }
