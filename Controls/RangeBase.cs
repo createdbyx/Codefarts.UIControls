@@ -8,7 +8,7 @@ namespace Codefarts.UIControls
         private float maximum = 10;
         private float value;
 
-        public event EventHandler<RoutedPropertyChangedEventArgs<float>> ValueChanged;
+        public event EventHandler<PropertyChangedEventArgs<float>> ValueChanged;
 
         public Orientation Orientation { get; set; }
 
@@ -80,7 +80,7 @@ namespace Codefarts.UIControls
                 var handler = this.ValueChanged;
                 if (changed && handler != null)
                 {
-                    handler(this, new RoutedPropertyChangedEventArgs<float>(oldValue, value) { Source = this });
+                    handler(this, new PropertyChangedEventArgs<float>(oldValue, value) { Source = this });
                 }
             }
         }

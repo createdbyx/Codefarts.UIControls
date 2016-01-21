@@ -12,7 +12,7 @@ namespace Codefarts.UIControls
 
         private float value;
 
-        public event EventHandler<RoutedPropertyChangedEventArgs<float>> ValueChanged;
+        public event EventHandler<PropertyChangedEventArgs<float>> ValueChanged;
 
         public override string Text
         {
@@ -144,7 +144,7 @@ namespace Codefarts.UIControls
                 var handler = this.ValueChanged;
                 if (handler != null)
                 {
-                    handler(this, new RoutedPropertyChangedEventArgs<float>(oldValue, value));
+                    handler(this, new PropertyChangedEventArgs<float>(oldValue, value));
                 }
             }
         }

@@ -14,7 +14,7 @@ namespace Codefarts.GridMapGame.EditorTools
         protected Label label;
 
         protected StackPanel container;
-        public event EventHandler<RoutedPropertyChangedEventArgs<float>> ValueChanged;
+        public event EventHandler<PropertyChangedEventArgs<float>> ValueChanged;
 
         public virtual float Minimum
         {
@@ -114,7 +114,7 @@ namespace Codefarts.GridMapGame.EditorTools
             this.container.Controls.Add(this.slider);
         }
 
-        private void TextFieldValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
+        private void TextFieldValueChanged(object sender, PropertyChangedEventArgs<float> e)
         {
             this.slider.Value = e.NewValue;
         }
@@ -128,13 +128,13 @@ namespace Codefarts.GridMapGame.EditorTools
             this.Value = value;
         }
 
-        protected virtual void TextFieldTextChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
+        protected virtual void TextFieldTextChanged(object sender, PropertyChangedEventArgs<string> e)
         {
             var newValue = this.slider.Value;
             this.slider.Value = float.TryParse(e.NewValue, out newValue) ? newValue : this.slider.Value;
         }
 
-        protected virtual void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<float> e)
+        protected virtual void SliderValueChanged(object sender, PropertyChangedEventArgs<float> e)
         {
             this.textField.Value = e.NewValue;
             var handler = this.ValueChanged;
