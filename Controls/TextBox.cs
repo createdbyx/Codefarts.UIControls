@@ -10,13 +10,14 @@
 namespace Codefarts.UIControls
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Implements the basic functionality required by text controls.
     /// </summary>
     public class TextBox : Control
     {
-        public event EventHandler<RoutedPropertyChangedEventArgs<string>> TextChanged;
+        public event EventHandler<PropertyChangedEventArgs<string>> TextChanged;
 
         protected string text;
 
@@ -55,7 +56,7 @@ namespace Codefarts.UIControls
 
                 var oldValue = this.text;
                 this.text = value;
-                this.OnTextChanged(new RoutedPropertyChangedEventArgs<string>(oldValue, value));
+                this.OnTextChanged(new PropertyChangedEventArgs<string>(oldValue, value));
             }
         }
 
@@ -70,7 +71,7 @@ namespace Codefarts.UIControls
             }
         }
 
-        protected virtual void OnTextChanged(RoutedPropertyChangedEventArgs<string> e)
+        protected virtual void OnTextChanged(PropertyChangedEventArgs<string> e)
         {
             var handler = this.TextChanged;
             if (handler != null)
@@ -115,14 +116,7 @@ namespace Codefarts.UIControls
                 value = value > this.text.Length ? this.text.Length : value;
                 value = this.selectionStart + value > this.text.Length ? this.text.Length - this.selectionStart : value;
                 this.selectionLength = value;
-                var props = this.ExtendedProperties;
-                if (props == null)
-                {
-                    props = new PropertyCollection();
-                    this.ExtendedProperties = props;
-                }
-
-                props["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
+                this.ExtendedProperties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
             }
         }
 
@@ -161,16 +155,8 @@ namespace Codefarts.UIControls
                 var stringValue = this.text == null ? string.Empty : this.text;
                 value = value > stringValue.Length ? stringValue.Length : value;
                 this.selectionStart = value;
-                this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;
-
-                var props = this.ExtendedProperties;
-                if (props == null)
-                {
-                    props = new PropertyCollection();
-                    this.ExtendedProperties = props;
-                }
-
-                props["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
+                this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;  
+                this.ExtendedProperties["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
             }
         }
 
