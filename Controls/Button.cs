@@ -96,6 +96,17 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(75, 23);
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators
