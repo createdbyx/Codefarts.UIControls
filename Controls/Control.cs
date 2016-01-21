@@ -71,7 +71,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Holds the value for the <see cref="ExtendedProperties"/> property.
         /// </summary>
-        private PropertyCollection extendedProperties;
+        private IDictionary<string, object> extendedProperties;
 
         /// <summary>
         /// The background brush property value.
@@ -144,7 +144,7 @@ namespace Codefarts.UIControls
         {
             this.Controls = new ControlsCollection(this);
             this.clipToBounds = true;
-            this.extendedProperties = new PropertyCollection();
+            this.extendedProperties = new Dictionary<string, object>();
             this.PropertyChanged += this.PropertyChangedHandler;
             this.size = this.DefaultSize;
         }
@@ -417,7 +417,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the extended properties collection.
         /// </summary>
-        public virtual PropertyCollection ExtendedProperties
+        public virtual IDictionary<string,object> ExtendedProperties
         {
             get
             {
@@ -546,7 +546,7 @@ namespace Codefarts.UIControls
             get
             {
                 var props = this.ExtendedProperties;
-                if (props != null && props.ContainsName(IsMouseOverKey))
+                if (props != null && props.ContainsKey(IsMouseOverKey))
                 {
                     var mouseOver = (bool)props[IsMouseOverKey];
                     return mouseOver;
