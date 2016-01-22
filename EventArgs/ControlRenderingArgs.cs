@@ -26,5 +26,10 @@ namespace Codefarts.UIControls
         /// Gets or sets the total game time.
         /// </summary>  
         public float TotalGameTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offset to draw the control at.
+        /// </summary>
+        public Point Offset{ get; set; }
     }
 }
