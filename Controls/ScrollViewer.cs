@@ -13,8 +13,44 @@ namespace Codefarts.UIControls
 
     public class ScrollViewer : Control
     {
-        public ScrollBarVisibility HorizontialScrollBarVisibility { get; set; }
-        public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
+        protected ScrollBarVisibility verticalScrollBarVisibility;
+
+        protected ScrollBarVisibility horizontialScrollBarVisibility;
+
+        public virtual ScrollBarVisibility HorizontialScrollBarVisibility
+        {
+            get
+            {
+                return this.horizontialScrollBarVisibility;
+            }
+            set
+            {
+                var changed = this.horizontialScrollBarVisibility != value;
+                this.horizontialScrollBarVisibility = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("HorizontialScrollBarVisibility");
+                }
+            }
+        }
+
+        public virtual ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get
+            {
+                return this.verticalScrollBarVisibility;
+            }
+            set
+            {
+                var changed = this.verticalScrollBarVisibility != value;
+                this.verticalScrollBarVisibility = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("VerticalScrollBarVisibility");
+                }
+            }
+        }
+
         public float HorizontialOffset { get; set; }
         public float VerticalOffset { get; set; }
 
@@ -155,8 +191,8 @@ namespace Codefarts.UIControls
         /// </summary>
         public ScrollViewer()
         {
-            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
-            this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.horizontialScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
     }
 }
