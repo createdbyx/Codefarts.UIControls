@@ -3,7 +3,7 @@ namespace Codefarts.GridMapGame.EditorTools
     using System;
 
     using Codefarts.UIControls;
-    using Codefarts.UIControls.Interfaces;    
+    using Codefarts.UIControls.Interfaces;
 
     public class SliderTextBoxControl : Control, ICustomRendering
     {
@@ -181,30 +181,24 @@ namespace Codefarts.GridMapGame.EditorTools
         /// <summary>
         /// Draws the specified manager.
         /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="control">The control.</param>
-        /// <param name="elapsedGameTime">The elapsed game time.</param>
-        /// <param name="totalGameTime">The total game time.</param>
-        public virtual void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        /// <param name="args"></param>
+        public virtual void Draw(ControlRenderingArgs args)
         {
             if (this.Visibility == Visibility.Visible)
             {
-                manager.DrawControl(this.container, elapsedGameTime, totalGameTime);
+                args.Manager.DrawControl(this.container, args.ElapsedGameTime, args.TotalGameTime);
             }
         }
 
         /// <summary>
         /// Updates the specified manager.
         /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="control">The control.</param>
-        /// <param name="elapsedGameTime">The elapsed game time.</param>
-        /// <param name="totalGameTime">The total game time.</param>
-        public virtual void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        /// <param name="args"></param>
+        public virtual void Update(ControlRenderingArgs args)
         {
             if (this.IsEnabled && this.Visibility == Visibility.Visible)
             {
-                manager.UpdateControl(this.container, elapsedGameTime, totalGameTime);
+                args.Manager.UpdateControl(this.container, args.ElapsedGameTime, args.TotalGameTime);
             }
         }
     }
