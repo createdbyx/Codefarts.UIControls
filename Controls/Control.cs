@@ -69,9 +69,9 @@ namespace Codefarts.UIControls
         private bool clipToBounds;
 
         /// <summary>
-        /// Holds the value for the <see cref="ExtendedProperties"/> property.
+        /// Holds the value for the <see cref="Properties"/> property.
         /// </summary>
-        private IDictionary<string, object> extendedProperties;
+        private IDictionary<string, object> properties;
 
         /// <summary>
         /// The background brush property value.
@@ -144,7 +144,7 @@ namespace Codefarts.UIControls
         {
             this.Controls = new ControlsCollection(this);
             this.clipToBounds = true;
-            this.extendedProperties = new Dictionary<string, object>();
+            this.properties = new Dictionary<string, object>();
             this.PropertyChanged += this.PropertyChangedHandler;
             this.size = this.DefaultSize;
         }
@@ -417,20 +417,20 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the extended properties collection.
         /// </summary>
-        public virtual IDictionary<string,object> ExtendedProperties
+        public virtual IDictionary<string,object> Properties
         {
             get
             {
-                return this.extendedProperties;
+                return this.properties;
             }
 
             set
             {
-                var changed = this.extendedProperties != value;
-                this.extendedProperties = value;
+                var changed = this.properties != value;
+                this.properties = value;
                 if (changed)
                 {
-                    this.OnPropertyChanged("ExtendedProperties");
+                    this.OnPropertyChanged("Properties");
                 }
             }
         }
@@ -545,7 +545,7 @@ namespace Codefarts.UIControls
         {
             get
             {
-                var props = this.ExtendedProperties;
+                var props = this.Properties;
                 if (props != null && props.ContainsKey(IsMouseOverKey))
                 {
                     var mouseOver = (bool)props[IsMouseOverKey];

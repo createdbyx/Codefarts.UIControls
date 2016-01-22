@@ -116,7 +116,7 @@ namespace Codefarts.UIControls
                 value = value > this.text.Length ? this.text.Length : value;
                 value = this.selectionStart + value > this.text.Length ? this.text.Length - this.selectionStart : value;
                 this.selectionLength = value;
-                this.ExtendedProperties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
+                this.Properties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
             }
         }
 
@@ -156,7 +156,7 @@ namespace Codefarts.UIControls
                 value = value > stringValue.Length ? stringValue.Length : value;
                 this.selectionStart = value;
                 this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;  
-                this.ExtendedProperties["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
+                this.Properties["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
             }
         }
 
