@@ -15,11 +15,8 @@
         /// <summary>
         /// Draws the specified control.
         /// </summary>
-        /// <param name="manager">The manager containing all control renderers.</param>
-        /// <param name="control">The control to be rendered.</param>
-        /// <param name="elapsedGameTime">The elapsed game time.</param>
-        /// <param name="totalGameTime">The total game time.</param>
-        void Draw(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
+        /// <param name="args">The rendering argument information.</param>
+        void Draw(ControlRenderingArgs args);
 
         /// <summary>
         /// Updates the specified control.

@@ -12,10 +12,10 @@
             }
         }
 
-        public override void DrawControl(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime)
+        public override void DrawControl(ControlRenderingArgs args)
         {
-            var customControl = control as CustomControl;
-            customControl.OnDraw(manager, elapsedGameTime, totalGameTime);
+            var customControl = args.Control as CustomControl;
+            customControl.OnDraw(args);
         }
 
         public override void Update(ControlRenderingArgs args)
