@@ -34,8 +34,35 @@ namespace Codefarts.UIControls
 
         protected DrawMode drawMode = DrawMode.Normal;
 
+        protected bool scrollAlwaysVisible;
+
+        private SelectionMode selectionMode;
+
+        private Func<object, string> displayMemberCallback;
+
         public event EventHandler<ListBoxItemInformationArgs> DrawItem;
         public event EventHandler<ListBoxItemInformationArgs> MeasureItem;
+
+        /// <summary>
+        /// Gets or sets the display member callback used to get a string that represents an item in the list.
+        /// </summary>
+        public Func<object, string> DisplayMemberCallback
+        {
+            get
+            {
+                return this.displayMemberCallback;
+            }
+
+            set
+            {
+                var changed = this.displayMemberCallback != value;
+                this.displayMemberCallback = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("DisplayMemberCallback");
+                }
+            }
+        }
 
         public virtual DrawMode DrawMode
         {
@@ -46,7 +73,12 @@ namespace Codefarts.UIControls
 
             set
             {
+                var changed = this.drawMode != value;
                 this.drawMode = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("DrawMode");
+                }
             }
         }
 
@@ -67,7 +99,29 @@ namespace Codefarts.UIControls
             }
         }
 
-        public SelectionMode SelectionMode { get; set; }
+        /// <summary>
+        /// Gets or sets the method in which items are selected in the <see cref="ListBox" />.
+        /// </summary>
+        /// <returns>
+        /// One of the <see cref="SelectionMode" /> values. The default is SelectionMode.One.
+        /// </returns>
+        public SelectionMode SelectionMode
+        {
+            get
+            {
+                return this.selectionMode;
+            }
+
+            set
+            {
+                var changed = this.selectionMode != value;
+                this.selectionMode = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("SelectionMode");
+                }
+            }
+        }
 
         public void SelectAll()
         {
@@ -83,6 +137,54 @@ namespace Codefarts.UIControls
         public void UnselectAll()
         {
             this.selectedItems.Clear();
+        }
+
+        #region Overrides of ScrollViewer
+
+        /// <summary>
+        /// Gets or sets the vertical scroll bar visibility.
+        /// </summary>    
+        public override ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get
+            {
+                return base.VerticalScrollBarVisibility;
+            }
+
+            set
+            {
+                base.VerticalScrollBarVisibility = this.scrollAlwaysVisible ? ScrollBarVisibility.Visible : value;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times.
+        /// </summary>
+        /// <returns>
+        /// true if the vertical scroll bar should always be displayed; otherwise, false. The default is false.
+        /// </returns>
+        public bool ScrollAlwaysVisible
+        {
+            get
+            {
+                return this.scrollAlwaysVisible;
+            }
+            set
+            {
+                var changed = this.scrollAlwaysVisible != value;
+                this.scrollAlwaysVisible = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("ScrollAlwaysVisible");
+                }
+
+                if (value)
+                {
+                    this.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+            }
         }
 
         public int SelectedIndex
@@ -104,7 +206,7 @@ namespace Codefarts.UIControls
                 }
             }
         }
-       
+
         /// <returns>
         /// The default <see cref="Size" /> of the control.
         /// </returns>
@@ -114,15 +216,13 @@ namespace Codefarts.UIControls
             {
                 return new Size(120, 96);
             }
-        }          
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBox"/> class.
         /// </summary>
-        public ListBox() 
+        public ListBox()
         {
-            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
-            this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.Items = new ItemsCollection();
             this.Items.CollectionChanged += this.ItemsCollectionChanged;
             this.selectedItems = new List<object>();
