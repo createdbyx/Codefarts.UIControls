@@ -24,14 +24,11 @@
         /// <summary>
         /// Updates the specified control.
         /// </summary>
-        /// <param name="manager">The manager containing all control renderers.</param>
-        /// <param name="control">The control to be updated.</param>
-        /// <param name="elapsedGameTime">The elapsed game time.</param>
-        /// <param name="totalGameTime">The total game time.</param>
+        /// <param name="args">The rendering argument information.</param>
         /// <remarks>
         /// <p>This method is provided if a control has is animated and it's animation state can be updated independently of drawing.</p>
         /// <p>Updates generally occur more frequently then draws.</p> 
         /// </remarks>
-        void Update(IControlRendererManager manager, Control control, float elapsedGameTime, float totalGameTime);
+        void Update(ControlRenderingArgs args);
     }
 }

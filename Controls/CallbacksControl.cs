@@ -5,7 +5,7 @@ namespace Codefarts.UIControls
     public class CallbacksControl : CustomControl
     {
         public Action<IControlRendererManager, float, float> Draw;
-        public Action<IControlRendererManager, float, float> Update;
+        public Action<ControlRenderingArgs> Update;
 
         public override void OnDraw(IControlRendererManager manager, float elapsedGameTime, float totalGameTime)
         {
@@ -16,12 +16,12 @@ namespace Codefarts.UIControls
             }
         }
 
-        public override void OnUpdate(IControlRendererManager manager, float elapsedGameTime, float totalGameTime)
+        public override void OnUpdate(ControlRenderingArgs args)
         {
             var action = this.Update;
             if (action != null)
             {
-                action(manager, elapsedGameTime, totalGameTime);
+                action(args);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace Codefarts.UIControls
     /// <summary>
     /// A single window control.
     /// </summary>
-    public class Window : Control
+    public class Window : ScrollViewer
     {
         /// <summary>
         /// The title for the window.
@@ -111,7 +111,7 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return new Size(300,300);
+                return new Size(300, 300);
             }
         }
     }

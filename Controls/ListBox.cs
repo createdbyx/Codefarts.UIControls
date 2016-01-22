@@ -104,12 +104,22 @@ namespace Codefarts.UIControls
                 }
             }
         }
+       
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(120, 96);
+            }
+        }          
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBox"/> class.
         /// </summary>
-        public ListBox()
-            : base()
+        public ListBox() 
         {
             this.HorizontialScrollBarVisibility = ScrollBarVisibility.Auto;
             this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;

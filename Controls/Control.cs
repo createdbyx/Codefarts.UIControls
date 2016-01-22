@@ -271,7 +271,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets the control collection containing the child controls.
         /// </summary>
-        public ControlsCollection Controls { get; private set; }
+        public virtual ControlsCollection Controls { get; private set; }
 
         /// <summary>
         /// Brings the control to the front of the z-order.

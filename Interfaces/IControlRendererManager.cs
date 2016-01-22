@@ -16,4 +16,4 @@ namespace Codefarts.UIControls
 
         void UpdateControl(Control control, float elapsedGameTime, float totalGameTime);
     }
-}
+}                       
