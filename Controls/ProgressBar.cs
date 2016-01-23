@@ -1,9 +1,5 @@
 namespace Codefarts.UIControls
-{
-#if UNITY_5
-    using UnityEngine;
-#endif
-
+{            
     public class ProgressBar : RangeBase
     {
         /// <summary>
