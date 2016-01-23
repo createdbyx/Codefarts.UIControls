@@ -332,10 +332,10 @@ namespace Codefarts.UIControls
         public static Color FromArgb(int argb)
         {
             var color = new Color();
-            color.A = (byte)((argb & -16777216) >> 24);
-            color.R = (byte)((argb & 16711680) >> 16);
-            color.G = (byte)((argb & 65280) >> 8);
-            color.B = (byte)(argb & 255);
+            color.A = (byte)((argb & -16777216) >> 24) / 255f;
+            color.R = (byte)((argb & 16711680) >> 16) / 255f;
+            color.G = (byte)((argb & 65280) >> 8) / 255f;
+            color.B = (byte)(argb & 255) / 255f;
             return color;
         }
 
@@ -462,7 +462,15 @@ namespace Codefarts.UIControls
         {
             var color = this;
             color.Clamp();
-            return "#" + (this.A * 255).ToString("X") + (this.R + 255).ToString("X") + (this.G * 255).ToString("X") + (this.B * 255).ToString("X");
+            var a = (byte)(this.A * 255);
+            var r = (byte)(this.R * 255);
+            var g = (byte)(this.G * 255);
+            var b = (byte)(this.B * 255);
+            var strA = a.ToString("X2");
+            var strR = r.ToString("X2");
+            var strG = g.ToString("X2");
+            var strB = b.ToString("X2");
+            return "#" + strA + strR + strG + strB;
         }
 
 
