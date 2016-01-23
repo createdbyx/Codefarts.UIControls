@@ -1,6 +1,10 @@
 namespace Codefarts.UIControls
 {
-    using UnityEngine;
+#if UNITY_5
+    using KeyCode = UnityEngine.KeyCode; 
+#else
+    using KeyCode = System.Windows.Forms.Keys;
+#endif
 
     /// <summary>Provides data for the <see cref="E:Control.KeyUp" /> and <see cref="E:Control.KeyDown" /> routed events, 
     /// as well as related attached and Preview events.</summary>

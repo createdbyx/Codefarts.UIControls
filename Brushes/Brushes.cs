@@ -22,22 +22,7 @@ namespace Codefarts.UIControls
         static Brushes()
         {
             cachedBrushes = new Dictionary<int, SolidColorBrush>();
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Color"/> from a ARGB integer.
-        /// </summary>
-        /// <param name="argb">The integer representing the ARGB color data.</param>
-        /// <returns>Returns a color.</returns>
-        private static Color FromArgb(int argb)
-        {
-            var color = new Color();
-            color.a = (byte)((argb & -16777216) >> 24);
-            color.r = (byte)((argb & 16711680) >> 16);
-            color.g = (byte)((argb & 65280) >> 8);
-            color.b = (byte)(argb & 255);
-            return color;
-        }
+        }   
 
         /// <summary>
         /// Creates a <see cref="SolidColorBrush"/> from a ARGB integer.
@@ -51,7 +36,7 @@ namespace Codefarts.UIControls
             {
                 if (!Brushes.cachedBrushes.TryGetValue(argb, out solidColorBrush))
                 {
-                    solidColorBrush = new SolidColorBrush(Brushes.FromArgb(argb), true);
+                    solidColorBrush = new SolidColorBrush(Color.FromArgb(argb), true);
                     Brushes.cachedBrushes[argb] = solidColorBrush;
                 }
             }

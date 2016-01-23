@@ -66,7 +66,7 @@ namespace Codefarts.UIControls
                 this.y = value;
             }
         }
-                 
+
         /// <summary>Initializes a new instance of the <see cref="Point" /> class with the specified coordinates.</summary>
         /// <param name="x">The horizontal position of the point. </param>
         /// <param name="y">The vertical position of the point. </param>
@@ -83,7 +83,7 @@ namespace Codefarts.UIControls
         public static Point Add(Point pt, Size sz)
         {
             return new Point(pt.X + sz.Width, pt.Y + sz.Height);
-        }             
+        }
 
         /// <summary>Specifies whether this <see cref="Point" /> contains the same coordinates as the specified <see cref="T:System.Object" />.</summary>
         /// <returns>This method returns true if <paramref name="obj" /> is a <see cref="Point" /> and has the same coordinates as this <see cref="Point" />.</returns>
@@ -117,7 +117,7 @@ namespace Codefarts.UIControls
         public static Point operator +(Point pt, Size sz)
         {
             return Add(pt, sz);
-        }      
+        }
 
         /// <summary>Compares two <see cref="Point" /> structures. The result specifies whether the values of the <see cref="Point.X" /> and <see cref="Point.Y" /> properties of the two <see cref="Point" /> structures are equal.</summary>
         /// <returns>true if the <see cref="Point.X" /> and <see cref="Point.Y" /> values of the left and right <see cref="Point" /> structures are equal; otherwise, false.</returns>
@@ -148,7 +148,7 @@ namespace Codefarts.UIControls
         public static Point operator -(Point pt, Size sz)
         {
             return Subtract(pt, sz);
-        }   
+        }
 
         /// <summary>Translates a <see cref="Point" /> by the negative of a specified size.</summary>
         /// <returns>The translated <see cref="Point" />.</returns>
@@ -157,7 +157,7 @@ namespace Codefarts.UIControls
         public static Point Subtract(Point pt, Size sz)
         {
             return new Point(pt.X - sz.Width, pt.Y - sz.Height);
-        }                                                      
+        }
 
         /// <summary>Converts this <see cref="Point" /> to a human readable string.</summary>
         /// <returns>A string that represents this <see cref="Point" />.</returns>         
