@@ -8,6 +8,37 @@ namespace Codefarts.UIControls
     public struct Color : IEquatable<Color>
     {
         /// <summary>
+        /// Represents a color that is null.
+        /// </summary>
+        public readonly static Color Empty;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Object"/> class.
+        /// </summary>
+        /// <param name="a">The red channel, <see cref="Color.A" />, of the new color.</param>
+        /// <param name="r">The red channel, <see cref="Color.R" />, of the new color.</param>
+        /// <param name="g">The green channel, <see cref="Color.G" />, of the new color.</param>
+        /// <param name="b">The blue channel, <see cref="Color.B" />, of the new color.</param>
+        public Color(float a, float r, float g, float b)
+        {
+            this.A = a;
+            this.B = b;
+            this.G = g;
+            this.R = r;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Object"/> class.
+        /// </summary>
+        /// <param name="r">The red channel, <see cref="Color.R" />, of the new color.</param>
+        /// <param name="g">The green channel, <see cref="Color.G" />, of the new color.</param>
+        /// <param name="b">The blue channel, <see cref="Color.B" />, of the new color.</param>
+        public Color(float r, float g, float b)
+            : this(1, r, g, b)
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the alpha channel value of the color.
         /// </summary>
         /// <returns>
@@ -58,6 +89,130 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Gets the hue-saturation-brightness (HSB) brightness value for this <see cref="Color" /> structure.
+        /// </summary>
+        /// <returns>
+        /// The brightness of this <see cref="Color" />. The brightness ranges from 0.0 through 1.0, where 0.0 represents black and 1.0 represents white.
+        /// </returns>
+        public float GetBrightness()
+        {
+            var r = this.R;
+            var g = this.G;
+            var b = this.B;
+            var single = r;
+            var single1 = r;
+            if (g > single)
+            {
+                single = g;
+            }
+            if (b > single)
+            {
+                single = b;
+            }
+            if (g < single1)
+            {
+                single1 = g;
+            }
+            if (b < single1)
+            {
+                single1 = b;
+            }
+            return (single + single1) / 2f;
+        }
+
+        /// <summary>
+        /// Gets the hue-saturation-brightness (HSB) hue value, in degrees, for this <see cref="Color" /> structure.
+        /// </summary>
+        /// <returns>
+        /// The hue, in degrees, of this <see cref="Color" />. The hue is measured in degrees, ranging from 0.0 through 360.0, in HSB color space.
+        /// </returns>
+        public float GetHue()
+        {
+            var r = this.R;
+            var g = this.G;
+            var b = this.B;
+            if (Math.Abs(r - g) < float.Epsilon && Math.Abs(g - b) < float.Epsilon)
+            {
+                return 0f;
+            }
+            var single = 0f;
+            var single1 = r;
+            var single2 = r;
+            if (g > single1)
+            {
+                single1 = g;
+            }
+            if (b > single1)
+            {
+                single1 = b;
+            }
+            if (g < single2)
+            {
+                single2 = g;
+            }
+            if (b < single2)
+            {
+                single2 = b;
+            }
+            var single3 = single1 - single2;
+            if (Math.Abs(r - single1) < float.Epsilon)
+            {
+                single = (g - b) / single3;
+            }
+            else if (Math.Abs(g - single1) < float.Epsilon)
+            {
+                single = 2f + (b - r) / single3;
+            }
+            else if (Math.Abs(b - single1) < float.Epsilon)
+            {
+                single = 4f + (r - g) / single3;
+            }
+            single = single * 60f;
+            if (single < 0f)
+            {
+                single = single + 360f;
+            }
+            return single;
+        }
+
+        /// <summary>
+        /// Gets the hue-saturation-brightness (HSB) saturation value for this <see cref="Color" /> structure.
+        /// </summary>
+        /// <returns>
+        /// The saturation of this <see cref="Color" />. The saturation ranges from 0.0 through 1.0, where 0.0 is grayscale and 1.0 is the most saturated.
+        /// </returns>
+        public float GetSaturation()
+        {
+            var r = this.R;
+            var g = this.G;
+            var b = this.B;
+            var single = 0f;
+            var single1 = r;
+            var single2 = r;
+            if (g > single1)
+            {
+                single1 = g;
+            }
+            if (b > single1)
+            {
+                single1 = b;
+            }
+            if (g < single2)
+            {
+                single2 = g;
+            }
+            if (b < single2)
+            {
+                single2 = b;
+            }
+            if (Math.Abs(single1 - single2) > float.Epsilon)
+            {
+                single = (single1 + single2) / 2f > 0.5 ? (single1 - single2) / (2f - single1 - single2) : (single1 - single2) / (single1 + single2);
+            }
+            return single;
+        }
+
+        /// <summary>
         /// Sets the color channels of the color to within the gamut of 0 to 1, if they are outside that range. 
         /// </summary>
         public void Clamp()
@@ -98,7 +253,7 @@ namespace Codefarts.UIControls
                 this.B = (this.B > 1f ? 1f : this.B);
             }
         }
-        
+
         /// <summary>Tests whether two <see cref="Color" /> structures are identical. </summary>
         /// <returns>true if <paramref name="color1" /> and <paramref name="color2" /> are exactly identical; otherwise, false.</returns>
         /// <param name="color1">The first <see cref="Color" /> structure to compare.</param>
@@ -129,6 +284,25 @@ namespace Codefarts.UIControls
             return this == (Color)o;
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A 32-bit signed integer that is the hash code for this instance.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var value = this;
+                var hashCode = value.A.GetHashCode();
+                hashCode = (hashCode * 397) ^ value.B.GetHashCode();
+                hashCode = (hashCode * 397) ^ value.G.GetHashCode();
+                hashCode = (hashCode * 397) ^ value.R.GetHashCode();
+                return hashCode;
+            }
+        }
+
         /// <summary>Creates a new <see cref="Color" /> structure by using the specified sRGB alpha channel and color channel values. </summary>
         /// <returns>A <see cref="Color" /> structure with the specified values.</returns>
         /// <param name="a">The alpha channel, <see cref="Color.A" />, of the new color.</param>
@@ -139,7 +313,7 @@ namespace Codefarts.UIControls
         {
             return new Color() { A = a / 255f, R = r / 255f, G = g / 255f, B = b / 255f };
         }
-         
+
         /// <summary>Creates a new <see cref="Color" /> structure by using the specified color channel values. </summary>
         /// <returns>A <see cref="Color" /> structure with the specified values and an alpha channel value of 255.</returns>
         /// <param name="r">The red channel, <see cref="Color.R" />, of the new color.</param>
@@ -149,7 +323,7 @@ namespace Codefarts.UIControls
         {
             return Color.FromArgb(255, r, g, b);
         }
-        
+
         /// <summary>
         /// Creates a <see cref="Color"/> from a ARGB integer.
         /// </summary>
@@ -164,7 +338,7 @@ namespace Codefarts.UIControls
             color.B = (byte)(argb & 255);
             return color;
         }
-         
+
         public bool IsClose(Color color)
         {
             var value = this.AreClose(this.A, color.A);
@@ -254,12 +428,12 @@ namespace Codefarts.UIControls
         public static Color operator *(Color color, float coefficient)
         {
             var newColor = new Color()
-                {
-                    A = color.A * coefficient,
-                    R = color.R * coefficient,
-                    G = color.G * coefficient,
-                    B = color.B * coefficient
-                };
+            {
+                A = color.A * coefficient,
+                R = color.R * coefficient,
+                G = color.G * coefficient,
+                B = color.B * coefficient
+            };
 
             return newColor;
         }
@@ -272,7 +446,7 @@ namespace Codefarts.UIControls
         {
             return new Color() { A = color1.A - color2.A, R = color1.R - color2.R, G = color1.G - color2.G, B = color1.B - color2.B };
         }
-           
+
         /// <summary>Subtracts a <see cref="Color" /> structure from a <see cref="Color" /> structure. </summary>
         /// <returns>A new <see cref="Color" /> structure whose color values are the results of the subtraction operation.</returns>
         /// <param name="color1">The <see cref="Color" /> structure to be subtracted from.</param>
@@ -281,7 +455,7 @@ namespace Codefarts.UIControls
         {
             return color1 - color2;
         }
-                        
+
         /// <summary>Creates a string representation of the color using the ScRGB channels. </summary>
         /// <returns>The string representation of the color.</returns>
         public override string ToString()
@@ -290,5 +464,18 @@ namespace Codefarts.UIControls
             color.Clamp();
             return "#" + (this.A * 255).ToString("X") + (this.R + 255).ToString("X") + (this.G * 255).ToString("X") + (this.B * 255).ToString("X");
         }
+
+
+#if UNITY_5
+        public static implicit operator UnityEngine.Color(Color color)
+        {
+            return new UnityEngine.Color(color.R, color.G, color.B, color.A);
+        }
+
+        public static implicit operator Color(UnityEngine.Color color)
+        {
+            return new Color(color.a, color.b, color.g, color.r);
+        }    
+#endif
     }
 }
