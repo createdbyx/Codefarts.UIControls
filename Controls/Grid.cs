@@ -72,7 +72,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the grid rows.
         /// </summary>    
-        /// <exception cref="System.ArgumentOutOfRangeException">value;Rows must be greater then 0.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">value;Rows must be greater then 0.</exception>
         public virtual int Rows
         {
             get
@@ -82,25 +82,20 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (this.rows == value)
-                {
-                    return;
-                }
-
-                if (value < 1)
-                {
-                    throw new ArgumentOutOfRangeException("value", "Rows must be greater then 0.");
-                }
-
+                value = value < 1 ? 1 : value;
+                var changed = this.rows == value;
                 this.rows = value;
-                this.OnPropertyChanged("Rows");
+                if (changed)
+                {
+                    this.OnPropertyChanged("Rows");
+                }
             }
         }
 
         /// <summary>
         /// Gets or sets the grid columns.
         /// </summary>     
-        /// <exception cref="System.ArgumentOutOfRangeException">value;Columns must be greater then 0.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">value;Columns must be greater then 0.</exception>
         public virtual int Columns
         {
             get
@@ -109,18 +104,13 @@ namespace Codefarts.UIControls
             }
             set
             {
-                if (this.columns == value)
-                {
-                    return;
-                }
-
-                if (value < 1)
-                {
-                    throw new ArgumentOutOfRangeException("value", "Columns must be greater then 0.");
-                }
-
+                value = value < 1 ? 1 : value;
+                var changed = this.columns == value;
                 this.columns = value;
-                this.OnPropertyChanged("Rows");
+                if (changed)
+                {
+                    this.OnPropertyChanged("Columns");
+                }
             }
         }
       
@@ -140,7 +130,7 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="rows">The number of grid rows.</param>
         /// <param name="columns">The number of grid columns.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// value;Columns must be greater then 0.
         /// or
         /// value;Rows must be greater then 0.
