@@ -119,6 +119,11 @@ namespace Codefarts.UIControls
         private VerticalAlignment verticalContentAlignment;
 
         /// <summary>
+        /// The value for the <see cref="Opacity"/> property.
+        /// </summary>
+        private float opacity;
+
+        /// <summary>
         /// The value for the <see cref="Parent"/> property.
         /// </summary>
         private Control parent;
@@ -132,6 +137,11 @@ namespace Codefarts.UIControls
         /// The maximum size for the control.
         /// </summary>
         private Size maxSize;
+
+        /// <summary>
+        /// The value for the <see cref="AutoSize"/> property.
+        /// </summary>
+        private bool autoSize;
 
         #endregion
 
@@ -266,7 +276,22 @@ namespace Codefarts.UIControls
         /// <returns>
         /// true if enabled; otherwise, false.
         /// </returns>
-        public virtual bool AutoSize { get; set; }
+        public virtual bool AutoSize
+        {
+            get
+            {
+                return this.autoSize;
+            }
+            set
+            {
+                var changed = this.autoSize != value;
+                this.autoSize = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("AutoSize");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the control collection containing the child controls.
@@ -316,6 +341,31 @@ namespace Codefarts.UIControls
                     }
 
                     this.parent.Controls.Remove(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the opacity factor applied to the entire <see cref="Control" /> when it is rendered in the user interface (UI).  This is a dependency property.
+        /// </summary>
+        /// <returns>
+        /// The opacity factor. Default opacity is 1.0. Expected values are between 0.0 and 1.0.
+        /// </returns>
+        public virtual float Opacity
+        {
+            get
+            {
+                return this.opacity;
+            }
+            set
+            {
+                value = Math.Min(1, value);
+                value = Math.Max(0, value);
+                var changed = Math.Abs(this.opacity - value) > float.Epsilon;
+                this.opacity = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Opacity");
                 }
             }
         }
@@ -417,7 +467,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets the extended properties collection.
         /// </summary>
-        public virtual IDictionary<string,object> Properties
+        public virtual IDictionary<string, object> Properties
         {
             get
             {
@@ -515,6 +565,38 @@ namespace Codefarts.UIControls
                 {
                     this.OnPropertyChanged("HorizontalContentAlignment");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this control is visible in the user interface (UI).
+        /// </summary>
+        /// <returns>
+        /// true if the element is visible; otherwise, false.
+        /// </returns>
+        /// <remarks>This property ensures that the control is potentially visible on screen by walking up the parent hierarchy and ensuring
+        /// that all parents are visible as well.</remarks>
+        public virtual bool IsVisible
+        {
+            get
+            {
+                if (this.Parent == null)
+                {
+                    return this.Visibility == Visibility.Visible;
+                }
+
+                var control = this.Parent;
+                while (control != null)
+                {
+                    if (control.Visibility != Visibility.Visible)
+                    {
+                        return false;
+                    }
+
+                    control = control.Parent;
+                }
+
+                return true;
             }
         }
 
