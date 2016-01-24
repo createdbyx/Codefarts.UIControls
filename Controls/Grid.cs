@@ -123,6 +123,17 @@ namespace Codefarts.UIControls
                 this.OnPropertyChanged("Rows");
             }
         }
+      
+        /// <returns>
+        /// The default <see cref="Size" /> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(200, 100);
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
