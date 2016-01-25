@@ -241,8 +241,8 @@ namespace Codefarts.UIControls
                 case NotifyCollectionChangedAction.Replace:
                     break;
 
-                case NotifyCollectionChangedAction.Move:
-                    break;
+                //case NotifyCollectionChangedAction.Move:
+                //    break;
 
                 case NotifyCollectionChangedAction.Reset:
                     this.selectedItems.Clear();
