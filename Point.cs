@@ -7,8 +7,12 @@ namespace Codefarts.UIControls
     using UnityEngine;
 #endif
 
-    /// <summary>Represents an ordered pair of floating-point x- and y-coordinates that defines a point in a two-dimensional plane.</summary>
+    /// <summary>
+    /// Represents an ordered pair of floating-point x- and y-coordinates that defines a point in a two-dimensional plane.
+    /// </summary>
+#if !(SILVERLIGHT || WINDOWS_PHONE || NETFX_CORE || PORTABLE)
     [Serializable]
+#endif
     public struct Point
     {
         /// <summary>Represents a new instance of the <see cref="Point" /> class with member data left uninitialized.</summary>              

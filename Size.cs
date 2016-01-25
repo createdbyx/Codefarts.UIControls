@@ -8,7 +8,9 @@
 #endif
 
     /// <summary>Stores an ordered pair of integers, which specify a <see cref="Size.Height" /> and <see cref="Size.Width" />.</summary>
-    [Serializable]
+#if !(SILVERLIGHT || WINDOWS_PHONE || NETFX_CORE || PORTABLE)
+  [Serializable]
+#endif
     public struct Size
     {
         /// <summary>Gets a <see cref="Size" /> structure that has a <see cref="Size.Height" /> and <see cref="Size.Width" /> value of 0. </summary>

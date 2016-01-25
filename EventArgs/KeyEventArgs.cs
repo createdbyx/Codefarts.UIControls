@@ -2,13 +2,17 @@ namespace Codefarts.UIControls
 {
 #if UNITY_5
     using KeyCode = UnityEngine.KeyCode; 
-#else
+#endif
+#if WINDOWS
     using KeyCode = System.Windows.Forms.Keys;
+#endif
+#if PORTABLE
+    using KeyCode = System.Int32; //System.Windows.Forms.Keys;
 #endif
 
     /// <summary>Provides data for the <see cref="E:Control.KeyUp" /> and <see cref="E:Control.KeyDown" /> routed events, 
     /// as well as related attached and Preview events.</summary>
-    public class KeyEventArgs : KeyboardEventArgs
+    public class KeyEventArgs  : KeyboardEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyEventArgs"/> class.
@@ -43,7 +47,7 @@ namespace Codefarts.UIControls
         public bool IsUp { get; private set; }
 
         /// <summary>Gets the keyboard key associated with the event. </summary>
-        /// <returns>The <see cref="T:System.Windows.Input.Key" /> referenced by the event.</returns>
+        /// <returns>The key referenced by the event.</returns>
         public KeyCode Key { get; private set; }   
     }
 }
