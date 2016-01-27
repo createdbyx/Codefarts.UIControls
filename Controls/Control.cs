@@ -11,6 +11,7 @@ namespace Codefarts.UIControls
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
 
     /// <summary>
     /// The base control implementation.
@@ -96,7 +97,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The horizontal content alignment property value.
         /// </summary>
-        private HorizontalAlignment horizontalContentAlignment;
+        private HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Left;
 
         /// <summary>
         /// The name property value.
@@ -116,12 +117,12 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The vertical content alignment property value.
         /// </summary>
-        private VerticalAlignment verticalContentAlignment;
+        private VerticalAlignment verticalContentAlignment = VerticalAlignment.Top;
 
         /// <summary>
         /// The value for the <see cref="Opacity"/> property.
         /// </summary>
-        private float opacity;
+        private float opacity = 1;
 
         /// <summary>
         /// The value for the <see cref="Parent"/> property.
@@ -1120,6 +1121,43 @@ namespace Codefarts.UIControls
             {
                 handler(this, e);
             }
+        }
+
+        /// <summary>
+        /// Builds a <see cref="Markup"/> object that represent the state of the control.
+        /// </summary>
+        /// <returns>A <see cref="Markup"/> object containing the relavent control information.</returns>
+        /// <remarks>
+        /// <p>The returned <see cref="Markup"/> object represents </p>
+        /// </remarks>
+        public virtual Markup ToMarkup()
+        {
+            var markup = new Markup();
+            markup.Name = this.GetType().FullName;
+            markup.SetProperty("Name", this.Name != null, this.Name);
+            markup.SetProperty("Location", this.Location != Point.Empty, this.Location);
+            markup.SetProperty("Size", this.Size != this.DefaultSize, this.Size);
+            markup.SetProperty("MinimumSize", this.MinimumSize != Size.Empty, this.MinimumSize);
+            markup.SetProperty("MaximumSize", this.MaximumSize != Size.Empty, this.MaximumSize);
+            markup.SetProperty("Opacity", Math.Abs(this.Opacity - 1) > float.Epsilon, this.Opacity);
+            markup.SetProperty("Foreground", this.Foreground != null, this.Foreground);
+            markup.SetProperty("Background", this.Background != null, this.Background);
+            markup.SetProperty("Font", this.Font != null, this.Font);
+            markup.SetProperty("AutoSize", this.AutoSize, this.AutoSize);
+            markup.SetProperty("ClipToBounds", !this.ClipToBounds, this.ClipToBounds);
+            markup.SetProperty("IsEnabled", !this.IsEnabled, this.IsEnabled);
+            markup.SetProperty("Visibility", this.Visibility != Visibility.Visible, this.Visibility);
+            markup.SetProperty("HorizontalAlignment", this.HorizontalAlignment != HorizontalAlignment.Left, this.HorizontalAlignment);
+            markup.SetProperty("HorizontalContentAlignment", this.HorizontalContentAlignment != HorizontalAlignment.Left, this.HorizontalContentAlignment);
+            markup.SetProperty("VerticalAlignment", this.VerticalAlignment != VerticalAlignment.Top, this.VerticalAlignment);
+            markup.SetProperty("VerticalContentAlignment", this.VerticalContentAlignment != VerticalAlignment.Top, this.VerticalContentAlignment);
+            markup.SetProperty("ToolTip", this.ToolTip != null, this.ToolTip);
+            markup.SetProperty("Tag", this.Tag != null, this.Tag);
+            markup.SetProperty("DataContext", this.DataContext != null, this.DataContext);
+            var props = this.Properties;
+            markup.SetProperty("Properties", props != null && props.Count > 0, new Dictionary<string, object>(this.properties));
+            markup.Children = this.Controls.Select(x => x.ToMarkup()).ToList();
+            return markup;
         }
 
         #endregion

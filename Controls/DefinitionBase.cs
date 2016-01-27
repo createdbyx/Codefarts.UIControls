@@ -138,5 +138,16 @@ namespace Codefarts.UIControls
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public virtual Markup ToMarkup()
+        {
+            var markup = new Markup();
+            markup.Name = this.GetType().FullName;
+            markup.SetProperty("ToolTip", this.ToolTip != null, this.ToolTip);
+            markup.SetProperty("Tag", this.Tag != null, this.Tag);
+            markup.SetProperty("Name", this.Name != null, this.Name);
+            markup.SetProperty("IsEnabled", !this.IsEnabled, this.IsEnabled);
+            return markup;
+        }
     }
 }

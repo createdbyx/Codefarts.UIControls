@@ -160,5 +160,20 @@ namespace Codefarts.UIControls
             : this(1, 1)
         {
         }
+
+        #region Overrides of Control
+
+        public override Markup ToMarkup()
+        {
+            var markup= base.ToMarkup();
+            markup.Name = this.GetType().FullName;
+            markup.SetProperty("Rows", this.Rows != 1, this.Rows);
+            markup.SetProperty("Columns", this.Columns != 1, this.Columns);
+            markup.SetProperty("RowDefinitions", this.RowDefinitions.Count != 0, this.RowDefinitions.ToMarkup());
+            markup.SetProperty("ColumnDefinitions", this.ColumnDefinitions.Count != 0, this.ColumnDefinitions.ToMarkup());
+            return markup;
+        }
+
+        #endregion
     }
 }

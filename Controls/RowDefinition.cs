@@ -120,5 +120,16 @@ namespace Codefarts.UIControls
                 }
             }
         }
+
+        public override Markup ToMarkup()
+        {
+            var markup = base.ToMarkup();
+            markup.Name = this.GetType().FullName;
+            markup.SetProperty("Offset", Math.Abs(this.Offset - 1) > float.Epsilon, this.Offset);
+            markup.SetProperty("Height", Math.Abs(this.Height - 1) > float.Epsilon, this.Height);
+            markup.SetProperty("MaxHeight", Math.Abs(this.MaxHeight) > float.Epsilon, this.MaxHeight);
+            markup.SetProperty("MinHeight", Math.Abs(this.MinHeight) > float.Epsilon, this.MinHeight);
+            return markup;
+        }
     }
 }
