@@ -12,7 +12,7 @@ namespace Codefarts.UIControls
     /// <summary>
     /// Arranges child elements into a single line that can be oriented horizontally or vertically.
     /// </summary>
-    public class StackPanel : Control
+    public class StackPanel : Panel
     {
         /// <summary>
         /// The orientation value used by the <see cref="Orientation"/> property.
@@ -34,6 +34,16 @@ namespace Codefarts.UIControls
         /// </summary>
         public StackPanel()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StackPanel" /> class.
+        /// </summary>
+        /// <param name="name">The name for the control.</param>
+        /// <param name="orientation">The orientation value that indicates the dimension by which child elements are stacked.</param>
+        public StackPanel(string name, Orientation orientation):this(orientation)
+        {
+            this.name = name;
         }
 
         /// <summary>

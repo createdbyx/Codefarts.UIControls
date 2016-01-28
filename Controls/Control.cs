@@ -102,7 +102,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The name property value.
         /// </summary>
-        private string name;
+        protected string name;
 
         /// <summary>
         /// The tag property value.

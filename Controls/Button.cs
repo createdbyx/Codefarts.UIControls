@@ -43,6 +43,16 @@ namespace Codefarts.UIControls
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Button"/> class.
+        /// </summary>
+        /// <param name="name">The name of the button.</param>
+        /// <param name="text">The text for the button.</param>
+        public Button(string name, string text):this(text)
+        {
+            this.name = name;
+        }
+
         #region Public Events
 
         /// <summary>

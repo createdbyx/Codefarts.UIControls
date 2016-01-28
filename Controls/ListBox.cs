@@ -228,6 +228,15 @@ namespace Codefarts.UIControls
             this.selectedItems = new List<object>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        public ListBox(string name)
+        {
+            this.name = name;
+        }
+
         private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
