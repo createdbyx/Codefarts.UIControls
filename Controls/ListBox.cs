@@ -14,11 +14,29 @@ namespace Codefarts.UIControls
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-
+                                              
     public class ListBox : ScrollViewer
     {
         public event EventHandler SelectionChanged;
-        public ItemsCollection Items { get; internal set; }
+        protected ItemsCollection items;
+
+        public virtual ItemsCollection Items
+        {
+            get
+            {
+                return this.items;
+            }
+
+            internal set
+            {
+                var changed = this.items!=value;
+                this.items = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Items");
+                }
+            }
+        }
 
         public IList SelectedItems
         {
@@ -39,6 +57,7 @@ namespace Codefarts.UIControls
         private SelectionMode selectionMode;
 
         private Func<object, string> displayMemberCallback;
+
 
         public event EventHandler<ListBoxItemInformationArgs> DrawItem;
         public event EventHandler<ListBoxItemInformationArgs> MeasureItem;
@@ -223,8 +242,8 @@ namespace Codefarts.UIControls
         /// </summary>
         public ListBox()
         {
-            this.Items = new ItemsCollection();
-            this.Items.CollectionChanged += this.ItemsCollectionChanged;
+            this.items = new ItemsCollection();
+            this.items.CollectionChanged += this.ItemsCollectionChanged;
             this.selectedItems = new List<object>();
         }
 
@@ -232,7 +251,7 @@ namespace Codefarts.UIControls
         /// Initializes a new instance of the <see cref="ListBox"/> class.
         /// </summary>
         /// <param name="name">The name of the control.</param>
-        public ListBox(string name)
+        public ListBox(string name) : this()
         {
             this.name = name;
         }

@@ -41,9 +41,18 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="name">The name for the control.</param>
         /// <param name="orientation">The orientation value that indicates the dimension by which child elements are stacked.</param>
-        public StackPanel(string name, Orientation orientation):this(orientation)
+        public StackPanel(string name, Orientation orientation) : this(orientation)
         {
             this.name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StackPanel" /> class.
+        /// </summary>
+        /// <param name="name">The name for the control.</param>
+        public StackPanel(string name) : this()
+        {
+            this.Name = name;
         }
 
         /// <summary>

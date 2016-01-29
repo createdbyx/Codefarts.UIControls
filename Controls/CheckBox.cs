@@ -8,7 +8,7 @@
 */
 
 namespace Codefarts.UIControls
-{
+{                                           
     /// <summary>
     /// Represents a <see cref="CheckBox" />.
     /// </summary>
@@ -59,6 +59,16 @@ namespace Codefarts.UIControls
             : this()
         {
             this.text = text;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckBox"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        /// <param name="text">The text to display.</param>
+        public CheckBox(string name, string text):this(text)
+        {
+            this.name = name;
         }
 
         /// <summary>
@@ -147,7 +157,7 @@ namespace Codefarts.UIControls
                 }
             }
         }
-         
+
         /// <summary>Gets the default size of the control.</summary>
         /// <returns>The default size.</returns>
         protected override Size DefaultSize

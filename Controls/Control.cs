@@ -1123,6 +1123,21 @@ namespace Codefarts.UIControls
             }
         }
 
+        #region Overrides of Object
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format("{0}({1})", string.IsNullOrEmpty(this.name) ? string.Empty : this.name + " ", this.GetType().Name);
+        }
+
+        #endregion
+
         /// <summary>
         /// Builds a <see cref="Markup"/> object that represent the state of the control.
         /// </summary>
