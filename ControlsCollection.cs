@@ -32,6 +32,11 @@ namespace Codefarts.UIControls
         /// </remarks>
         protected override void InsertItem(int index, Control item)
         {
+            if (item == null)
+            {
+                return;
+            }
+
             if (item.Parent == this.owner)
             {
                 item.SendToBack();
@@ -46,6 +51,21 @@ namespace Codefarts.UIControls
             base.InsertItem(index, item);
             item.AssignParent(this.owner);
         }
+
+        #region Overrides of ObservableCollection<Control>
+
+        /// <summary>Removes all items from the collection.</summary>
+        protected override void ClearItems()
+        {
+            while (this.Count > 0)
+            {
+                this.RemoveItem(0);
+            }
+
+            base.ClearItems();
+        }
+
+        #endregion
 
         /// <summary>Removes the item at the specified index of the collection.</summary>
         /// <param name="index">The zero-based index of the element to remove.</param>
@@ -120,7 +140,7 @@ namespace Codefarts.UIControls
 
                 this.Copy(this, num1, this, num2, num);
             }
-            this[toIndex] = element;  
+            this[toIndex] = element;
         }
 
         private void Copy(ControlsCollection sourceList, int sourceIndex, ControlsCollection destinationList, int destinationIndex, int length)
