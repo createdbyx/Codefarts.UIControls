@@ -12,17 +12,17 @@
         /// The base tile is drawn but not repeated. The remaining area is transparent 
         /// </summary>
         None = 0,
-       
+
         /// <summary>
         /// The same as <see cref="TileMode.Tile" /> except that alternate columns of tiles are flipped horizontally. The base tile itself is not flipped. 
         /// </summary>
         FlipX = 1,
-      
+
         /// <summary>
         /// The same as <see cref="TileMode.Tile" /> except that alternate rows of tiles are flipped vertically. The base tile itself is not flipped. 
         /// </summary>
         FlipY = 2,
-      
+
         /// <summary>
         /// The combination of <see cref="TileMode.FlipX" /> and <see cref="TileMode.FlipY" />. The base tile itself is not flipped. 
         /// </summary>

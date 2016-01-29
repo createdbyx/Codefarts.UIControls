@@ -1,6 +1,6 @@
 ﻿namespace Codefarts.UIControls.Interfaces
 {
-    using System;
+  //  using System;
 
     /// <summary>
     /// Provides a interface for drawing and updating controls.
@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the type of the control that the renderer is designed to render.
         /// </summary> 
-        Type ControlType { get; }
+       // Type ControlType { get; }
 
         /// <summary>
         /// Draws the specified control.
