@@ -1,5 +1,6 @@
 namespace Codefarts.UIControls.Controls
 {
+    using System;
     using System.IO;
 
     using Codefarts.UIControls;
@@ -32,7 +33,7 @@ namespace Codefarts.UIControls.Controls
         /// <summary>
         /// The label that is used to display text above the text field.
         /// </summary>
-        private Label lblText;
+        private TextBlock lblText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasePathTextField"/> class.
@@ -49,7 +50,7 @@ namespace Codefarts.UIControls.Controls
         /// </summary>
         protected BasePathTextField() : base(Orientation.Vertical)
         {
-            this.lblText = new Label();
+            this.lblText = new TextBlock();
             this.Controls.Add(this.lblText);
             this.container = new StackPanel(Orientation.Horizontial);
             this.txtPath = new TextBox();
@@ -95,7 +96,11 @@ namespace Codefarts.UIControls.Controls
         /// <returns>true if the path in the text box is valid; otherwise false.</returns>
         public virtual bool SelectedPathIsValid()
         {
+#if PORTABLE
+            throw new NotImplementedException();
+#else
             return this.FolderSelect ? Directory.Exists(this.Path) : File.Exists(this.Path);
+#endif
         }
 
         /// <summary>
@@ -123,7 +128,7 @@ namespace Codefarts.UIControls.Controls
         /// <summary>
         /// Gets or sets the laber header text.
         /// </summary>
-        /// <remarks>Is just a wrapper for <see cref="lblText"/> <see cref="UIControls.Label.Text"/> property.</remarks>
+        /// <remarks>Is just a wrapper for <see cref="lblText"/> <see cref="TextBlock.Text"/> property.</remarks>
         public virtual string Label
         {
             get

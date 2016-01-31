@@ -11,7 +11,7 @@ namespace Codefarts.GridMapGame.EditorTools
 
         protected Slider slider;
 
-        protected Label label;
+        protected TextBlock TextBlock;
 
         protected StackPanel container;
         public event EventHandler<PropertyChangedEventArgs<float>> ValueChanged;
@@ -48,12 +48,12 @@ namespace Codefarts.GridMapGame.EditorTools
         {
             get
             {
-                return this.label.Text;
+                return this.TextBlock.Text;
             }
 
             set
             {
-                this.label.Text = value;
+                this.TextBlock.Text = value;
             }
         }
 
@@ -108,8 +108,8 @@ namespace Codefarts.GridMapGame.EditorTools
             this.slider.ValueChanged += this.SliderValueChanged;
             this.textField.TextChanged += this.TextFieldTextChanged;
             this.textField.ValueChanged += this.TextFieldValueChanged;
-            this.label = new Label();
-            this.container.Controls.Add(this.label);
+            this.TextBlock = new TextBlock();
+            this.container.Controls.Add(this.TextBlock);
             this.container.Controls.Add(this.textField);
             this.container.Controls.Add(this.slider);
         }

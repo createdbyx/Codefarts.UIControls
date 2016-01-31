@@ -34,6 +34,8 @@ namespace Codefarts.UIControls
         /// </summary>
         public StackPanel()
         {
+            this.HorizontialScrollBarVisibility = ScrollBarVisibility.Hidden;
+            this.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
         }
 
         /// <summary>

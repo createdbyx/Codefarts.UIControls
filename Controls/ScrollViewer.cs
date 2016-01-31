@@ -194,5 +194,14 @@ namespace Codefarts.UIControls
             this.horizontialScrollBarVisibility = ScrollBarVisibility.Auto;
             this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScrollViewer"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        public ScrollViewer(string name)
+        {
+            this.name = name;
+        }
     }
 }
