@@ -184,7 +184,7 @@ namespace Codefarts.UIControls
             foreach (var control in this.Controls)
             {
                 var pos = control.Location;
-                var size = control.Size;
+                var controlSize = control.Size;
                 switch (control.HorizontalAlignment)
                 {
                     case HorizontalAlignment.Left:
@@ -199,7 +199,7 @@ namespace Codefarts.UIControls
                         break;
 
                     case HorizontalAlignment.Stretch:
-                        size.Width += this.Width - this.previousSize.Width;
+                        controlSize.Width += this.Width - this.previousSize.Width;
                         break;
                 }
 
@@ -217,11 +217,11 @@ namespace Codefarts.UIControls
                         break;
 
                     case VerticalAlignment.Stretch:
-                        size.Height += this.Height - this.previousSize.Height;
+                        controlSize.Height += this.Height - this.previousSize.Height;
                         break;
                 }
 
-                control.SetBounds(pos.X, pos.Y, size.Width, size.Height);
+                control.SetBounds(pos.X, pos.Y, controlSize.Width, controlSize.Height);
             }
         }
 
@@ -343,6 +343,8 @@ namespace Codefarts.UIControls
 
                     this.parent.Controls.Remove(this);
                 }
+
+                // this.SetSizeInternal(this.Size);
             }
         }
 
@@ -908,56 +910,145 @@ namespace Codefarts.UIControls
                     return;
                 }
 
-                var widthChanged = Math.Abs(this.size.Width - value.Width) > float.Epsilon;
-                var heightChanged = Math.Abs(this.size.Height - value.Height) > float.Epsilon;
+                this.SetSizeInternal(value);
+            }
+        }
 
-                this.previousSize = this.size;
-                this.size = value;
-                this.OnPropertyChanged("Size");
-                if (widthChanged)
+        private void SetSizeInternal(Size value)
+        {
+            var widthChanged = Math.Abs(this.size.Width - value.Width) > float.Epsilon;
+            var heightChanged = Math.Abs(this.size.Height - value.Height) > float.Epsilon;
+
+            this.previousSize = this.size;
+            this.size = value;
+            this.OnPropertyChanged("Size");
+            if (widthChanged)
+            {
+                this.OnPropertyChanged("Width");
+                switch (this.horizontalAlignment)
                 {
-                    this.OnPropertyChanged("Width");
-                    switch (this.horizontalAlignment)
-                    {
-                        case HorizontalAlignment.Left:
-                        case HorizontalAlignment.Center:
-                            this.OnPropertyChanged("Right");
-                            break;
+                    case HorizontalAlignment.Left:
+                    case HorizontalAlignment.Center:
+                        this.OnPropertyChanged("Right");
+                        break;
 
-                        case HorizontalAlignment.Right:
-                            this.Left -= this.size.Width - this.previousSize.Width;
-                            break;
+                    case HorizontalAlignment.Right:
+                        this.Left -= this.size.Width - this.previousSize.Width;
+                        break;
 
-                        case HorizontalAlignment.Stretch:
-                            // do nothing
-                            break;
-                    }
+                    case HorizontalAlignment.Stretch:
+                        if (Math.Abs(this.Width) < float.Epsilon && this.Parent != null)
+                        {
+                            this.Width = this.Parent.Width;
+                        }
+                        break;
                 }
+            }
 
-                if (heightChanged)
+            if (heightChanged)
+            {
+                this.OnPropertyChanged("Height");
+                switch (this.verticalAlignment)
                 {
-                    this.OnPropertyChanged("Height");
-                    switch (this.verticalAlignment)
-                    {
-                        case VerticalAlignment.Top:
-                        case VerticalAlignment.Center:
-                            this.OnPropertyChanged("Bottom");
-                            break;
+                    case VerticalAlignment.Top:
+                    case VerticalAlignment.Center:
+                        this.OnPropertyChanged("Bottom");
+                        break;
 
-                        case VerticalAlignment.Bottom:
-                            this.Top -= this.size.Height - this.previousSize.Height;
-                            break;
+                    case VerticalAlignment.Bottom:
+                        this.Top -= this.size.Height - this.previousSize.Height;
+                        break;
 
-                        case VerticalAlignment.Stretch:
-                            // do nothing
-                            break;
-                    }
+                    case VerticalAlignment.Stretch:
+                        if (Math.Abs(this.Height) < float.Epsilon && this.Parent != null)
+                        {
+                            this.Height = this.Parent.Height;
+                        }
+                        break;
                 }
             }
         }
 
-        /// <summary>Gets or sets the coordinates of the upper-left corner of the control relative to the upper-left corner of its container.</summary>
-        /// <returns>The <see cref="Point" /> that represents the upper-left corner of the control relative to the upper-left corner of its container.</returns>
+        /// <summary>
+        /// Retrieves the child control that is located at the specified coordinates, specifying whether to ignore child controls of a certain type.
+        /// </summary>
+        /// <returns>
+        /// The child <see cref="Control" /> at the specified coordinates.
+        /// </returns>
+        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control. 
+        /// Coordinates are expressed relative to the upper-left corner of the control's client area.</param>
+        /// <param name="skipValue">One of the values of <see cref="GetChildAtPointSkip" />, determining whether to ignore child controls of a certain type.</param>
+        public virtual Control GetChildAtPoint(Point point, GetChildAtPointSkip skipValue)
+        {
+            lock (this.Controls)
+            {
+                for (var index = this.Controls.Count - 1; index >= 0; index--)
+                {
+                    var control = this.Controls[index];
+                    if (point.X >= control.Left && point.X <= control.Left + control.Width &&
+                        point.Y >= control.Top && point.Y <= control.Top + control.Height)
+                    {
+                        return control;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves the child control that is located at the specified coordinates.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Control" /> that represents the control that is located at the specified point.
+        /// </returns>
+        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control. 
+        /// Coordinates are expressed relative to the upper-left corner of the control's client area. </param>
+        public virtual Control GetChildAtPoint(Point point)
+        {
+            return this.GetChildAtPoint(point, GetChildAtPointSkip.None);
+        }
+
+
+        /// <summary>
+        /// Computes the location of the specified screen point into client coordinates.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Point" /> that represents the converted <see cref="Point" />, <paramref name="screenPoint" />, in client coordinates.
+        /// </returns>
+        /// <param name="screenPoint">The screen coordinate <see cref="Point" /> to convert. </param>
+        public virtual Point PointToClient(Point screenPoint)
+        {
+            var controlPositionOnScreen = this.PointToScreen(Point.Empty);  
+            return screenPoint - controlPositionOnScreen;
+        }
+
+        /// <summary>
+        /// Computes the location of the specified client point into screen coordinates.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Point" /> that represents the converted <see cref="Point" />, <paramref name="clientPoint" />, in screen coordinates.
+        /// </returns>
+        /// <param name="clientPoint">The client coordinate <see cref="Point" /> to convert. </param>
+        public virtual Point PointToScreen(Point clientPoint)
+        {
+            var parentControl = this.Parent;
+            clientPoint += this.Location;
+            while (parentControl != null)
+            {
+                clientPoint += parentControl.Location;
+                parentControl = parentControl.Parent;
+            }
+
+            return clientPoint;
+        }
+
+        /// <summary>
+        /// Gets or sets the coordinates of the upper-left corner of the control relative to the upper-left corner of its container.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Point" /> that represents the upper-left corner of the control relative to the upper-left corner of its container.
+        /// </returns>
         public Point Location
         {
             get
