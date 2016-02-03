@@ -181,7 +181,13 @@ namespace Codefarts.UIControls
         public virtual void PerformLayout()
         {
             var center = new Point(this.Width / 2, this.Height / 2);
-            foreach (var control in this.Controls)
+            var controls = this.Controls;
+            if (controls == null)
+            {
+                return;
+            }
+
+            foreach (var control in controls)
             {
                 var pos = control.Location;
                 var controlSize = control.Size;
