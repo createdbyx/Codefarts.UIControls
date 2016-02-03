@@ -15,7 +15,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The is height value for the related property.
         /// </summary>
-        protected float height = 1;
+        protected float height;
 
         /// <summary>
         /// The is maxHeight value for the related property.
@@ -42,12 +42,16 @@ namespace Codefarts.UIControls
 
             set
             {
+                value = Math.Min(value, Math.Abs(this.MaxHeight) < float.Epsilon ? value : this.MaxHeight);
                 var changed = Math.Abs(this.minHeight - value) < float.Epsilon;
                 this.minHeight = value;
                 if (changed)
                 {
                     this.OnPropertyChanged("MinHeight");
                 }
+
+
+                this.Height = this.height;
             }
         }
 
@@ -66,12 +70,15 @@ namespace Codefarts.UIControls
 
             set
             {
+                value = Math.Max(value, Math.Abs(this.MinHeight) < float.Epsilon ? value : this.MinHeight);
                 var changed = Math.Abs(this.maxHeight - value) < float.Epsilon;
                 this.maxHeight = value;
                 if (changed)
                 {
                     this.OnPropertyChanged("MaxHeight");
                 }
+
+                this.Height = this.height;
             }
         }
 
@@ -89,6 +96,8 @@ namespace Codefarts.UIControls
             }
             set
             {
+                value = Math.Abs(this.MinHeight) > float.Epsilon && value < this.MinHeight ? this.MinHeight : value;
+                value = Math.Abs(this.MaxHeight) > float.Epsilon && value > this.MaxHeight ? this.MaxHeight : value;
                 var changed = Math.Abs(this.height - value) < float.Epsilon;
                 this.height = value;
                 if (changed)

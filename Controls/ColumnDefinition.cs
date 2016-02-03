@@ -15,7 +15,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The is width value for the related property.
         /// </summary>
-        protected float width = 1;
+        protected float width;
 
         /// <summary>
         /// The is maxWidth value for the related property.
@@ -42,12 +42,15 @@ namespace Codefarts.UIControls
 
             set
             {
+                value = Math.Min(value, Math.Abs(this.MaxWidth) < float.Epsilon ? value : this.MaxWidth);
                 var changed = Math.Abs(this.minWidth - value) < float.Epsilon;
                 this.minWidth = value;
                 if (changed)
                 {
                     this.OnPropertyChanged("MinWidth");
                 }
+
+                this.Width = this.width;
             }
         }
 
@@ -66,12 +69,15 @@ namespace Codefarts.UIControls
 
             set
             {
+                value = Math.Max(value, Math.Abs(this.MinWidth) < float.Epsilon ? value : this.MinWidth);
                 var changed = Math.Abs(this.maxWidth - value) < float.Epsilon;
                 this.maxWidth = value;
                 if (changed)
                 {
                     this.OnPropertyChanged("MaxWidth");
                 }
+
+                this.Width = this.width;
             }
         }
 
@@ -89,6 +95,8 @@ namespace Codefarts.UIControls
             }
             set
             {
+                value = Math.Abs(this.MinWidth) > float.Epsilon && value < this.MinWidth ? this.MinWidth : value;
+                value = Math.Abs(this.MaxWidth) > float.Epsilon && value > this.MaxWidth ? this.MaxWidth : value;
                 var changed = Math.Abs(this.width - value) < float.Epsilon;
                 this.width = value;
                 if (changed)
@@ -119,6 +127,35 @@ namespace Codefarts.UIControls
                     this.OnPropertyChanged("Offset");
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColumnDefinition" /> class.
+        /// </summary>
+        /// <param name="width">The width of the column.</param>
+        public ColumnDefinition(float width) : this()
+        {
+            this.width = width;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColumnDefinition" /> class.
+        /// </summary>
+        /// <param name="width">The width of the column.</param>
+        /// <param name="maxWidth">The maximum width of the column.</param>
+        /// <param name="minWidth">The minimum width of the column.</param>
+        public ColumnDefinition(float width, float maxWidth, float minWidth)
+        {
+            this.width = width;
+            this.maxWidth = maxWidth;
+            this.minWidth = minWidth;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColumnDefinition" /> class.
+        /// </summary>
+        public ColumnDefinition()
+        {
         }
 
         public override Markup ToMarkup()
