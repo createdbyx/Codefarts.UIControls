@@ -10,11 +10,12 @@
 namespace Codefarts.UIControls
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
     /// </summary>
-    public class Grid :  Control
+    public class Grid : Control
     {
         /// <summary>
         /// The rows varible used by the <see cref="Rows"/> property.
@@ -26,15 +27,18 @@ namespace Codefarts.UIControls
         /// </summary>
         protected int columns = 1;
 
+        private bool handleColumnChangeEvent = true;
+        private bool handleRowChangeEvent = true;
+
         /// <summary>
         /// The row definitions varible used by the <see cref="RowDefinitions"/> property.
         /// </summary>
-        private RowDefinitionCollection rowDefinitions;
+        protected RowDefinitionCollection rowDefinitions;
 
         /// <summary>
         /// The column definitions varible used by the <see cref="ColumnDefinitions"/> property.
         /// </summary>
-        private ColumnDefinitionCollection columnDefinitions;
+        protected ColumnDefinitionCollection columnDefinitions;
 
 
         /// <summary>
@@ -47,10 +51,10 @@ namespace Codefarts.UIControls
                 return this.columnDefinitions;
             }
 
-            protected set
-            {
-                this.columnDefinitions = value;
-            }
+            //protected set
+            //{
+            //    this.columnDefinitions = value;
+            //}
         }
 
         /// <summary>
@@ -63,10 +67,10 @@ namespace Codefarts.UIControls
                 return this.rowDefinitions;
             }
 
-            protected set
-            {
-                this.rowDefinitions = value;
-            }
+            //protected set
+            //{
+            //    this.rowDefinitions = value;
+            //}
         }
 
         /// <summary>
@@ -77,16 +81,29 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.rows;
+                return this.rowDefinitions.Count;
             }
 
             set
             {
                 value = value < 1 ? 1 : value;
-                var changed = this.rows == value;
+                var changed = this.rows != value;
                 this.rows = value;
                 if (changed)
                 {
+                    this.handleRowChangeEvent = false;
+                    while (value > this.rowDefinitions.Count)
+                    {
+                        this.rowDefinitions.Add(new RowDefinition());
+                    }
+
+                    while (value < this.rowDefinitions.Count)
+                    {
+                        this.rowDefinitions.RemoveAt(this.rowDefinitions.Count - 1);
+                    }
+                    this.handleRowChangeEvent = true;
+
+                    this.UpdateCellArray();
                     this.OnPropertyChanged("Rows");
                 }
             }
@@ -100,20 +117,64 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.columns;
+                return this.columnDefinitions.Count;
             }
             set
             {
                 value = value < 1 ? 1 : value;
-                var changed = this.columns == value;
+                var changed = this.columns != value;
                 this.columns = value;
                 if (changed)
                 {
+                    this.handleColumnChangeEvent = false;
+                    while (value > this.columnDefinitions.Count)
+                    {
+                        this.columnDefinitions.Add(new ColumnDefinition());
+                    }
+
+                    while (value < this.columnDefinitions.Count)
+                    {
+                        this.columnDefinitions.RemoveAt(this.columnDefinitions.Count - 1);
+                    }
+                    this.handleColumnChangeEvent = true;
+
+                    this.UpdateCellArray();
                     this.OnPropertyChanged("Columns");
                 }
             }
         }
-      
+
+        private void UpdateCellArray()
+        {
+            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
+        }
+
+        private object[,] cells;
+
+        public object GetCell(int column, int row)
+        {
+            return this.cells[column, row];
+        }
+
+        public void SetCell(int column, int row, object value)
+        {
+            this.cells[column, row] = value;
+        }
+
+        protected T[,] ResizeArray<T>(T[,] original, int x, int y)
+        {
+            T[,] newArray = new T[x, y];
+            var minX = Math.Min(original.GetLength(0), newArray.GetLength(0));
+            var minY = Math.Min(original.GetLength(1), newArray.GetLength(1));
+
+            for (var i = 0; i < minY; ++i)
+            {
+                Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
+            }
+
+            return newArray;
+        }
+
         /// <returns>
         /// The default <see cref="Size" /> of the control.
         /// </returns>
@@ -124,6 +185,21 @@ namespace Codefarts.UIControls
                 return new Size(200, 100);
             }
         }
+
+        #region Overrides of Control
+
+        /// <summary>
+        /// Gets the control collection containing the child controls.
+        /// </summary>
+        public override ControlsCollection Controls
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
@@ -147,10 +223,56 @@ namespace Codefarts.UIControls
                 throw new ArgumentOutOfRangeException("rows", "Rows must be greater then 0.");
             }
 
-            this.rows = rows;
-            this.columns = columns;
             this.columnDefinitions = new ColumnDefinitionCollection();
             this.rowDefinitions = new RowDefinitionCollection();
+
+            for (var i = 0; i < columns; i++)
+            {
+                this.columnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (var i = 0; i < rows; i++)
+            {
+                this.rowDefinitions.Add(new RowDefinition());
+            }
+
+            this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
+            this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
+            this.cells = new object[this.columns, this.rows];
+            this.Rows = rows;
+            this.Columns = columns;
+        }
+
+        /// <summary>
+        /// Columns the definitions collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
+        private void ColumnDefinitionsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (!this.handleColumnChangeEvent || this.columns == this.columnDefinitions.Count)
+            {
+                return;
+            }
+
+            this.columns = this.columnDefinitions.Count;
+            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
+        }
+
+        /// <summary>
+        /// Rows the definitions collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
+        private void RowDefinitionsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (!this.handleRowChangeEvent || this.rows == this.rowDefinitions.Count)
+            {
+                return;
+            }
+
+            this.rows = this.rowDefinitions.Count;
+            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
         }
 
         /// <summary>
@@ -165,7 +287,7 @@ namespace Codefarts.UIControls
 
         public override Markup ToMarkup()
         {
-            var markup= base.ToMarkup();
+            var markup = base.ToMarkup();
             markup.Name = this.GetType().FullName;
             markup.SetProperty("Rows", this.Rows != 1, this.Rows);
             markup.SetProperty("Columns", this.Columns != 1, this.Columns);
