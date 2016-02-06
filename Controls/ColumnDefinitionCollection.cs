@@ -3,6 +3,8 @@ namespace Codefarts.UIControls
     using System.Collections.ObjectModel;
     using System.Linq;
 
+    using Codefarts.UIControls.Models;
+
     public class ColumnDefinitionCollection : ObservableCollection<ColumnDefinition>
     {
         public virtual Markup ToMarkup()

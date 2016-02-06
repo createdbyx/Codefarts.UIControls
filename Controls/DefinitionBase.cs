@@ -2,6 +2,8 @@ namespace Codefarts.UIControls
 {
     using System.ComponentModel;
 
+    using Codefarts.UIControls.Models;
+
     /// <summary>
     /// Defines the functionality required to support a shared-size group that is used by the <see cref="ColumnDefinitionCollection" /> and 
     /// <see cref="RowDefinitionCollection" /> classes. This is an abstract class. </summary>

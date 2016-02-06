@@ -2,6 +2,8 @@ namespace Codefarts.UIControls
 {
     using System;
 
+    using Codefarts.UIControls.Models;
+
     /// <summary>
     /// Defines row-specific properties that apply to <see cref="Grid" /> elements.
     /// </summary>

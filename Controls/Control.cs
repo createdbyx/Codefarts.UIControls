@@ -13,6 +13,8 @@ namespace Codefarts.UIControls
     using System.ComponentModel;
     using System.Linq;
 
+    using Codefarts.UIControls.Models;
+
     /// <summary>
     /// The base control implementation.
     /// </summary>

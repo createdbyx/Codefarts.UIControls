@@ -10,7 +10,7 @@
 namespace Codefarts.UIControls
 {
     using System;
-                                             
+
     /// <summary>
     /// A button control.
     /// </summary>
@@ -48,7 +48,7 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="name">The name of the button.</param>
         /// <param name="text">The text for the button.</param>
-        public Button(string name, string text):this(text)
+        public Button(string name, string text) : this(text)
         {
             this.name = name;
         }
