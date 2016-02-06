@@ -12,6 +12,8 @@ namespace Codefarts.UIControls
     using System;
     using System.Runtime.CompilerServices;
 
+    using Codefarts.UIControls.Models;
+
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
     /// </summary>
@@ -211,7 +213,7 @@ namespace Codefarts.UIControls
         /// or
         /// value;Rows must be greater then 0.
         /// </exception>
-        public Grid(int rows, int columns)
+        public Grid(int columns, int rows)
         {
             if (columns < 1)
             {
@@ -281,6 +283,26 @@ namespace Codefarts.UIControls
         public Grid()
             : this(1, 1)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        /// <param name="rows">The number of grid rows.</param>
+        /// <param name="columns">The number of grid columns.</param>
+        public Grid(string name, int columns, int rows) : this(columns, rows)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        public Grid(string name) : this()
+        {
+            this.name = name;
         }
 
         #region Overrides of Control
