@@ -10,33 +10,192 @@
 namespace Codefarts.UIControls
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Implements the basic functionality required by text controls.
     /// </summary>
     public class TextBox : Control
     {
-        public event EventHandler<PropertyChangedEventArgs<string>> TextChanged;
-
-        protected string text;
+        /// <summary>
+        /// The backing field for the <see cref="Text"/> property.
+        /// </summary>
+        protected string text = string.Empty;
 
         /// <summary>
-        /// The selection lengthHolds the selection length value.
+        /// The backing field for the <see cref="SelectionLength"/> property.
         /// </summary>
-        private int selectionLength;
+        protected int selectionLength;
 
-        private int selectionStart;
+        /// <summary>
+        /// The backing field for the <see cref="SelectionStart"/> property.
+        /// </summary>
+        protected int selectionStart;
 
-        public ScrollBarVisibility HorizontalScrollBarVisibility { get; set; }
-        public ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
-        public float HorizontalOffset { get; set; }
-        public float VerticalOffset { get; set; }
+        /// <summary>
+        /// The backing field for the <see cref="MaxLength"/> property.
+        /// </summary>
+        protected int maxLength;
 
-        /// <summary>Gets or sets the maximum number of characters that can be manually entered into the text box.</summary>
-        /// <returns>The maximum number of characters that can be manually entered into the text box. The default is 0, which indicates no limit.</returns>
-        public int MaxLength { get; set; }
+        /// <summary>
+        /// The backing field for the <see cref="VerticalOffset"/> property.
+        /// </summary>
+        protected float verticalOffset;
 
+        /// <summary>
+        /// The backing field for the <see cref="HorizontalOffset"/> property.
+        /// </summary>
+        protected float horizontalOffset;
+
+        /// <summary>
+        /// The backing field for the <see cref="VerticalScrollBarVisibility"/> property.
+        /// </summary>
+        protected ScrollBarVisibility verticalScrollBarVisibility;
+
+        /// <summary>
+        /// The backing field for the <see cref="HorizontalScrollBarVisibility"/> property.
+        /// </summary>
+        protected ScrollBarVisibility horizontalScrollBarVisibility;
+
+        /// <summary>
+        /// The backing field for the <see cref="AcceptsReturn"/> property.
+        /// </summary>
+        private bool acceptsReturn;
+
+        /// <summary>
+        /// The backing field for the <see cref="AcceptsTab"/> property.
+        /// </summary>
+        private bool acceptsTab;
+
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether a horizontal scroll bar is shown. 
+        /// </summary>
+        /// <returns>
+        /// A value that is defined by the <see cref="ScrollBarVisibility" /> enumeration. The default value is <see cref="Visibility.Hidden" />.
+        /// </returns>
+        public virtual ScrollBarVisibility HorizontalScrollBarVisibility
+        {
+            get
+            {
+                return this.horizontalScrollBarVisibility;
+            }
+
+            set
+            {
+                var changed = this.horizontalScrollBarVisibility != value;
+                this.horizontalScrollBarVisibility = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("HorizontalScrollBarVisibility");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether a vertical scroll bar is shown. 
+        /// </summary>
+        /// <returns>
+        /// A value that is defined by the <see cref="ScrollBarVisibility" /> enumeration. The default value is <see cref="Visibility.Hidden" />.
+        /// </returns>
+        public virtual ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get
+            {
+                return this.verticalScrollBarVisibility;
+            }
+
+            set
+            {
+                var changed = this.verticalScrollBarVisibility != value;
+                this.verticalScrollBarVisibility = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("VerticalScrollBarVisibility");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the horizontal scroll position.
+        /// </summary>
+        /// <returns>
+        /// A floating-point value that specifies the horizontal scroll position. 
+        /// Setting this property causes the text editing control to scroll to the specified horizontal offset. 
+        /// Reading this property returns the current horizontal offset.                                                                             
+        /// </returns>
+        public virtual float HorizontalOffset
+        {
+            get
+            {
+                return this.horizontalOffset;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.horizontalOffset - value) > float.Epsilon;
+                this.horizontalOffset = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("HorizontalOffset");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the vertical scroll position.
+        /// </summary>
+        /// <returns>
+        /// A floating-point value that specifies the vertical scroll position.
+        /// Setting this property causes the text editing control to scroll to the specified vertical offset. 
+        /// Reading this property returns the current vertical offset.
+        /// </returns>
+        public virtual float VerticalOffset
+        {
+            get
+            {
+                return this.verticalOffset;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.verticalOffset - value) > float.Epsilon;
+                this.verticalOffset = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("VerticalOffset");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of characters that can be manually entered into the text box.
+        /// </summary>
+        /// <returns>
+        /// The maximum number of characters that can be manually entered into the text box. The default is 0, which indicates no limit.
+        /// </returns>
+        public virtual int MaxLength
+        {
+            get
+            {
+                return this.maxLength;
+            }
+            set
+            {
+                var changed = this.maxLength != value;
+                this.maxLength = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("MaxLength");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text contents of the text box.
+        /// </summary>
+        /// <returns>
+        /// A string containing the text contents of the text box. The default is an empty string ("").
+        /// </returns>
         public virtual string Text
         {
             get
@@ -46,17 +205,13 @@ namespace Codefarts.UIControls
 
             set
             {
-                var changed = this.text != value;
-                if (!changed)
-                {
-                    return;
-                }
-
                 value = !this.AcceptsReturn ? value.Replace("\r\n", string.Empty) : value;
-
-                var oldValue = this.text;
+                var changed = this.text != value;
                 this.text = value;
-                this.OnTextChanged(new PropertyChangedEventArgs<string>(oldValue, value));
+                if (changed)
+                {
+                    this.OnPropertyChanged("Text");
+                }
             }
         }
 
@@ -68,15 +223,6 @@ namespace Codefarts.UIControls
             get
             {
                 return new Size(100, 32);
-            }
-        }
-
-        protected virtual void OnTextChanged(PropertyChangedEventArgs<string> e)
-        {
-            var handler = this.TextChanged;
-            if (handler != null)
-            {
-                handler(this, e);
             }
         }
 
@@ -93,7 +239,7 @@ namespace Codefarts.UIControls
         /// it can be automatically corrected (by adding 1)
         /// if selection end happens to be between \r and \n.
         /// </remarks>              
-        public int SelectionLength
+        public virtual int SelectionLength
         {
             get
             {
@@ -102,11 +248,6 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (value == this.selectionLength)
-                {
-                    return;
-                }
-
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("value", "Parameter must be greater than or equal to zero.");
@@ -115,8 +256,13 @@ namespace Codefarts.UIControls
                 // Identify new position for selection end
                 value = value > this.text.Length ? this.text.Length : value;
                 value = this.selectionStart + value > this.text.Length ? this.text.Length - this.selectionStart : value;
+                var changed = this.selectionLength != value;
                 this.selectionLength = value;
                 this.Properties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
+                if (changed)
+                {
+                    this.OnPropertyChanged("SelectionLength");
+                }
             }
         }
 
@@ -133,7 +279,7 @@ namespace Codefarts.UIControls
         /// it can be automatically corrected (by adding 1) 
         /// if it happens to be between \r and \n.
         /// </remarks>
-        public int SelectionStart
+        public virtual int SelectionStart
         {
             get
             {
@@ -142,11 +288,6 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (value == this.selectionStart)
-                {
-                    return;
-                }
-
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("value", "Parameter must be greater than or equal to zero.");
@@ -154,16 +295,21 @@ namespace Codefarts.UIControls
 
                 var stringValue = this.text == null ? string.Empty : this.text;
                 value = value > stringValue.Length ? stringValue.Length : value;
+                var changed = this.selectionStart != value;
                 this.selectionStart = value;
-                this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;  
+                this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;
                 this.Properties["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
+                if (changed)
+                {
+                    this.OnPropertyChanged("SelectionStart");
+                }
             }
         }
 
         /// <summary> 
         /// Position of the caret.
         /// </summary> 
-        public int CaretIndex
+        public virtual int CaretIndex
         {
             get
             {
@@ -179,7 +325,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Select the text in the given position and length.
         /// </summary>
-        public void Select(int start, int length)
+        public virtual void Select(int start, int length)
         {
             if (start < 0)
             {
@@ -199,7 +345,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Number of lines in the TextBox. 
         /// </summary>
-        public int LineCount
+        public virtual int LineCount
         {
             get
             {
@@ -210,21 +356,53 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets or sets a value indicating whether the text box accepts return keys.
         /// </summary> 
-        public virtual bool AcceptsReturn { get; set; }
+        public virtual bool AcceptsReturn
+        {
+            get
+            {
+                return this.acceptsReturn;
+            }
+
+            set
+            {
+                var changed = this.acceptsReturn != value;
+                this.acceptsReturn = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("AcceptsReturn");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the text box accepts tab keys.
         /// </summary> 
-        public bool AcceptsTab { get; set; }
+        public virtual bool AcceptsTab
+        {
+            get
+            {
+                return this.acceptsTab;
+            }
+
+            set
+            {
+                var changed = this.acceptsTab != value;
+                this.acceptsTab = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("AcceptsTab");
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBox"/> class.
         /// </summary>
         public TextBox()
         {
-            this.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-            this.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            this.AcceptsReturn = true;
+            this.horizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.acceptsReturn = true;
         }
     }
 }
