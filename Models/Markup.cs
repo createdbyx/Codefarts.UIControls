@@ -1,4 +1,4 @@
-namespace Codefarts.UIControls
+namespace Codefarts.UIControls.Models
 {
     using System.Collections.Generic;
 
