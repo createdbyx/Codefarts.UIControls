@@ -158,31 +158,31 @@ namespace Codefarts.UIControls
             this.Controls = new ControlsCollection(this);
             this.clipToBounds = true;
             this.properties = new Dictionary<string, object>();
-            this.PropertyChanged += this.PropertyChangedHandler;
+            //    this.PropertyChanged += this.PropertyChangedHandler;
             this.size = this.DefaultSize;
         }
 
-        /// <summary>
-        /// Internal properties changed handler for internal use.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs" /> instance containing the event data.</param>
-        private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "Size":
-                    this.PerformLayout();
-                    break;
-            }
-        }
+        ///// <summary>
+        ///// Internal properties changed handler for internal use.
+        ///// </summary>
+        ///// <param name="sender">The sender.</param>
+        ///// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs" /> instance containing the event data.</param>
+        //private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+        //{
+        //    switch (e.PropertyName)
+        //    {
+        //        case "Size":
+        //            this.PerformLayout();
+        //            break;
+        //    }
+        //}
 
         /// <summary>
         /// Forces the control to apply layout logic to all its child controls.
         /// </summary>
         public virtual void PerformLayout()
         {
-            var center = new Point(this.Width / 2, this.Height / 2);
+            var center = new Point(this.Width / 2f, this.Height / 2f);
             var controls = this.Controls;
             if (controls == null)
             {
@@ -919,6 +919,7 @@ namespace Codefarts.UIControls
                 }
 
                 this.SetSizeInternal(value);
+                this.PerformLayout();
             }
         }
 
@@ -941,13 +942,13 @@ namespace Codefarts.UIControls
                         break;
 
                     case HorizontalAlignment.Right:
-                        this.Left -= this.size.Width - this.previousSize.Width;
+                        this.Left = this.Parent != null ? this.Parent.Width - this.Width : this.Left;
                         break;
 
                     case HorizontalAlignment.Stretch:
                         if (Math.Abs(this.Width) < float.Epsilon && this.Parent != null)
                         {
-                            this.Width = this.Parent.Width;
+                            this.Width = this.Width - this.previousSize.Width;//this.Parent.Width;
                         }
                         break;
                 }
@@ -964,13 +965,13 @@ namespace Codefarts.UIControls
                         break;
 
                     case VerticalAlignment.Bottom:
-                        this.Top -= this.size.Height - this.previousSize.Height;
+                        this.Top = this.Parent != null ? this.Parent.Height - this.Height : this.Top;
                         break;
 
                     case VerticalAlignment.Stretch:
                         if (Math.Abs(this.Height) < float.Epsilon && this.Parent != null)
                         {
-                            this.Height = this.Parent.Height;
+                            this.Height += this.Height - this.previousSize.Height;// this.Parent.Height;
                         }
                         break;
                 }
@@ -1027,7 +1028,7 @@ namespace Codefarts.UIControls
         /// <param name="screenPoint">The screen coordinate <see cref="Point" /> to convert. </param>
         public virtual Point PointToClient(Point screenPoint)
         {
-            var controlPositionOnScreen = this.PointToScreen(Point.Empty);  
+            var controlPositionOnScreen = this.PointToScreen(Point.Empty);
             return screenPoint - controlPositionOnScreen;
         }
 
@@ -1068,14 +1069,14 @@ namespace Codefarts.UIControls
                 var leftChanged = Math.Abs(this.location.X - value.X) > float.Epsilon;
                 var topChanged = Math.Abs(this.location.Y - value.Y) > float.Epsilon;
 
-                if (leftChanged && this.horizontalAlignment == HorizontalAlignment.Center)
+                if (leftChanged && this.horizontalAlignment == HorizontalAlignment.Center && this.Parent != null)
                 {
-                    value.X = this.location.X;
+                    value.X = (this.Parent.Width / 2) - (this.Width / 2);
                 }
 
-                if (topChanged && this.verticalAlignment == VerticalAlignment.Center)
+                if (topChanged && this.verticalAlignment == VerticalAlignment.Center && this.Parent != null)
                 {
-                    value.Y = this.location.Y;
+                    value.Y = (this.Parent.Height / 2) - (this.Height / 2);
                 }
 
                 if (this.location == value)
