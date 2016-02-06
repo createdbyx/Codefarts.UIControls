@@ -3,31 +3,81 @@ namespace Codefarts.UIControls
     using System;
     using System.Globalization;
 
-    public class NumericTextField : TextBox
+    /// <summary>
+    /// Provides a <see cref="TextBox"/> that only accepts numerical input.
+    /// </summary>
+    public class NumericTextField : RangeBase
     {
-        private float minimum;
-        private float maximum = 1;
+        /// <summary>
+        /// The underlting <see cref="TextBox"/> child control.
+        /// </summary>
+        private TextBox txtValue;
 
-        private int precision;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NumericTextField"/> class.
+        /// </summary>
+        public NumericTextField()
+        {
+            this.txtValue = new TextBox()
+            {
+                AcceptsReturn = false,
+                Width = this.Width,
+                Height = this.Height,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch ,
+                Text = this.value.ToString(CultureInfo.InvariantCulture)
+            };
 
-        private float value;
+            this.Controls.Add(this.txtValue);    
+            this.txtValue.PropertyChanged += this.TextValuePropertyChanged;
+        }
 
-        public event EventHandler<PropertyChangedEventArgs<float>> ValueChanged;
+        /// <summary>
+        /// Handles the property changed events for the <see cref="txtValue"/> field.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
+        private void TextValuePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Text":
+                    this.Text = this.txtValue.Text;
+                    break;
+            }
+        }
 
-        public override string Text
+        /// <summary>
+        /// Gets or sets the text contents of the text box.
+        /// </summary>
+        /// <remarks>This is a wrapper for the underlying <see cref="TextBox.Text"/> property that will sanitize the value before setting the underlying setter.</remarks>
+        public virtual string Text
         {
             get
             {
-                return base.Text;
+                return this.txtValue.Text;
             }
 
             set
             {
-                base.Text = this.SanitizeValue(value, this.minimum, this.maximum);
+                var result = this.SanitizeValue(value, this.minimum, this.maximum);
+                var changed = result != value;
+                this.txtValue.Text = result;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Text");
+                }
             }
         }
 
-        private string SanitizeValue(string value, float min, float max)
+        /// <summary>
+        /// Sanitizes the value and prevent unwanted characters from being entered into the text field.
+        /// </summary>
+        /// <param name="value">The value to sanitize.</param>
+        /// <param name="min">The minimum allowable value.</param>
+        /// <param name="max">The maximum allowable value.</param>
+        /// <returns>The sanitized value.</returns>
+        protected virtual string SanitizeValue(string value, float min, float max)
         {
             //  var acceptedValue = new[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.' };
             var i = 0;
@@ -113,13 +163,16 @@ namespace Codefarts.UIControls
             else
             {
                 // could not parse value so use existing value
-                newValue = Math.Round(Math.Max(this.minimum, 0), this.precision).ToString(CultureInfo.InvariantCulture);// string.IsNullOrEmpty(newValue) ? string.Empty : value;
+                newValue = Math.Round(Math.Max(this.minimum, 0), this.precision).ToString(CultureInfo.InvariantCulture);
             }
 
             return newValue;
         }
 
-        public virtual float Value
+        /// <summary>
+        /// Gets or sets the numeric value for the <see cref="NumericTextField"/>.
+        /// </summary>
+        public override float Value
         {
             get
             {
@@ -128,90 +181,8 @@ namespace Codefarts.UIControls
 
             set
             {
-                var oldValue = this.value;
-                var min = Math.Min(this.maximum, this.minimum);
-                var max = Math.Max(this.maximum, this.minimum);
-                value = value > max ? max : value;
-                value = value < min ? min : value;
-                var changed = this.value != value;
-                if (!changed)
-                {
-                    return;
-                }
-
-                this.value = value;
-                this.text = value.ToString(CultureInfo.InvariantCulture);
-                var handler = this.ValueChanged;
-                if (handler != null)
-                {
-                    handler(this, new PropertyChangedEventArgs<float>(oldValue, value));
-                }
-            }
-        }
-
-        public virtual int Precision
-        {
-            get
-            {
-                return this.precision;
-            }
-
-            set
-            {
-                if (value < 0)
-                {
-                    this.precision = 0;
-                }
-                else if (value > 28)
-                {
-                    this.precision = 28;
-                }
-                else
-                {
-                    this.precision = value;
-                }
-            }
-        }
-
-        /// <summary>
-        ///  Gets or sets a minimum rotation angle in degrees. 
-        /// </summary>
-        public float Minimum
-        {
-            get
-            {
-                return this.minimum;
-            }
-
-            set
-            {
-                //if (value > this.maximum)
-                //{
-                //    throw new ArgumentOutOfRangeException("Minimum value can not be greater then Maximum value.");
-                //}
-
-                this.minimum = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a maximum rotation angle in degrees. 
-        /// </summary>
-        public float Maximum
-        {
-            get
-            {
-                return this.maximum;
-            }
-
-            set
-            {
-                //if (value < this.minimum)
-                //{
-                //    throw new ArgumentOutOfRangeException("Maximum value can not be less then Minimum value.");
-                //}
-
-                this.maximum = value;
+                base.Value = value;
+                this.txtValue.Text = value.ToString(CultureInfo.InvariantCulture);
             }
         }
     }
