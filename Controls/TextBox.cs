@@ -206,6 +206,7 @@ namespace Codefarts.UIControls
             set
             {
                 value = !this.AcceptsReturn ? value.Replace("\r\n", string.Empty) : value;
+                value = value == null ? string.Empty : value;
                 var changed = this.text != value;
                 this.text = value;
                 if (changed)
@@ -254,8 +255,9 @@ namespace Codefarts.UIControls
                 }
 
                 // Identify new position for selection end
-                value = value > this.text.Length ? this.text.Length : value;
-                value = this.selectionStart + value > this.text.Length ? this.text.Length - this.selectionStart : value;
+                var stringValue = this.text == null ? string.Empty : this.text;
+                value = value > stringValue.Length ? stringValue.Length : value;
+                value = this.selectionStart + value > stringValue.Length ? stringValue.Length - this.selectionStart : value;
                 var changed = this.selectionLength != value;
                 this.selectionLength = value;
                 this.Properties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
