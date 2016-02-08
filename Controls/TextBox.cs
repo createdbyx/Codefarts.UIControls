@@ -16,6 +16,9 @@ namespace Codefarts.UIControls
     /// </summary>
     public class TextBox : Control
     {
+        public const string TextBoxSelectionStartChanged = "4BB16D2B-113E-42BD-8339-2E7EEC0B1C08";
+        public const string TextBoxSelectionLengthChanged = "B1B9862F-7C70-4959-A208-157311FB475F";
+      
         /// <summary>
         /// The backing field for the <see cref="Text"/> property.
         /// </summary>
@@ -260,7 +263,7 @@ namespace Codefarts.UIControls
                 value = this.selectionStart + value > stringValue.Length ? stringValue.Length - this.selectionStart : value;
                 var changed = this.selectionLength != value;
                 this.selectionLength = value;
-                this.Properties["SelectionLengthChanged - B1B9862F-7C70-4959-A208-157311FB475F"] = true;
+                this.Properties[TextBox.TextBoxSelectionLengthChanged] = changed;
                 if (changed)
                 {
                     this.OnPropertyChanged("SelectionLength");
@@ -300,7 +303,7 @@ namespace Codefarts.UIControls
                 var changed = this.selectionStart != value;
                 this.selectionStart = value;
                 this.selectionLength = value + this.selectionLength > stringValue.Length ? stringValue.Length - this.selectionStart : this.selectionLength;
-                this.Properties["SelectionStartChanged - 4BB16D2B-113E-42BD-8339-2E7EEC0B1C08"] = true;
+                this.Properties[TextBox.TextBoxSelectionStartChanged] = changed;
                 if (changed)
                 {
                     this.OnPropertyChanged("SelectionStart");
