@@ -26,7 +26,7 @@
         protected TileMode tileMode;
 
         /// <summary>
-        /// Gets or sets the horizontal alignment of content in the <see cref="TileBrush" /> base tile. This is a dependency property. 
+        /// Gets or sets the horizontal alignment of content in the <see cref="TileBrush" /> base tile.  
         /// </summary>
         /// <returns>
         /// A value that specifies the horizontal position of <see cref="TileBrush" /> content in its base tile. The default value is <see cref="F:HorizontalAlignment.Center" />.
@@ -50,7 +50,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the vertical alignment of content in the <see cref="TileBrush" /> base tile. This is a dependency property. 
+        /// Gets or sets the vertical alignment of content in the <see cref="TileBrush" /> base tile.  
         /// </summary>
         /// <returns>
         /// A value that specifies the vertical position of <see cref="TileBrush" /> content in its base tile. The default value is <see cref="F:AlignmentY.Center" />.
@@ -74,7 +74,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies how the content of this <see cref="TileBrush" /> stretches to fit its tiles. This is a dependency property. 
+        /// Gets or sets a value that specifies how the content of this <see cref="TileBrush" /> stretches to fit its tiles.   
         /// </summary>
         /// <returns>
         /// A value that specifies how this <see cref="TileBrush" /> content is projected onto its base tile. The default value is <see cref="F:Stretch.Fill" />.
@@ -98,7 +98,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies how a <see cref="TileBrush" /> fills the area that you are painting if the base tile is smaller than the output area. This is a dependency property. 
+        /// Gets or sets a value that specifies how a <see cref="TileBrush" /> fills the area that you are painting if the base tile is smaller than the output area.  
         /// </summary>
         /// <returns>
         /// A value that specifies how the <see cref="TileBrush" /> tiles fill the output area. The default value is <see cref="F:TileMode.None" />.
