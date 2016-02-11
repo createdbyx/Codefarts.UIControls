@@ -29,77 +29,77 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The horizontal alignment.
         /// </summary>
-        private HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left;
+        protected HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left;
 
         /// <summary>
         /// Holds weather the control is enabled.
         /// </summary>
-        private bool isEnabled = true;
+        protected bool isEnabled = true;
 
         /// <summary>
         /// The vertical alignment.
         /// </summary>
-        private VerticalAlignment verticalAlignment = VerticalAlignment.Top;
+        protected VerticalAlignment verticalAlignment = VerticalAlignment.Top;
 
         /// <summary>
         /// The visibility of the control.
         /// </summary>
-        private Visibility visibility = Visibility.Visible;
+        protected Visibility visibility = Visibility.Visible;
 
         /// <summary>
         /// The size of the control.
         /// </summary>
-        private Size size;
+        protected Size size;
 
         /// <summary>
         /// The previous size of the control.
         /// </summary>
-        private Size previousSize;
+        protected Size previousSize;
 
         /// <summary>
         /// The location of the control.
         /// </summary>
-        private Point location;
+        protected Point location;
 
         /// <summary>
         /// The cached property arguments.
         /// </summary>
-        private IDictionary<string, PropertyChangedEventArgs> propertyArgs = new Dictionary<string, PropertyChangedEventArgs>();
+        protected IDictionary<string, PropertyChangedEventArgs> propertyArgs = new Dictionary<string, PropertyChangedEventArgs>();
 
         /// <summary>
         /// Holds the value for the <see cref="ClipToBounds"/> property.
         /// </summary>
-        private bool clipToBounds;
+        protected bool clipToBounds;
 
         /// <summary>
         /// Holds the value for the <see cref="Properties"/> property.
         /// </summary>
-        private IDictionary<string, object> properties;
+        protected IDictionary<string, object> properties;
 
         /// <summary>
         /// The background brush property value.
         /// </summary>
-        private Brush background;
+        protected Brush background;
 
         /// <summary>
         /// The font property value.
         /// </summary>
-        private Font font;
+        protected Font font;
 
         /// <summary>
         /// The data context property value.
         /// </summary>
-        private object dataContext;
+        protected object dataContext;
 
         /// <summary>
         /// The foreground property value.
         /// </summary>
-        private Brush foreground;
+        protected Brush foreground;
 
         /// <summary>
         /// The horizontal content alignment property value.
         /// </summary>
-        private HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Left;
+        protected HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Left;
 
         /// <summary>
         /// The name property value.
@@ -109,42 +109,47 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The tag property value.
         /// </summary>
-        private object tag;
+        protected object tag;
 
         /// <summary>
         /// The tool tip property value.
         /// </summary>
-        private string toolTip;
+        protected string toolTip;
 
         /// <summary>
         /// The vertical content alignment property value.
         /// </summary>
-        private VerticalAlignment verticalContentAlignment = VerticalAlignment.Top;
+        protected VerticalAlignment verticalContentAlignment = VerticalAlignment.Top;
 
         /// <summary>
         /// The value for the <see cref="Opacity"/> property.
         /// </summary>
-        private float opacity = 1;
+        protected float opacity = 1;
 
         /// <summary>
         /// The value for the <see cref="Parent"/> property.
         /// </summary>
-        private Control parent;
+        protected Control parent;
 
         /// <summary>
         /// The minimum size for the control.
         /// </summary>
-        private Size minSize;
+        protected Size minSize;
 
         /// <summary>
         /// The maximum size for the control.
         /// </summary>
-        private Size maxSize;
+        protected Size maxSize;
 
         /// <summary>
         /// The value for the <see cref="AutoSize"/> property.
         /// </summary>
-        private bool autoSize;
+        protected bool autoSize;
+
+        /// <summary>
+        /// The value for the <see cref="Controls"/> property.
+        /// </summary>
+        protected ControlsCollection controls;
 
         #endregion
 
@@ -155,27 +160,11 @@ namespace Codefarts.UIControls
         /// </summary>
         public Control()
         {
-            this.Controls = new ControlsCollection(this);
+            this.controls = new ControlsCollection(this);
             this.clipToBounds = true;
             this.properties = new Dictionary<string, object>();
-            //    this.PropertyChanged += this.PropertyChangedHandler;
             this.size = this.DefaultSize;
         }
-
-        ///// <summary>
-        ///// Internal properties changed handler for internal use.
-        ///// </summary>
-        ///// <param name="sender">The sender.</param>
-        ///// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs" /> instance containing the event data.</param>
-        //private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
-        //{
-        //    switch (e.PropertyName)
-        //    {
-        //        case "Size":
-        //            this.PerformLayout();
-        //            break;
-        //    }
-        //}
 
         /// <summary>
         /// Forces the control to apply layout logic to all its child controls.
@@ -305,14 +294,57 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Gets the control collection containing the child controls.
         /// </summary>
-        public virtual ControlsCollection Controls { get; private set; }
+        public virtual ControlsCollection Controls
+        {
+            get
+            {
+                return this.controls;
+            }
+
+            set
+            {
+                var changed = this.controls != value;
+                this.controls = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Controls");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds the control at specified point.
+        /// </summary>
+        /// <param name="position">The position to search for a control.</param>
+        /// <returns>A reference to a <see cref="Control"/> if found, otherwise null.</returns>
+        public Control FindControlAtPoint(Point position)
+        {
+            if (this.Controls != null)
+            {
+                foreach (var item in this.Controls)
+                {
+                    if (item.Visibility == Visibility.Visible && position.X >= item.Left && position.Y >= item.Top && position.X < item.Left + item.Width && position.Y < item.Top + item.Height)
+                    {
+                        var child = item.FindControlAtPoint(new Point(position.X - item.Left, position.Y - item.Top));
+                        if (child == null)
+                        {
+                            return item;
+                        }
+
+                        return child;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Brings the control to the front of the z-order.
         /// </summary>
         public void BringToFront()
         {
-            if (this.parent != null)
+            if (this.parent != null && this.parent.Controls != null)
             {
                 this.parent.Controls.SetChildIndex(this, 0);
             }
@@ -323,7 +355,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public void SendToBack()
         {
-            if (this.parent != null)
+            if (this.parent != null && this.parent.Controls != null)
             {
                 this.parent.Controls.SetChildIndex(this, -1);
             }
@@ -341,9 +373,9 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (this.parent != value)
+                if (this.parent != value && this.parent.Controls != null)
                 {
-                    if (value != null)
+                    if (value != null && value.Controls != null)
                     {
                         value.Controls.Add(this);
                         return;
@@ -632,8 +664,12 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary>Gets a value indicating whether the mouse pointer is located over this element (including child elements in the visual tree).  This is a dependency property.</summary>
-        /// <returns>true if mouse pointer is over the element or its child elements; otherwise, false. The default is false.</returns>
+        /// <summary>
+        /// Gets a value indicating whether the mouse pointer is located over this element (including child elements in the visual tree).  
+        /// </summary>
+        /// <returns>
+        /// true if mouse pointer is over the element or its child elements; otherwise, false. The default is false.
+        /// </returns>
         public bool IsMouseOver
         {
             get
@@ -649,8 +685,12 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary>Gets or sets the distance, between the bottom edge of the control and the bottom edge of its container's client area.</summary>
-        /// <returns>An <see cref="float" /> representing the distance, between the bottom edge of the control and the bottom edge of its container's client area.</returns>
+        /// <summary>
+        /// Gets or sets the distance, between the bottom edge of the control and the bottom edge of its container's client area.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="float" /> representing the distance, between the bottom edge of the control and the bottom edge of its container's client area.
+        /// </returns>
         public virtual float Bottom
         {
             get
@@ -666,8 +706,12 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary>Gets or sets the distance, between the left edge of the control and the left edge of its container's client area.</summary>
-        /// <returns>An <see cref="float" /> representing the distance, between the left edge of the control and the left edge of its container's client area.</returns>
+        /// <summary>
+        /// Gets or sets the distance, between the left edge of the control and the left edge of its container's client area.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="float" /> representing the distance, between the left edge of the control and the left edge of its container's client area.
+        /// </returns>
         public virtual float Left
         {
             get
