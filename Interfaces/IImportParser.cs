@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a interface for markup importer plugins.
     /// </summary>
-    public interface IImportParser : IPlugin
+    public interface IImportParser  
     {
         //  IList<IParserPlugin> ParserPlugins { get; set; }
 

@@ -7,7 +7,7 @@ namespace Codefarts.UIControls.MarkupImporting
     /// <summary>
     /// Provides a interface for markup exporter plugins.
     /// </summary>
-    public interface IMarkupExporter : IPlugin
+    public interface IMarkupExporter  
     {
         /// <summary>
         /// Processes the specified markup and writes it to the stream.

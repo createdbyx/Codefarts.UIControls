@@ -7,7 +7,7 @@
     //    void Build(IImportParser parser, Node node, ProgressModel<Control> progress);
     //}
 
-    public interface IControlBuilderPlugin : IPlugin
+    public interface IControlBuilderPlugin  
     {
         string[] HandlesElements { get; }
         void Build(Markup node, Control parent, ProgressModel<Control> progress);
