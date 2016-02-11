@@ -317,12 +317,19 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="position">The position to search for a control.</param>
         /// <returns>A reference to a <see cref="Control"/> if found, otherwise null.</returns>
+        /// <remarks>This method will search the entire visible control hierarchy and check if the mouse if over a child control or return a reference to itself
+        /// if no child found but the point is inside the controls bounds. </remarks>
         public Control FindControlAtPoint(Point position)
         {
             if (this.Controls != null)
             {
                 foreach (var item in this.Controls)
                 {
+                    if (item == null)
+                    {
+                        continue;
+                    }
+
                     if (item.Visibility == Visibility.Visible && position.X >= item.Left && position.Y >= item.Top && position.X < item.Left + item.Width && position.Y < item.Top + item.Height)
                     {
                         var child = item.FindControlAtPoint(new Point(position.X - item.Left, position.Y - item.Top));
@@ -334,6 +341,11 @@ namespace Codefarts.UIControls
                         return child;
                     }
                 }
+            }
+
+            if (this.Visibility == Visibility.Visible && position.X >= this.Left && position.Y >= this.Top && position.X < this.Left + this.Width && position.Y < this.Top + this.Height)
+            {
+                return this;
             }
 
             return null;
