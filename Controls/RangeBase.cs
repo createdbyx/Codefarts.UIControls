@@ -151,6 +151,8 @@ namespace Codefarts.UIControls
                 {
                     this.OnPropertyChanged("Minimum");
                 }
+
+                this.Value = this.value;
             }
         }
 
@@ -172,6 +174,8 @@ namespace Codefarts.UIControls
                 {
                     this.OnPropertyChanged("Maximum");
                 }
+
+                this.Value = this.value;
             }
         }
     }
