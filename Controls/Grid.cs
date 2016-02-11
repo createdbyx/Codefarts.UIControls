@@ -9,8 +9,7 @@
 
 namespace Codefarts.UIControls
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using System;                         
 
     using Codefarts.UIControls.Models;
 
@@ -53,10 +52,16 @@ namespace Codefarts.UIControls
                 return this.columnDefinitions;
             }
 
-            //protected set
-            //{
-            //    this.columnDefinitions = value;
-            //}
+            set
+            {
+                var changed = this.columnDefinitions != value;
+                this.columnDefinitions = value;
+                this.Columns = this.columnDefinitions.Count;
+                if (changed)
+                {
+                    this.OnPropertyChanged("ColumnDefinitions");
+                }
+            }
         }
 
         /// <summary>
@@ -69,10 +74,16 @@ namespace Codefarts.UIControls
                 return this.rowDefinitions;
             }
 
-            //protected set
-            //{
-            //    this.rowDefinitions = value;
-            //}
+            set
+            {
+                var changed = this.rowDefinitions != value;
+                this.rowDefinitions = value;
+                this.Columns = this.rowDefinitions.Count;
+                if (changed)
+                {
+                    this.OnPropertyChanged("RowDefinitions");
+                }
+            }
         }
 
         /// <summary>
