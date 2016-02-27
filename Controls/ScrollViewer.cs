@@ -17,6 +17,20 @@ namespace Codefarts.UIControls
 
         protected ScrollBarVisibility horizontialScrollBarVisibility;
 
+        #region Overrides of Control
+
+        /// <summary>Gets the default size of the control.</summary>
+        /// <returns>The default <see cref="Control.Size" /> of the control.</returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(200, 100);
+            }
+        }
+
+        #endregion
+
         public virtual ScrollBarVisibility HorizontialScrollBarVisibility
         {
             get
