@@ -11,7 +11,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Codefarts.UIControls
-{
+{                 
     /// <summary>
     /// Used to group collections of controls.
     /// </summary>
@@ -28,5 +28,14 @@ namespace Codefarts.UIControls
         public virtual AutoSizeMode AutoSizeMode { get; set; }
 
         #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Panel"/> class.
+        /// </summary>
+        public Panel()
+        {
+            this.horizontialScrollBarVisibility = ScrollBarVisibility.Hidden;
+            this.verticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+        }
     }
 }
