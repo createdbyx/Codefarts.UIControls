@@ -37,6 +37,11 @@ namespace Codefarts.UIControls
         protected bool isEnabled = true;
 
         /// <summary>
+        /// Holds weather the control can recieve focus.
+        /// </summary>
+        protected bool canFocus = false;
+
+        /// <summary>
         /// The vertical alignment.
         /// </summary>
         protected VerticalAlignment verticalAlignment = VerticalAlignment.Top;
@@ -240,33 +245,41 @@ namespace Codefarts.UIControls
         #region Public Events
 
         /// <summary>
-        /// Occurs when the control has focus and a key is pressed.
+        /// Occurs when the control has focus and a key event occours.
         /// </summary>
-        public event EventHandler<KeyEventArgs> KeyDown;
+        public event EventHandler<KeyEventArgs> KeyEvent;
 
         /// <summary>
-        /// Occurs when the control has focus and a key is released.
+        /// Occurs when a mouse event occours on this element.
         /// </summary>
-        public event EventHandler<KeyEventArgs> KeyUp;
-
-        /// <summary>
-        /// Occurs when the mouse pointer enters the bounds of this element.
-        /// </summary>
-        public event EventHandler<MouseEventArgs> MouseEnter;
-
-        /// <summary>
-        /// Occurs when the mouse pointer leaves the bounds of this element.
-        /// </summary>
-        public event EventHandler<MouseEventArgs> MouseLeave;
-
-        /// <summary>
-        /// Occurs when the mouse pointer moves while over this element. 
-        /// </summary>
-        public event EventHandler<MouseEventArgs> MouseMove;
+        public event EventHandler<MouseEventArgs> MouseEvent;
 
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets a value indicating whether the control can receive focus.
+        /// </summary>
+        /// <returns>
+        /// true if the control can receive focus; otherwise, false.
+        /// </returns>
+        public virtual bool CanFocus
+        {
+            get
+            {
+                return this.autoSize;
+            }
+            set
+            {
+                var changed = this.canFocus != value;
+                this.canFocus = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("CanFocus");
+                }
+            }
+        }
 
         /// <summary>
         /// This property is not relevant for this class.
@@ -321,12 +334,14 @@ namespace Codefarts.UIControls
         /// if no child found but the point is inside the controls bounds. </remarks>
         public Control FindControlAtPoint(Point position)
         {
-            if (this.Controls != null)
+            var controls = this.Controls;
+            if (controls != null)
             {
-                foreach (var item in this.Controls)
+                for (var i = controls.Count - 1; i >= 0; i--)
                 {
+                    var item = controls[i];
                     if (item == null)
-                    {
+                    {                                                 
                         continue;
                     }
 
@@ -1201,84 +1216,39 @@ namespace Codefarts.UIControls
         #region Public Methods and Operators
 
         /// <summary>
-        /// Raises the <see cref="E:KeyDown"/> event.
+        /// Raises the <see cref="E:KeyEvent"/> event.
         /// </summary>
         /// <param name="e">
         /// The <see cref="KeyEventArgs"/> instance containing the event data.
         /// </param>
-        public virtual void OnKeyDown(KeyEventArgs e)
+        public virtual void OnKeyEvent(KeyEventArgs e)
         {
-            var handler = this.KeyDown;
+            var handler = this.KeyEvent;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-
-        /// <summary>
-        /// Raises the <see cref="E:KeyUp"/> event.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="KeyEventArgs"/> instance containing the event data.
-        /// </param>
-        public virtual void OnKeyUp(KeyEventArgs e)
-        {
-            var handler = this.KeyUp;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
+                                       
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Raises the <see cref="E:MouseEnter"/> event.
+        /// Raises the <see cref="E:MouseEvent"/> event.
         /// </summary>
         /// <param name="e">
         /// The <see cref="MouseEventArgs"/> instance containing the event data.
         /// </param>
-        public virtual void OnMouseEnter(MouseEventArgs e)
+        public virtual void OnMouseEvent(MouseEventArgs e)
         {
-            var handler = this.MouseEnter;
+            var handler = this.MouseEvent;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-
-        /// <summary>
-        /// Raises the <see cref="E:MouseLeave"/> event.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="MouseEventArgs"/> instance containing the event data.
-        /// </param>
-        public virtual void OnMouseLeave(MouseEventArgs e)
-        {
-            var handler = this.MouseLeave;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:MouseMove"/> event.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="MouseEventArgs"/> instance containing the event data.
-        /// </param>
-        public virtual void OnMouseMove(MouseEventArgs e)
-        {
-            var handler = this.MouseMove;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
+       
         #region Overrides of Object
 
         /// <summary>
