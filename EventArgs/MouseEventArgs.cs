@@ -112,5 +112,9 @@ namespace Codefarts.UIControls
         /// <summary>Gets the state of the mouse Y position.</summary>
         /// <returns>The current state of the mouse Y position.</returns>
         public float Y { get; set; }
+
+        /// <summary>Gets or sets the event type.</summary>
+        /// <returns>The current event type.</returns>
+        public MouseEventType Type { get; set; }
     }
 }
