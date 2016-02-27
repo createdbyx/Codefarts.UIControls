@@ -114,5 +114,13 @@ namespace Codefarts.UIControls
                 return new Size(300, 300);
             }
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
+        public Window()
+        {
+            this.canFocus = true;
+        }
     }
 }

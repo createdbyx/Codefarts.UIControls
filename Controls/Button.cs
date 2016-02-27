@@ -41,6 +41,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public Button()
         {
+            this.canFocus = true;
         }
 
         /// <summary>

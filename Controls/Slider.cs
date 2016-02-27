@@ -11,6 +11,14 @@ namespace Codefarts.UIControls
         protected Orientation orientation;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Slider"/> class.
+        /// </summary>
+        public Slider()
+        {
+            this.canFocus = true;
+        }
+
+        /// <summary>
         /// Gets or sets a value that determines the orientation of the slider.  
         /// </summary>
         public virtual Orientation Orientation

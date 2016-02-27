@@ -242,6 +242,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public ListBox()
         {
+            this.canFocus = true;
             this.items = new ItemsCollection();
             this.items.CollectionChanged += this.ItemsCollectionChanged;
             this.selectedItems = new List<object>();

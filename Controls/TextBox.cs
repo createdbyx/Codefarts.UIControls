@@ -405,6 +405,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public TextBox()
         {
+            this.canFocus = true;
             this.horizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.acceptsReturn = true;

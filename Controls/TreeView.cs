@@ -74,6 +74,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public TreeView()
         {
+            this.canFocus = true;
             this.nodes = new List<TreeViewNode>();
         }
 

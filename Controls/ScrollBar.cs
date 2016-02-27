@@ -19,6 +19,15 @@ namespace Codefarts.UIControls
         /// </summary>
         protected Orientation orientation;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScrollBar"/> class.
+        /// </summary>
+        public ScrollBar()
+        {
+            this.canFocus = true;
+        }
+
         /// <summary>
         /// Gets or sets a value that determines the orientation of the slider.  
         /// </summary>

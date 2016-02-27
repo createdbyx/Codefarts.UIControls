@@ -49,6 +49,7 @@ namespace Codefarts.UIControls
         /// </summary>
         public CheckBox()
         {
+            this.canFocus = true;
         }
 
         /// <summary>
