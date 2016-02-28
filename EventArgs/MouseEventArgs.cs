@@ -1,6 +1,7 @@
 namespace Codefarts.UIControls
 {
-    /// <summary>Provides data for mouse related routed events that do not specifically involve mouse buttons or the mouse wheel, for example <see cref="E:System.Windows.UIElement.MouseMove" />.</summary>
+    /// <summary>
+    /// Provides data for mouse related events</summary>
     public class MouseEventArgs : InputEventArgs
     {
         /// <summary>
@@ -8,10 +9,11 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="leftButton">The left button.</param>
         /// <param name="rightButton">The right button.</param>
+        /// <remarks>Button states are converted into a 1 for true and 0 for false.</remarks>
         public MouseEventArgs(bool leftButton, bool rightButton)
         {
-            this.LeftButton = leftButton;
-            this.RightButton = rightButton;
+            this.Buttons[Constants.LeftMouseButton] = leftButton ? 1 : 0;
+            this.Buttons[Constants.RightMouseButton] = rightButton ? 1 : 0;
         }
 
         /// <summary>
@@ -20,15 +22,12 @@ namespace Codefarts.UIControls
         /// <param name="leftButton">The left button.</param>
         /// <param name="middleButton">The middle button.</param>
         /// <param name="rightButton">The right button.</param>
-        /// <param name="xButton1">The x button1.</param>
-        /// <param name="xButton2">The x button2.</param>
-        public MouseEventArgs(bool leftButton, bool middleButton, bool rightButton, bool xButton1, bool xButton2)
+        /// <remarks>Button states are converted into a 1 for true and 0 for false.</remarks>
+        public MouseEventArgs(bool leftButton, bool middleButton, bool rightButton)
         {
-            this.LeftButton = leftButton;
-            this.MiddleButton = middleButton;
-            this.RightButton = rightButton;
-            this.XButton1 = xButton1;
-            this.XButton2 = xButton2;
+            this.Buttons[Constants.LeftMouseButton] = leftButton ? 1 : 0;
+            this.Buttons[Constants.RightMouseButton] = rightButton ? 1 : 0;
+            this.Buttons[Constants.MiddleMouseButton] = middleButton ? 1 : 0;
         }
 
         /// <summary>
@@ -45,16 +44,17 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseEventArgs"/> class.
         /// </summary>
-        /// <param name="leftButton">The left button.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
+        /// <param name="leftButton">The left button.</param>
         /// <param name="rightButton">The right button.</param>
-        public MouseEventArgs(bool leftButton, float x, float y, bool rightButton)
+        /// <remarks>Button states are converted into a 1 for true and 0 for false.</remarks>
+        public MouseEventArgs(float x, float y, bool leftButton, bool rightButton)
         {
-            this.LeftButton = leftButton;
+            this.Buttons[Constants.LeftMouseButton] = leftButton ? 1 : 0;
+            this.Buttons[Constants.RightMouseButton] = rightButton ? 1 : 0;
             this.X = x;
             this.Y = y;
-            this.RightButton = rightButton;
         }
 
         /// <summary>
@@ -63,47 +63,30 @@ namespace Codefarts.UIControls
         /// <param name="leftButton">if set to <c>true</c> [left button].</param>
         /// <param name="middleButton">if set to <c>true</c> [middle button].</param>
         /// <param name="rightButton">if set to <c>true</c> [right button].</param>
-        /// <param name="xButton1">if set to <c>true</c> [x button1].</param>
-        /// <param name="xButton2">if set to <c>true</c> [x button2].</param>
         /// <param name="y">The y.</param>
         /// <param name="x">The x.</param>
-        public MouseEventArgs(bool leftButton, bool middleButton, bool rightButton, bool xButton1, bool xButton2, float y, float x)
+        /// <remarks>Button states are converted into a 1 for true and 0 for false.</remarks>
+        public MouseEventArgs(bool leftButton, bool middleButton, bool rightButton, float y, float x)
         {
-            this.LeftButton = leftButton;
-            this.MiddleButton = middleButton;
-            this.RightButton = rightButton;
-            this.XButton1 = xButton1;
-            this.XButton2 = xButton2;
+            this.Buttons[Constants.LeftMouseButton] = leftButton ? 1 : 0;
+            this.Buttons[Constants.RightMouseButton] = rightButton ? 1 : 0;
+            this.Buttons[Constants.MiddleMouseButton] = middleButton ? 1 : 0;
             this.Y = y;
             this.X = x;
         }
 
         /// <summary>Gets the current state of the left mouse button.</summary>
         /// <returns>The current state of the left mouse button.</returns>
-        public bool LeftButton { get; set; }
-
-        /// <summary>Gets the current state of the middle mouse button.</summary>
-        /// <returns>The current state of the middle mouse button. There is no default value.</returns>
-        public bool MiddleButton { get; set; }
+        /// <remarks>The number of buttons is determined by <see cref="Constants.MaxMouseButtons"/> and may vary depending on the platform.</remarks>
+        public float[] Buttons { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseEventArgs"/> class.
         /// </summary>
         public MouseEventArgs()
         {
+            this.Buttons = new float[Constants.MaxMouseButtons];
         }
-
-        /// <summary>Gets the current state of the right mouse button.</summary>
-        /// <returns>The current state of the right mouse button.</returns>
-        public bool RightButton { get; set; }
-
-        /// <summary>Gets the current state of the first extended mouse button.</summary>
-        /// <returns>The current state of the first extended mouse button.</returns>
-        public bool XButton1 { get; set; }
-
-        /// <summary>Gets the state of the second extended mouse button.</summary>
-        /// <returns>The current state of the second extended mouse button.</returns>
-        public bool XButton2 { get; set; }
 
         /// <summary>Gets the state of the mouse X position.</summary>
         /// <returns>The current state of the mouse X position.</returns>
