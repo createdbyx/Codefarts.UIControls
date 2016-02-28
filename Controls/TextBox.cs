@@ -410,5 +410,24 @@ namespace Codefarts.UIControls
             this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.acceptsReturn = true;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextBox"/> class.
+        /// </summary>
+        /// <param name="name">The name of the textbox.</param>
+        public TextBox(string name):this()
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextBox" /> class.
+        /// </summary>
+        /// <param name="name">The name of the textbox.</param>
+        /// <param name="text">The sets the textbox text.</param>
+        public TextBox(string name, string text) : this(name)
+        {
+            this.text = text;
+        }
     }
 }
