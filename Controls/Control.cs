@@ -328,7 +328,24 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Finds the control at specified point.
         /// </summary>
-        /// <param name="position">The position to search for a control.</param>
+        /// <param name="x">The x client position to search for a control.</param>
+        /// <param name="y">The y client position to search for a control.</param>
+        /// <returns>
+        /// A reference to a <see cref="Control" /> if found, otherwise null.
+        /// </returns>
+        /// <remarks>
+        /// This method will search the entire visible control hierarchy and check if the mouse if over a child control or return a reference to itself
+        /// if no child found but the point is inside the controls bounds.
+        /// </remarks>
+        public Control FindControlAtPoint(float x, float y)
+        {
+            return this.FindControlAtPoint(new Point(x, y));
+        }
+
+        /// <summary>
+        /// Finds the control at specified point.
+        /// </summary>
+        /// <param name="position">The client position to search for a control.</param>
         /// <returns>A reference to a <see cref="Control"/> if found, otherwise null.</returns>
         /// <remarks>This method will search the entire visible control hierarchy and check if the mouse if over a child control or return a reference to itself
         /// if no child found but the point is inside the controls bounds. </remarks>
@@ -337,17 +354,23 @@ namespace Codefarts.UIControls
             var controls = this.Controls;
             if (controls != null)
             {
+                // check in reverse order
                 for (var i = controls.Count - 1; i >= 0; i--)
                 {
                     var item = controls[i];
                     if (item == null)
-                    {                                                 
+                    {
                         continue;
                     }
 
-                    if (item.Visibility == Visibility.Visible && position.X >= item.Left && position.Y >= item.Top && position.X < item.Left + item.Width && position.Y < item.Top + item.Height)
+                    if (item.Visibility == Visibility.Visible &&
+                        position.X >= item.Left &&
+                        position.Y >= item.Top &&
+                        position.X < item.Left + item.Width &&
+                        position.Y < item.Top + item.Height)
                     {
-                        var child = item.FindControlAtPoint(new Point(position.X - item.Left, position.Y - item.Top));
+                        var point = new Point(position.X - item.Left, position.Y - item.Top);
+                        var child = item.FindControlAtPoint(point);
                         if (child == null)
                         {
                             return item;
@@ -358,7 +381,11 @@ namespace Codefarts.UIControls
                 }
             }
 
-            if (this.Visibility == Visibility.Visible && position.X >= this.Left && position.Y >= this.Top && position.X < this.Left + this.Width && position.Y < this.Top + this.Height)
+            if (this.Visibility == Visibility.Visible &&
+                position.X >= this.Left &&
+                position.Y >= this.Top &&
+                position.X < this.Width &&
+                position.Y < this.Height)
             {
                 return this;
             }
@@ -1229,7 +1256,7 @@ namespace Codefarts.UIControls
                 handler(this, e);
             }
         }
-                                       
+
         #endregion
 
         #region Methods
@@ -1248,7 +1275,7 @@ namespace Codefarts.UIControls
                 handler(this, e);
             }
         }
-       
+
         #region Overrides of Object
 
         /// <summary>
