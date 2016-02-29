@@ -724,6 +724,9 @@ namespace Codefarts.UIControls
         /// <returns>
         /// true if mouse pointer is over the element or its child elements; otherwise, false. The default is false.
         /// </returns>
+        /// <remarks><p>This property fetches it's state from the <see cref="Properties"/> property.</p>
+        /// <example>It's the responsibility of the <see cref="ControlManager"/> to 
+        /// set the state. <code>Control.Properties[Control.IsMouseOverKey] = true</code></example></remarks>
         public bool IsMouseOver
         {
             get
