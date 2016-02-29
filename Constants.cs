@@ -8,7 +8,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The maximum number of supported mouse buttons.
         /// </summary>
-        public const int MaxMouseButtons = 20;
+        public const int MaxMouseButtons = 5;
 
         /// <summary>
         /// The left mouse button index;
