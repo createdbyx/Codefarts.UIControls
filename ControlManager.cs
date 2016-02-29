@@ -7,8 +7,6 @@
     using Codefarts.Input;
     using Codefarts.Input.Models;
 
-    using UnityEngine;
-
     /// <summary>
     /// Used to manager which control has focus, and directs device input to controls.
     /// </summary>
@@ -33,6 +31,21 @@
         /// The cached property arguments.
         /// </summary>
         protected IDictionary<string, PropertyChangedEventArgs> propertyArgs = new Dictionary<string, PropertyChangedEventArgs>();
+
+        /// <summary>
+        /// The arguments pool used for object recycling and prevent garbage collection.
+        /// </summary>
+        private Stack<MouseEventArgs> argumentsPool;
+
+        /// <summary>
+        /// The last mouse control that the mouse was over.
+        /// </summary>
+        private Control lastMouseControl;
+
+        /// <summary>
+        /// The mouse entered flag used to specify weather or noth the mouse is currently over a control.
+        /// </summary>
+        private bool mouseEntered;
 
         /// <summary>
         /// The backing field for the <see cref="InputEnabled"/> property.
@@ -72,7 +85,6 @@
             this.previousMouseState.Buttons = new float[Constants.MaxMouseButtons];
             this.inputManger = new InputManager();
             this.inputManger.Action += this.HandleAction;
-            //  this.ScreenControls = new List<Control>();
             this.argumentsPool = new Stack<MouseEventArgs>();
         }
 
@@ -89,6 +101,9 @@
                     {
                         "MouseX",
                         "MouseY",
+                        "MouseLeft",
+                        "MouseRight",
+                        "MouseMiddle",
                     };
             }
         }
@@ -112,43 +127,78 @@
             switch (e.Name)
             {
                 case "MouseX":
-                    // e.Value = this.Control == null ? e.Value : this.Control.PointToClient(new Point(e.Value, this.currentMouseState.Y)).X;
                     this.previousMouseState.X = this.currentMouseState.X;
-                    this.currentMouseState.X = e.Value;//- (this.Control != null ? this.Control.Left : 0);
-                  //  Debug.Log("MouseX: " + e.Value);// + " - " + (e.Value - (this.Control != null ? this.Control.Left : 0)));
+                    this.currentMouseState.X = e.Value;
                     this.ProcessMouseEvent();
                     break;
 
                 case "MouseY":
-                    //  e.Value = this.Control == null ? e.Value : this.Control.PointToClient(new Point(this.currentMouseState.X, e.Value)).Y;
                     this.previousMouseState.Y = this.currentMouseState.Y;
-                    this.currentMouseState.Y = e.Value;// - (this.Control != null ? this.Control.Top : 0);
-                   // Debug.Log("MouseY: " + e.Value);//+ " - " + (e.Value - (this.Control != null ? this.Control.Top : 0)));
+                    this.currentMouseState.Y = e.Value;
+                    this.ProcessMouseEvent();
+                    break;
+
+                case "MouseLeft":
+                    this.previousMouseState.Buttons[Constants.LeftMouseButton] = this.currentMouseState.Buttons[Constants.LeftMouseButton];
+                    this.currentMouseState.Buttons[Constants.LeftMouseButton] = e.Value;
+                    this.ProcessMouseEvent();
+                    break;
+
+                case "MouseRight":
+                    this.previousMouseState.Buttons[Constants.RightMouseButton] = this.currentMouseState.Buttons[Constants.RightMouseButton];
+                    this.currentMouseState.Buttons[Constants.RightMouseButton] = e.Value;
+                    this.ProcessMouseEvent();
+                    break;
+
+                case "MouseMiddle":
+                    this.previousMouseState.Buttons[Constants.MiddleMouseButton] = this.currentMouseState.Buttons[Constants.MiddleMouseButton];
+                    this.currentMouseState.Buttons[Constants.MiddleMouseButton] = e.Value;
                     this.ProcessMouseEvent();
                     break;
             }
         }
 
-        private Stack<MouseEventArgs> argumentsPool;
-        private Control lastMouseControl;
-        private bool mouseEntered = false;
-
+        /// <summary>
+        /// Processes mouse events like MouseEnter, MouseLeave, MouseMove, MouseDown, MouseUp etc.
+        /// </summary>
         private void ProcessMouseEvent()
         {
-            //// check each screen control
-            //foreach (var screen in this.ScreenControls)
-            //{
-            //    // try to find a control at the current mouse position
-            //    var control = screen.FindControlAtPoint(this.currentMouseState.X, this.currentMouseState.Y);
-
             var control = this.Control;
+
             // if the control is null not visible or disabled just ignore
             if (control == null || control.Visibility != Visibility.Visible || !control.IsEnabled)
             {
                 return;
             }
 
-            // fetch a arguments reference
+            // detect if a button state changed
+            var buttonStates = new float[Constants.MaxMouseButtons];
+            var buttonsUp = new float[Constants.MaxMouseButtons];
+            var buttonsDown = new float[Constants.MaxMouseButtons];
+            var buttonStatesHaveChanged = false;
+            var buttonsReleased = false;
+            var buttonsPressed = false;
+            for (var i = 0; i < Constants.MaxMouseButtons; i++)
+            {
+                var currentState = this.currentMouseState.Buttons[i];
+                var delta = currentState - this.previousMouseState.Buttons[i];
+                buttonsUp[i] = delta < float.Epsilon ? currentState : 0;
+                buttonsDown[i] = delta > float.Epsilon ? currentState : 0;
+                buttonStates[i] = currentState;
+                buttonStatesHaveChanged = buttonStatesHaveChanged || Math.Abs(delta) > float.Epsilon;
+                buttonsReleased = buttonsReleased || delta > float.Epsilon;
+                buttonsPressed = buttonsPressed || delta < float.Epsilon;
+            }
+
+            // check if mouse moved (it should this method is begin called by HandleAction method)
+            if (!(Math.Abs(this.currentMouseState.X - this.previousMouseState.X) > float.Epsilon) && 
+                !(Math.Abs(this.currentMouseState.Y - this.previousMouseState.Y) > float.Epsilon) && 
+                !buttonStatesHaveChanged)
+            {
+                return;
+            }
+
+            // create a new MouseEventArgs or fetch from the pool
             MouseEventArgs args;
             lock (this.argumentsPool)
             {
@@ -156,66 +206,82 @@
             }
 
             // set initial argument state
-            var mousePos = new Point(this.currentMouseState.X, this.currentMouseState.Y);
-            //  var relativeMousePosition = control.PointToClient(mousePos) - control.Location;
-            args.Buttons[Constants.LeftMouseButton] = this.currentMouseState.Buttons[Constants.LeftMouseButton];
-            args.Buttons[Constants.RightMouseButton] = this.currentMouseState.Buttons[Constants.RightMouseButton];
-            args.Buttons[Constants.MiddleMouseButton] = this.currentMouseState.Buttons[Constants.MiddleMouseButton];
-            args.Buttons[Constants.MouseButton4] = this.currentMouseState.Buttons[Constants.MouseButton4];
-            args.Buttons[Constants.MouseButton5] = this.currentMouseState.Buttons[Constants.MouseButton5];
-            args.X = this.currentMouseState.X;
-            args.Y = this.currentMouseState.Y;
+            var mousePosition = new Point(this.currentMouseState.X, this.currentMouseState.Y);
+            args.Buttons = buttonStates;
+            args.X = mousePosition.X;
+            args.Y = mousePosition.Y;
 
-            // check if mouse moved (it should this method is begin called by HandleAction method)
-            if (Math.Abs(this.currentMouseState.X - this.previousMouseState.X) > float.Epsilon ||
-                Math.Abs(this.currentMouseState.Y - this.previousMouseState.Y) > float.Epsilon)
+            // try to get a control at the current mouse position
+            var mouseOverControl = control.FindControlAtPoint(args.X, args.Y);
+
+            // check for mouse button released event
+            if (buttonStatesHaveChanged && buttonsReleased && this.lastMouseControl != null)
             {
-                var ctrl = control.FindControlAtPoint(this.currentMouseState.X, this.currentMouseState.Y);
-                if (ctrl != this.lastMouseControl)
-                {
-                    if (this.lastMouseControl != null && this.mouseEntered)
-                    {
-                        this.RestrictMousePositionToControlBounds(args, this.lastMouseControl, this.lastMouseControl.PointToClient(mousePos));
-                        args.Type = MouseEventType.MouseLeave;
-                        this.lastMouseControl.OnMouseEvent(args);
-                        this.lastMouseControl.Properties[Control.IsMouseOverKey] = false;
-                        this.lastMouseControl = null;
-                        this.mouseEntered = false;
-                    }
+                args.Type = MouseEventType.MouseUp;
+                args.Buttons = buttonsUp;
+                this.lastMouseControl.OnMouseEvent(args);
+            }
 
-                    if (ctrl != null && this.mouseEntered == false)
-                    {
-                        this.RestrictMousePositionToControlBounds(args, ctrl, ctrl.PointToClient(mousePos));
-                        args.Type = MouseEventType.MouseEnter;
-                        ctrl.OnMouseEvent(args);
-                        this.mouseEntered = true;
-                        this.lastMouseControl = ctrl;
-                        this.lastMouseControl.Properties[Control.IsMouseOverKey] = true;
-                    }
-                }
-                else
+            // handle mouse enter, leave, move
+            if (mouseOverControl != this.lastMouseControl && !buttonStatesHaveChanged)
+            {
+                if (this.lastMouseControl != null && this.mouseEntered)
                 {
-                    if (ctrl != null)
-                    {
-                        this.RestrictMousePositionToControlBounds(args, ctrl, ctrl.PointToClient(mousePos));
-                        args.Type = MouseEventType.MouseMove;
-                        ctrl.OnMouseEvent(args);
-                    }
+                    this.RestrictMousePositionToControlBounds(args, this.lastMouseControl, this.lastMouseControl.PointToClient(mousePosition));
+                    args.Type = MouseEventType.MouseLeave;
+                    this.lastMouseControl.OnMouseEvent(args);
+                    this.lastMouseControl.Properties[Control.IsMouseOverKey] = false;
+                    this.lastMouseControl = null;
+                    this.mouseEntered = false;
+                }
+
+                if (mouseOverControl != null && this.mouseEntered == false)
+                {
+                    this.RestrictMousePositionToControlBounds(args, mouseOverControl, mouseOverControl.PointToClient(mousePosition));
+                    args.Type = MouseEventType.MouseEnter;
+                    mouseOverControl.OnMouseEvent(args);
+                    this.mouseEntered = true;
+                    this.lastMouseControl = mouseOverControl;
+                    this.lastMouseControl.Properties[Control.IsMouseOverKey] = true;
+                }
+            }
+            else
+            {
+                if (mouseOverControl != null)
+                {
+                    this.RestrictMousePositionToControlBounds(args, mouseOverControl, mouseOverControl.PointToClient(mousePosition));
+                    args.Type = MouseEventType.MouseMove;
+                    mouseOverControl.OnMouseEvent(args);
                 }
             }
 
+            // check for mouse button pressed event
+            if (buttonStatesHaveChanged && buttonsPressed && mouseOverControl != null)
+            {
+                args.Type = MouseEventType.MouseDown;
+                args.Buttons = buttonsDown;
+                mouseOverControl.OnMouseEvent(args);
+            }
+
+            // Push arguemnts to be reused at a later time.
+            // Note that if an exception was previously thrown this will never be executed and 
+            // it's possible that another MouseEventArgs instant may get created.
             lock (this.argumentsPool)
             {
                 this.argumentsPool.Push(args);
-            }
-            //  }
+            }                                 
         }
 
+        /// <summary>
+        /// Restricts the mouse position to control bounds.
+        /// </summary>
+        /// <param name="args">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        /// <param name="control">The control.</param>
+        /// <param name="mousePosition">The mouse position.</param>
         private void RestrictMousePositionToControlBounds(MouseEventArgs args, Control control, Point mousePosition)
         {
-            var rel = mousePosition;//- control.Location;
-            args.X = Math.Max(0, rel.X);
-            args.Y = Math.Max(0, rel.Y);
+            args.X = Math.Max(0, mousePosition.X);
+            args.Y = Math.Max(0, mousePosition.Y);
             args.X = Math.Min(control.Width, args.X);
             args.Y = Math.Min(control.Height, args.Y);
         }
