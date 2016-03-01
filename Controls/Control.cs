@@ -22,6 +22,7 @@ namespace Codefarts.UIControls
     {
         public const string ControlStyle = "ControlStyle_009FE297-D820-45B6-8AAC-DD2FC42FDE0A";
         public const string IsMouseOverKey = "IsMouseOver_F87213B4-B311-4B40-B7BB-39B6083309D0";
+        public const string IsFocusedKey = "IsFocused_98260A5F-0489-4305-B878-AFC6C8480462";
         public const string PreviousMousePositionKey = "PreviousMousePosition_422715F7-53E9-4177-845A-627F388F4608";
 
         #region Fields
@@ -35,6 +36,11 @@ namespace Codefarts.UIControls
         /// Holds weather the control is enabled.
         /// </summary>
         protected bool isEnabled = true;
+
+        /// <summary>
+        /// Holds weather the control is a tab stop control.
+        /// </summary>
+        protected bool isTabStop = true;
 
         /// <summary>
         /// Holds weather the control can recieve focus.
@@ -719,6 +725,30 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Gets or sets a value that indicates whether a control is included in tab navigation.
+        /// </summary>
+        /// <returns>
+        /// true if the control is included in tab navigation; otherwise, false. The default is true.
+        /// </returns>
+        public virtual bool IsTabStop
+        {
+            get
+            {
+                return this.isTabStop;
+            }
+
+            set
+            {
+                var changed = this.isTabStop != value;
+                this.isTabStop = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("IsTabStop");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the mouse pointer is located over this element (including child elements in the visual tree).  
         /// </summary>
         /// <returns>
@@ -736,6 +766,26 @@ namespace Codefarts.UIControls
                 {
                     var mouseOver = (bool)props[IsMouseOverKey];
                     return mouseOver;
+                }
+
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets a value that determines whether this element has logical focus.
+        /// </summary>
+        /// <returns>true if this element has logical focus; otherwise, false.</returns>
+        public bool IsFocused
+        {
+            get
+            {
+                var props = this.Properties;
+                if (props != null && props.ContainsKey(IsFocusedKey))
+                {
+                    var focused = (bool)props[IsFocusedKey];
+                    return focused;
                 }
 
                 return false;
