@@ -1,7 +1,7 @@
 ﻿namespace Codefarts.UIControls
 {
     /// <summary>
-    /// Paints an area with an image. 
+    /// Paints an area with an image using a grid system to control what parts of the image appear where. 
     /// </summary>
     public class GridImageBrush : ImageBrush
     {
@@ -101,7 +101,7 @@
                         this.rowDefinitions.RemoveAt(this.rowDefinitions.Count - 1);
                     }
 
-                    this.handleRowChangeEvent = true;  
+                    this.handleRowChangeEvent = true;
                     this.OnPropertyChanged("Rows");
                 }
             }
