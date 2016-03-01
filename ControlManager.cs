@@ -7,6 +7,8 @@
     using Codefarts.Input;
     using Codefarts.Input.Models;
 
+    using UnityEngine;
+
     /// <summary>
     /// Used to manager which control has focus, and directs device input to controls.
     /// </summary>
@@ -155,7 +157,24 @@
                     this.currentMouseState.Buttons[Constants.MiddleMouseButton] = e.Value;
                     this.ProcessMouseEvent();
                     break;
+
+                default: // assume a key stroke so try convert the name to a key
+
+                    // TODO: boo hiss unity specific code KeyCode this is not good need a better way to handle this.
+                    //        A way that does not create a dependancy on unity otherwise this code can't be cross platform. 
+                    var key = (KeyCode)Enum.Parse(typeof(KeyCode), e.Name);
+                    this.ProcessKeyEvent();
+                    break;
             }
+        }                                                                                                                                         
+
+        /// <summary>
+        /// Processes the key events like KeyDown & KeyUp.
+        /// </summary>
+        /// <exception cref="System.NotImplementedException"></exception>
+        private void ProcessKeyEvent()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -191,8 +210,8 @@
             }
 
             // check if mouse moved (it should this method is begin called by HandleAction method)
-            if (!(Math.Abs(this.currentMouseState.X - this.previousMouseState.X) > float.Epsilon) && 
-                !(Math.Abs(this.currentMouseState.Y - this.previousMouseState.Y) > float.Epsilon) && 
+            if (!(Math.Abs(this.currentMouseState.X - this.previousMouseState.X) > float.Epsilon) &&
+                !(Math.Abs(this.currentMouseState.Y - this.previousMouseState.Y) > float.Epsilon) &&
                 !buttonStatesHaveChanged)
             {
                 return;
@@ -269,7 +288,7 @@
             lock (this.argumentsPool)
             {
                 this.argumentsPool.Push(args);
-            }                                 
+            }
         }
 
         /// <summary>
