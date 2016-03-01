@@ -8,7 +8,7 @@ namespace Codefarts.UIControls
     public class SkinningBrush : GridImageBrush
     {
         /// <summary>
-        /// Gets or sets the normal rect in pixels.
+        /// Gets or sets the normal rect in texture cordanants 0 to 1.
         /// </summary>
         public Rect Normal { get; set; }
         public Rect Active { get; set; }
