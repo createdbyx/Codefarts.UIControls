@@ -88,6 +88,54 @@ namespace Codefarts.UIControls
             this.Buttons = new float[Constants.MaxMouseButtons];
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the left mouse button is pressed.
+        /// </summary>
+        public bool Left
+        {
+            get
+            {
+                return this.Buttons[Constants.LeftMouseButton] > float.Epsilon;
+            }
+
+            set
+            {
+                this.Buttons[Constants.LeftMouseButton] = value ? 1 : 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the right mouse button is pressed.
+        /// </summary>
+        public bool Right
+        {
+            get
+            {
+                return this.Buttons[Constants.RightMouseButton] > float.Epsilon;
+            }
+
+            set
+            {
+                this.Buttons[Constants.RightMouseButton] = value ? 1 : 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the middle mouse button is pressed.
+        /// </summary>
+        public bool Middle
+        {
+            get
+            {
+                return this.Buttons[Constants.MiddleMouseButton] > float.Epsilon;
+            }
+
+            set
+            {
+                this.Buttons[Constants.MiddleMouseButton] = value ? 1 : 0;
+            }
+        }
+
         /// <summary>Gets the state of the mouse X position.</summary>
         /// <returns>The current state of the mouse X position.</returns>
         public float X { get; set; }
