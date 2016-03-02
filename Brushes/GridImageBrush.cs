@@ -144,6 +144,8 @@
         /// <param name="source">The image to display.</param>
         public GridImageBrush(ImageSource source) : base(source)
         {
+            this.rowDefinitions = new RowDefinitionCollection();
+            this.columnDefinitions = new ColumnDefinitionCollection();
         }
 
         /// <summary>
@@ -151,6 +153,8 @@
         /// </summary>
         public GridImageBrush()
         {
+            this.rowDefinitions = new RowDefinitionCollection();
+            this.columnDefinitions = new ColumnDefinitionCollection();
         }
     }
 }
