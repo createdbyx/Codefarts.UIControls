@@ -52,12 +52,13 @@ namespace Codefarts.UIControls
         /// of the progress bar.
         /// </summary>
         /// <returns>The amount by which to increment the progress bar with each call to the <see cref="ProgressBar.PerformStep" /> method. The default is 10.</returns>
-        public float Step
+        public virtual float Step
         {
             get
             {
                 return this.step;
             }
+
             set
             {
                 var changed = Math.Abs(this.step - value) > float.Epsilon;
@@ -75,7 +76,7 @@ namespace Codefarts.UIControls
         /// <param name="value">
         /// The amount by which to increment the progress bar's current position. 
         /// </param>
-        public void Increment(float value)
+        public virtual void Increment(float value)
         {
             this.Value += value;
         }
@@ -83,7 +84,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Advances the current position of the progress bar by the amount of the <see cref="ProgressBar.Step" /> property.
         /// </summary>
-        public void PerformStep()
+        public virtual void PerformStep()
         {
             this.Increment(this.step);
         }

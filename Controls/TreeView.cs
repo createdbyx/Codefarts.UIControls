@@ -11,27 +11,27 @@ namespace Codefarts.UIControls
     using System.Collections.Generic;
 
     /// <summary>
-    /// Displays a hierarchical collection of labeled items, each represented by a <see cref="TreeViewNode" />.
+    /// Displays a hierarchical collection of labeled items, each represented by a <see cref="TreeNode" />.
     /// </summary>
     public class TreeView : ScrollViewer
     {
         /// <summary>
         /// The selected node used by the <see cref="SelectedNode"/> property.
         /// </summary>
-        protected TreeViewNode selectedNode;
+        protected TreeNode selectedNode;
 
         /// <summary>
         /// The node list used by the <see cref="Nodes"/> property.
         /// </summary>
-        protected List<TreeViewNode> nodes;
+        protected List<TreeNode> nodes;
 
         /// <summary>
         /// Gets the collection of tree nodes that are assigned to the tree view control.
         /// </summary>
         /// <returns>
-        /// A <see cref="List{TreeViewNode}" /> that represents the tree nodes assigned to the tree view control.
+        /// A <see cref="List{TreeNode}" /> that represents the tree nodes assigned to the tree view control.
         /// </returns>
-        public virtual List<TreeViewNode> Nodes
+        public virtual List<TreeNode> Nodes
         {
             get
             {
@@ -50,8 +50,8 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>Gets or sets the tree node that is currently selected in the tree view control.</summary>
-        /// <returns>The <see cref="TreeViewNode" /> that is currently selected in the tree view control.</returns>
-        public virtual TreeViewNode SelectedNode
+        /// <returns>The <see cref="TreeNode" /> that is currently selected in the tree view control.</returns>
+        public virtual TreeNode SelectedNode
         {
             get
             {
@@ -76,7 +76,7 @@ namespace Codefarts.UIControls
         {
             this.canFocus = true;
             this.isTabStop = true;
-            this.nodes = new List<TreeViewNode>();
+            this.nodes = new List<TreeNode>();
         }
 
         /// <returns>

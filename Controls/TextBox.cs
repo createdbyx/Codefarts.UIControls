@@ -12,13 +12,20 @@ namespace Codefarts.UIControls
     using System;
 
     /// <summary>
-    /// Implements the basic functionality required by text controls.
+    /// Represents a control that can be used to display or edit unformatted text.
     /// </summary>
     public class TextBox : Control
     {
-        public const string TextBoxSelectionStartChanged = "4BB16D2B-113E-42BD-8339-2E7EEC0B1C08";
-        public const string TextBoxSelectionLengthChanged = "B1B9862F-7C70-4959-A208-157311FB475F";
-      
+        /// <summary>
+        /// The text box start selection key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
+        public const string TextBoxSelectionStartChanged = "TextBoxSelectionStartChanged_4BB16D2B-113E-42BD-8339-2E7EEC0B1C08";
+
+        /// <summary>
+        /// The text box selection length key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
+        public const string TextBoxSelectionLengthChanged = "TextBoxSelectionLengthChanged_B1B9862F-7C70-4959-A208-157311FB475F";
+
         /// <summary>
         /// The backing field for the <see cref="Text"/> property.
         /// </summary>
@@ -343,8 +350,8 @@ namespace Codefarts.UIControls
             }
 
             start = start > this.text.Length ? this.text.Length : start;
-            this.selectionStart = start;
-            this.selectionLength = start + length > this.text.Length ? this.text.Length - this.selectionStart : length;
+            this.SelectionStart = start;
+            this.SelectionLength = start + length > this.text.Length ? this.text.Length - start : length;
         }
 
         /// <summary>
@@ -416,7 +423,7 @@ namespace Codefarts.UIControls
         /// Initializes a new instance of the <see cref="TextBox"/> class.
         /// </summary>
         /// <param name="name">The name of the textbox.</param>
-        public TextBox(string name):this()
+        public TextBox(string name) : this()
         {
             this.name = name;
         }

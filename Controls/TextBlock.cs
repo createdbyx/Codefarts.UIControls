@@ -75,6 +75,7 @@ namespace Codefarts.UIControls
             {
                 return this.textTrimming;
             }
+
             set
             {
                 var changed = this.textTrimming != value;
@@ -98,6 +99,7 @@ namespace Codefarts.UIControls
             {
                 return this.textWrapping;
             }
+
             set
             {
                 var changed = this.textWrapping != value;
@@ -121,6 +123,7 @@ namespace Codefarts.UIControls
             {
                 return this.textAlignment;
             }
+
             set
             {
                 var changed = this.textAlignment != value;

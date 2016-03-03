@@ -11,11 +11,30 @@ namespace Codefarts.UIControls
 {
     using System;
 
+    /// <summary>
+    /// Represents a scrollable area that can contain other controls. 
+    /// </summary>
     public class ScrollViewer : Control
     {
+        /// <summary>
+        /// The backing field for the <see cref="VerticalScrollBarVisibility"/> property.
+        /// </summary>
         protected ScrollBarVisibility verticalScrollBarVisibility;
 
+        /// <summary>
+        /// The backing field for the <see cref="HorizontialScrollBarVisibility"/> property.
+        /// </summary>
         protected ScrollBarVisibility horizontialScrollBarVisibility;
+
+        /// <summary>
+        /// The backing field for the <see cref="VerticalOffset"/> property.
+        /// </summary>
+        protected float verticalOffset;
+
+        /// <summary>
+        /// The backing field for the <see cref="HorizontialOffset"/> property.
+        /// </summary>
+        protected float horizontialOffset;
 
         #region Overrides of Control
 
@@ -31,12 +50,20 @@ namespace Codefarts.UIControls
 
         #endregion
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed. 
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed. 
+        /// The default is <see cref="ScrollBarVisibility.Auto" />.
+        /// </returns>
         public virtual ScrollBarVisibility HorizontialScrollBarVisibility
         {
             get
             {
                 return this.horizontialScrollBarVisibility;
             }
+
             set
             {
                 var changed = this.horizontialScrollBarVisibility != value;
@@ -48,12 +75,20 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed. 
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed. 
+        /// The default is <see cref="ScrollBarVisibility.Auto" />.
+        /// </returns>
         public virtual ScrollBarVisibility VerticalScrollBarVisibility
         {
             get
             {
                 return this.verticalScrollBarVisibility;
             }
+
             set
             {
                 var changed = this.verticalScrollBarVisibility != value;
@@ -65,13 +100,58 @@ namespace Codefarts.UIControls
             }
         }
 
-        public float HorizontialOffset { get; set; }
-        public float VerticalOffset { get; set; }
+        /// <summary>
+        /// Gets a value that contains the horizontal offset of the scrolled content.  
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Single" /> that represents the horizontal offset of the scrolled content. The default is 0.0.
+        /// </returns>
+        public virtual float HorizontialOffset
+        {
+            get
+            {
+                return this.horizontialOffset;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.horizontialOffset - value) > float.Epsilon;
+                this.horizontialOffset = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("HorizontialOffset");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value that contains the vertical offset of the scrolled content.  
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Single" /> that represents the vertical offset of the scrolled content. The default is 0.0.
+        /// </returns>
+        public virtual float VerticalOffset
+        {
+            get
+            {
+                return this.verticalOffset;
+            }
+
+            set
+            {
+                var changed = Math.Abs(this.verticalOffset - value) > float.Epsilon;
+                this.verticalOffset = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("VerticalOffset");
+                }
+            }
+        }
 
         /// <summary>
         /// Scroll content by one line to the top.
         /// </summary>
-        public void LineUp()
+        public virtual void LineUp()
         {
             throw new NotImplementedException();
         }
@@ -79,7 +159,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Scroll content by one line to the bottom. 
         /// </summary>                                                                                                             
-        public void LineDown()
+        public virtual void LineDown()
         {
             throw new NotImplementedException();
         }
@@ -87,7 +167,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Scroll content by one line to the left.
         /// </summary>
-        public void LineLeft()
+        public virtual void LineLeft()
         {
             throw new NotImplementedException();
         }
@@ -95,7 +175,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Scroll content by one line to the right.
         /// </summary> 
-        public void LineRight()
+        public virtual void LineRight()
         {
             throw new NotImplementedException();
         }
@@ -103,7 +183,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Scroll content by one page to the top.
         /// </summary>
-        public void PageUp()
+        public virtual void PageUp()
         {
             throw new NotImplementedException();
         }
@@ -111,7 +191,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Scroll content by one page to the bottom.
         /// </summary> 
-        public void PageDown()
+        public virtual void PageDown()
         {
             throw new NotImplementedException();
         }
@@ -119,7 +199,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Scroll content by one page to the left. 
         /// </summary>
-        public void PageLeft()
+        public virtual void PageLeft()
         {
             throw new NotImplementedException();
         }
@@ -127,7 +207,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Scroll content by one page to the right. 
         /// </summary>
-        public void PageRight()
+        public virtual void PageRight()
         {
             throw new NotImplementedException();
         }
@@ -135,7 +215,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Horizontally scroll to the beginning of the content. 
         /// </summary>
-        public void ScrollToLeftEnd()
+        public virtual void ScrollToLeftEnd()
         {
             this.HorizontialOffset = int.MinValue;
         }
@@ -143,7 +223,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Horizontally scroll to the end of the content. 
         /// </summary>
-        public void ScrollToRightEnd()
+        public virtual void ScrollToRightEnd()
         {
             this.HorizontialOffset = int.MaxValue;
         }
@@ -151,7 +231,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Scroll to Top-Left of the content. 
         /// </summary>
-        public void ScrollToHome()
+        public virtual void ScrollToHome()
         {
             this.VerticalOffset = int.MinValue;
             this.HorizontialOffset = int.MinValue;
@@ -160,7 +240,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Scroll to Bottom-Left of the content.
         /// </summary> 
-        public void ScrollToEnd()
+        public virtual void ScrollToEnd()
         {
             this.VerticalOffset = int.MaxValue;
             this.HorizontialOffset = int.MinValue;
@@ -169,7 +249,7 @@ namespace Codefarts.UIControls
         /// <summary> 
         /// Vertically scroll to the beginning of the content.
         /// </summary> 
-        public void ScrollToTop()
+        public virtual void ScrollToTop()
         {
             this.VerticalOffset = int.MinValue;
         }
@@ -177,7 +257,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Vertically scroll to the end of the content.
         /// </summary> 
-        public void ScrollToBottom()
+        public virtual void ScrollToBottom()
         {
             this.VerticalOffset = int.MaxValue;
         }
@@ -186,7 +266,7 @@ namespace Codefarts.UIControls
         /// Scroll horizontally to specified offset. Not guaranteed to end up at the specified offset though.
         /// </summary>
         /// <param name="offset">The offset amount to try and scroll.</param>
-        public void ScrollToHorizontalOffset(float offset)
+        public virtual void ScrollToHorizontalOffset(float offset)
         {
             this.HorizontialOffset += offset;
         }
@@ -195,7 +275,7 @@ namespace Codefarts.UIControls
         /// Scroll vertically to specified offset. Not guaranteed to end up at the specified offset though.
         /// </summary>
         /// <param name="offset">The offset amount to try and scroll.</param>
-        public void ScrollToVerticalOffset(float offset)
+        public virtual void ScrollToVerticalOffset(float offset)
         {
             this.VerticalOffset += offset;
         }
@@ -215,7 +295,7 @@ namespace Codefarts.UIControls
         /// Initializes a new instance of the <see cref="ScrollViewer"/> class.
         /// </summary>
         /// <param name="name">The name of the control.</param>
-        public ScrollViewer(string name)
+        public ScrollViewer(string name) : this()
         {
             this.name = name;
         }

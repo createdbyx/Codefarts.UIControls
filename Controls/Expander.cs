@@ -34,7 +34,7 @@ namespace Codefarts.UIControls
         /// Gets or sets the direction in which the <see cref="Expander" /> content opens.  
         /// </summary>
         /// <returns>
-        /// One of the <see cref="ExpandDirection" /> values that defines which direction the content opens. The default is <see cref="ExpandDirection.Down" />. 
+        /// One of the <see cref="ExpandDirection" /> values that defines which direction the content opens. The default is <see cref="UIControls.ExpandDirection.Down" />. 
         /// </returns>
         public ExpandDirection ExpandDirection
         {

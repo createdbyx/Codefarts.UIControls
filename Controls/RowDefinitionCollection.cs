@@ -3,10 +3,25 @@ namespace Codefarts.UIControls
     using System.Collections.ObjectModel;
     using System.Linq;
 
+    using Codefarts.UIControls.Interfaces;
     using Codefarts.UIControls.Models;
 
-    public class RowDefinitionCollection : ObservableCollection<RowDefinition>
+    /// <summary>
+    /// Provides a collection to store <see cref="RowDefinition"/> types.
+    /// </summary>
+    /// <seealso cref="System.Collections.ObjectModel.ObservableCollection{RowDefinition}" />
+    /// <seealso cref="IMarkup" />
+    public class RowDefinitionCollection : ObservableCollection<RowDefinition>   ,IMarkup
     {
+        /// <summary>
+        /// Builds a <see cref="Markup" /> object that represent the state of the implementor.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Markup" /> object containing the relavent information.
+        /// </returns>
+        /// <remarks>
+        ///   <p>The returned <see cref="Markup" /> object contains the relavnet data stored by the implementor.</p>
+        /// </remarks>
         public virtual Markup ToMarkup()
         {
             var markup = new Markup();

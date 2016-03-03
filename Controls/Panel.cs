@@ -11,12 +11,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Codefarts.UIControls
-{                 
+{
     /// <summary>
     /// Used to group collections of controls.
     /// </summary>
     public class Panel : ScrollViewer
-    {
+    {                              
+        /// <summary>
+        /// The backing field for the <see cref="AutoSizeMode"/> property.
+        /// </summary>
+        private AutoSizeMode autoSizeMode;
+
         #region Public Properties
 
         /// <summary>
@@ -25,7 +30,23 @@ namespace Codefarts.UIControls
         /// <returns>
         /// One of the <see cref="AutoSizeMode" /> values.
         /// </returns>
-        public virtual AutoSizeMode AutoSizeMode { get; set; }
+        public virtual AutoSizeMode AutoSizeMode
+        {
+            get
+            {
+                return this.autoSizeMode;
+            }
+
+            set
+            {
+                var changed = this.autoSizeMode != value;
+                this.autoSizeMode = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("AutoSizeMode");
+                }
+            }
+        }
 
         #endregion
 

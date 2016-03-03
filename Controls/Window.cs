@@ -88,7 +88,7 @@ namespace Codefarts.UIControls
             var onShown = this.Shown;
             if (onShown != null)
             {
-                onShown.Invoke(this, EventArgs.Empty);
+                onShown(this, EventArgs.Empty);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Codefarts.UIControls
             var onClosed = this.Closed;
             if (onClosed != null)
             {
-                onClosed.Invoke(this, EventArgs.Empty);
+                onClosed(this, EventArgs.Empty);
             }
         }
 
