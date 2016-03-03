@@ -2,12 +2,13 @@ namespace Codefarts.UIControls
 {
     using System.ComponentModel;
 
+    using Codefarts.UIControls.Interfaces;
     using Codefarts.UIControls.Models;
 
     /// <summary>
     /// Defines the functionality required to support a shared-size group that is used by the <see cref="ColumnDefinitionCollection" /> and 
     /// <see cref="RowDefinitionCollection" /> classes. This is an abstract class. </summary>
-    public abstract class DefinitionBase : INotifyPropertyChanged
+    public abstract class DefinitionBase : INotifyPropertyChanged, IMarkup
     {
         /// <summary>
         /// The is tool tip value for the related property.
@@ -141,6 +142,15 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Builds a <see cref="Markup" /> object that represent the state of the implementor.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Markup" /> object containing the relavent information.
+        /// </returns>
+        /// <remarks>
+        ///   <p>The returned <see cref="Markup" /> object contains the relavnet data stored by the implementor.</p>
+        /// </remarks>
         public virtual Markup ToMarkup()
         {
             var markup = new Markup();

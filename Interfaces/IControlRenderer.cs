@@ -1,7 +1,5 @@
 ﻿namespace Codefarts.UIControls.Interfaces
 {
-  //  using System;
-
     /// <summary>
     /// Provides a interface for drawing and updating controls.
     /// </summary>

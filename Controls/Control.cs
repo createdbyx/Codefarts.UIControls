@@ -13,16 +13,32 @@ namespace Codefarts.UIControls
     using System.ComponentModel;
     using System.Linq;
 
+    using Codefarts.UIControls.Interfaces;
     using Codefarts.UIControls.Models;
 
     /// <summary>
     /// The base control implementation.
     /// </summary>
-    public class Control : INotifyPropertyChanged
+    public class Control : INotifyPropertyChanged, IMarkup
     {
+        /// <summary>
+        /// The control style key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
         public const string ControlStyle = "ControlStyle_009FE297-D820-45B6-8AAC-DD2FC42FDE0A";
+
+        /// <summary>
+        /// The is mouse over key used when accessing a property from the <see cref="Properties" /> property.
+        /// </summary>
         public const string IsMouseOverKey = "IsMouseOver_F87213B4-B311-4B40-B7BB-39B6083309D0";
+
+        /// <summary>
+        /// The is focused key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
         public const string IsFocusedKey = "IsFocused_98260A5F-0489-4305-B878-AFC6C8480462";
+
+        /// <summary>
+        /// The previous mouse position key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
         public const string PreviousMousePositionKey = "PreviousMousePosition_422715F7-53E9-4177-845A-627F388F4608";
 
         #region Fields
@@ -1362,11 +1378,13 @@ namespace Codefarts.UIControls
         #endregion
 
         /// <summary>
-        /// Builds a <see cref="Markup"/> object that represent the state of the control.
+        /// Builds a <see cref="Markup" /> object that represent the state of the implementor.
         /// </summary>
-        /// <returns>A <see cref="Markup"/> object containing the relavent control information.</returns>
+        /// <returns>
+        /// A <see cref="Markup" /> object containing the relavent information.
+        /// </returns>
         /// <remarks>
-        /// <p>The returned <see cref="Markup"/> object represents </p>
+        ///   <p>The returned <see cref="Markup" /> object contains the relavnet data stored by the implementor.</p>
         /// </remarks>
         public virtual Markup ToMarkup()
         {
