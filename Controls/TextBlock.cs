@@ -39,6 +39,8 @@ namespace Codefarts.UIControls
         /// </summary>
         public TextBlock()
         {
+            this.canFocus = false;
+            this.isTabStop = false;
         }
 
         /// <summary>

@@ -40,6 +40,7 @@ namespace Codefarts.UIControls.Controls
         public Image(ImageSource source)
         {
             this.Source = source;
+            this.isTabStop = false;
         }
     }
 }

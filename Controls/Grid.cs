@@ -294,6 +294,8 @@ namespace Codefarts.UIControls
         public Grid()
             : this(1, 1)
         {
+            this.canFocus= false;
+            this.isTabStop = false;
         }
 
         /// <summary>

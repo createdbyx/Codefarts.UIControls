@@ -26,6 +26,7 @@ namespace Codefarts.UIControls
         public ScrollBar()
         {
             this.canFocus = true;
+            this.isTabStop = false;
         }
 
         /// <summary>

@@ -36,6 +36,8 @@ namespace Codefarts.UIControls
         {
             this.HorizontialScrollBarVisibility = ScrollBarVisibility.Hidden;
             this.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            this.canFocus = false;
+            this.isTabStop = false;
         }
 
         /// <summary>

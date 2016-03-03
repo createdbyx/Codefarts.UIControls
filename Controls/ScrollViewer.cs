@@ -207,6 +207,8 @@ namespace Codefarts.UIControls
         {
             this.horizontialScrollBarVisibility = ScrollBarVisibility.Auto;
             this.verticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            this.canFocus = false;
+            this.isTabStop = false;
         }
 
         /// <summary>

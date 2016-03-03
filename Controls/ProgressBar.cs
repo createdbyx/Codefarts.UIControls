@@ -116,6 +116,8 @@ namespace Codefarts.UIControls
         {
             this.foreground = new SolidColorBrush(Colors.Green);
             this.maximum = 100;
+            this.canFocus = false;
+            this.isTabStop = false;
         }
 
         /// <summary>

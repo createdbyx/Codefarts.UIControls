@@ -16,6 +16,7 @@ namespace Codefarts.UIControls
         public Slider()
         {
             this.canFocus = true;
+            this.isTabStop = true;
         }
 
         /// <summary>

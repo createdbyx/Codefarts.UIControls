@@ -121,6 +121,7 @@ namespace Codefarts.UIControls
         public Window()
         {
             this.canFocus = true;
+            this.isTabStop = false;
         }
     }
 }

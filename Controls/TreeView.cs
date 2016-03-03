@@ -75,6 +75,7 @@ namespace Codefarts.UIControls
         public TreeView()
         {
             this.canFocus = true;
+            this.isTabStop = true;
             this.nodes = new List<TreeViewNode>();
         }
 

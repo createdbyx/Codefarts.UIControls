@@ -50,6 +50,7 @@ namespace Codefarts.UIControls
         public CheckBox()
         {
             this.canFocus = true;
+            this.isTabStop = true;
         }
 
         /// <summary>
