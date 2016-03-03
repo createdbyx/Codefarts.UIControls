@@ -31,5 +31,18 @@ namespace Codefarts.UIControls
         /// Gets or sets the Hover rect in texture cordanants 0 to 1.
         /// </summary>
         public Rect Hover { get; set; }
+
+        /// <summary>Initializes a new instance of the <see cref="SkinningBrush" /> class that paints an area with the specified image. </summary>
+        /// <param name="source">The image to display.</param>
+        public SkinningBrush(ImageSource source) : base(source)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkinningBrush" /> class with no content.
+        /// </summary>
+        public SkinningBrush()  
+        {
+        }
     }
 }
