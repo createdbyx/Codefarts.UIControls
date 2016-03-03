@@ -7,6 +7,7 @@
 </copyright>
 */
 
+// ReSharper disable InconsistentNaming
 
 namespace Codefarts.UIControls
 {
@@ -14,12 +15,75 @@ namespace Codefarts.UIControls
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-                                              
+
+    /// <summary>
+    /// Represents a control to display a list of items. 
+    /// </summary>
     public class ListBox : ScrollViewer
     {
-        public event EventHandler SelectionChanged;
+        /// <summary>
+        /// The backing field for the <see cref="DisplayMemberCallback"/> property.
+        /// </summary>
+        protected Func<object, string> displayMemberCallback;
+
+        /// <summary>
+        /// The backing field for the <see cref="DrawMode"/> property.
+        /// </summary>
+        protected DrawMode drawMode = DrawMode.Normal;
+
+        /// <summary>
+        /// The backing field for the <see cref="Items"/> property.
+        /// </summary>
         protected ItemsCollection items;
 
+        /// <summary>
+        /// The backing field for the <see cref="ScrollAlwaysVisible"/> property.
+        /// </summary>
+        protected bool scrollAlwaysVisible;
+
+        /// <summary>
+        /// The backing field for the <see cref="SelectedIndex"/> property.
+        /// </summary>
+        protected int selectedIndex = -1;
+
+        /// <summary>
+        /// The backing field for the <see cref="SelectedItems"/> property.
+        /// </summary>
+        protected List<object> selectedItems;
+
+        /// <summary>
+        /// The backing field for the <see cref="SelectionMode"/> property.
+        /// </summary>
+        protected SelectionMode selectionMode;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// </summary>
+        public ListBox()
+        {
+            this.canFocus = true;
+            this.isTabStop = true;
+            this.items = new ItemsCollection();
+            this.items.CollectionChanged += this.ItemsCollectionChanged;
+            this.selectedItems = new List<object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        public ListBox(string name)
+            : this()
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Gets the items of the <see cref="T:ListBox" />.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:ItemsCollection" /> representing the items in the <see cref="T:ListBox" />.
+        /// </returns>
         public virtual ItemsCollection Items
         {
             get
@@ -29,7 +93,7 @@ namespace Codefarts.UIControls
 
             internal set
             {
-                var changed = this.items!=value;
+                var changed = this.items != value;
                 this.items = value;
                 if (changed)
                 {
@@ -38,29 +102,19 @@ namespace Codefarts.UIControls
             }
         }
 
-        public IList SelectedItems
+        /// <summary>
+        /// Gets a collection containing the currently selected items in the <see cref="T:ListBox" />.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:IList" /> containing the currently selected items in the control.
+        /// </returns>
+        public virtual IList SelectedItems
         {
             get
             {
                 return this.selectedItems;
             }
         }
-
-        private int selectedIndex = -1;
-
-        private List<object> selectedItems;
-
-        protected DrawMode drawMode = DrawMode.Normal;
-
-        protected bool scrollAlwaysVisible;
-
-        private SelectionMode selectionMode;
-
-        private Func<object, string> displayMemberCallback;
-
-
-        public event EventHandler<ListBoxItemInformationArgs> DrawItem;
-        public event EventHandler<ListBoxItemInformationArgs> MeasureItem;
 
         /// <summary>
         /// Gets or sets the display member callback used to get a string that represents an item in the list.
@@ -83,6 +137,12 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the drawing mode for the control.
+        /// </summary>
+        /// <returns>
+        /// One of the <see cref="T:DrawMode" /> values representing the mode for drawing the items of the control. The default is DrawMode.Normal.
+        /// </returns>
         public virtual DrawMode DrawMode
         {
             get
@@ -101,14 +161,12 @@ namespace Codefarts.UIControls
             }
         }
 
-        public void OnSelectionChanged()
-        {
-            if (this.SelectionChanged != null)
-            {
-                this.SelectionChanged(this, EventArgs.Empty);
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the first item in the current selection or returns null if the selection is empty.
+        /// </summary>
+        /// <returns>
+        /// The first item in the current selection or null if the selection is empty.
+        /// </returns>
         public object SelectedItem
         {
             get
@@ -140,22 +198,6 @@ namespace Codefarts.UIControls
                     this.OnPropertyChanged("SelectionMode");
                 }
             }
-        }
-
-        public void SelectAll()
-        {
-            if (this.SelectionMode != SelectionMode.Single)
-            {
-                throw new NotSupportedException("Can ont select all when SelectionMode is single.");
-            }
-
-            this.selectedItems.Clear();
-            this.selectedItems.AddRange(this.Items);
-        }
-
-        public void UnselectAll()
-        {
-            this.selectedItems.Clear();
         }
 
         #region Overrides of ScrollViewer
@@ -206,6 +248,12 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the zero-based index of the currently selected item in a <see cref="T:ListBox" />.
+        /// </summary>
+        /// <returns>
+        /// A zero-based index of the currently selected item. A value of negative one (-1) is returned if no item is selected.
+        /// </returns>
         public int SelectedIndex
         {
             get
@@ -238,26 +286,63 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// Occurs when a visual aspect of an owner-drawn <see cref="T:ListBox" /> changes.
         /// </summary>
-        public ListBox()
+        public event EventHandler SelectionChanged;
+
+        /// <summary>
+        /// Occurs when a visual aspect of an owner-drawn <see cref="T:ListBox" /> changes.
+        /// </summary>
+        public event EventHandler<ListBoxItemInformationArgs> DrawItem;
+
+        /// <summary>
+        /// Occurs when an owner-drawn <see cref="T:ListBox" /> is created and the sizes of the list items are determined.
+        /// </summary>
+        public event EventHandler<ListBoxItemInformationArgs> MeasureItem;
+
+        /// <summary>
+        /// Raises the <see cref="E:SelectionChanged"/> event.
+        /// </summary>
+        public virtual void OnSelectionChanged()
         {
-            this.canFocus = true;
-            this.items = new ItemsCollection();
-            this.items.CollectionChanged += this.ItemsCollectionChanged;
-            this.selectedItems = new List<object>();
+            var handler = this.SelectionChanged;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary> 
+        /// Selects all the items in a <see cref="T:ListBox" />. 
+        /// </summary>
+        /// <exception cref="T:System.NotSupportedException">
+        /// The <see cref="P:ListBox.SelectionMode" /> property is set to <see cref="UIControls.SelectionMode.Single" />.
+        /// </exception>
+        public void SelectAll()
+        {
+            if (this.SelectionMode != SelectionMode.Single)
+            {
+                throw new NotSupportedException("Can ont select all when SelectionMode is single.");
+            }
+
+            this.selectedItems.Clear();
+            this.selectedItems.AddRange(this.Items);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// Clears all the selection in a <see cref="T:ListBox" />.
         /// </summary>
-        /// <param name="name">The name of the control.</param>
-        public ListBox(string name) : this()
+        public void UnselectAll()
         {
-            this.name = name;
+            this.selectedItems.Clear();
         }
 
-        private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        /// <summary>
+        /// Handles changes to the items collection.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
+        private void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -280,6 +365,9 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:MeasureItem"/> event.
+        /// </summary>
         public virtual void OnMeasureItem(ListBoxItemInformationArgs e)
         {
             var handler = this.MeasureItem;
@@ -289,6 +377,9 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:DrawItem"/> event.
+        /// </summary>
         public virtual void OnDrawItem(ListBoxItemInformationArgs e)
         {
             var handler = this.DrawItem;
