@@ -260,6 +260,11 @@ namespace Codefarts.UIControls
         /// </summary>
         public event EventHandler<MouseEventArgs> MouseEvent;
 
+        /// <summary>
+        /// Occurs when the control is clicked.
+        /// </summary>
+        public event EventHandler Click;
+
         #endregion
 
         #region Public Properties
@@ -1307,6 +1312,18 @@ namespace Codefarts.UIControls
             if (handler != null)
             {
                 handler(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:Click"/> event.
+        /// </summary>
+        public void OnClick()
+        {
+            var handler = this.Click;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
             }
         }
 

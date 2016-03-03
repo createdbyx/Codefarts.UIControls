@@ -8,9 +8,7 @@
 */
 
 namespace Codefarts.UIControls
-{
-    using System;
-
+{                   
     /// <summary>
     /// A button control.
     /// </summary>
@@ -42,6 +40,7 @@ namespace Codefarts.UIControls
         public Button()
         {
             this.canFocus = true;
+            this.isTabStop = true;
         }
 
         /// <summary>
@@ -53,16 +52,7 @@ namespace Codefarts.UIControls
         {
             this.name = name;
         }
-
-        #region Public Events
-
-        /// <summary>
-        /// Occurs when the button is clicked.
-        /// </summary>
-        public event EventHandler Click;
-
-        #endregion
-
+               
         #region Public Properties
 
         /// <summary>
@@ -118,22 +108,6 @@ namespace Codefarts.UIControls
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// The on click.
-        /// </summary>
-        public void OnClick()
-        {
-            var handler = this.Click;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion
+        #endregion     
     }
 }
