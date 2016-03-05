@@ -315,7 +315,6 @@
 
             GetValue(markup, "Location", x => float.Parse(x), x =>
             {
-                float top;
                 float left;
                 switch (x.Length)
                 {
@@ -326,7 +325,7 @@
 
                     case 2:
                         left = x[0];
-                        top = x[1];
+                        var top = x[1];
                         control.Location = new Point(left, top);
                         break;
                 }
@@ -334,7 +333,6 @@
 
             GetValue(markup, "Size", x => float.Parse(x), x =>
             {
-                float height;
                 float width;
                 switch (x.Length)
                 {
@@ -345,7 +343,7 @@
 
                     case 2:
                         width = x[0];
-                        height = x[1];
+                        var height = x[1];
                         control.Size = new Size(width, height);
                         break;
                 }
