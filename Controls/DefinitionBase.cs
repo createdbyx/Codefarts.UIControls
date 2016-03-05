@@ -28,7 +28,37 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The is enabled value for the related property.
         /// </summary>
-        protected bool enabled = true;
+        protected bool isEnabled = true;
+
+        /// <summary>
+        /// The is visible value for the related property.
+        /// </summary>
+        protected bool isVisible = true;
+
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether this element is visible in the user interface (UI).  
+        /// </summary>
+        /// <returns>
+        /// true if the element is visible; otherwise, false. The default value is true.
+        /// </returns>
+        public virtual bool IsVisible
+        {
+            get
+            {
+                return this.isVisible;
+            }
+
+            set
+            {
+                var changed = this.isVisible == value;
+                this.isVisible = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("IsVisible");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value that indicates whether this element is enabled in the user interface (UI).  
@@ -40,13 +70,13 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.enabled;
+                return this.isEnabled;
             }
 
             set
             {
-                var changed = this.enabled == value;
-                this.enabled = value;
+                var changed = this.isEnabled == value;
+                this.isEnabled = value;
                 if (changed)
                 {
                     this.OnPropertyChanged("IsEnabled");
