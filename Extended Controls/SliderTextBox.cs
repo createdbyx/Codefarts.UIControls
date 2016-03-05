@@ -1,4 +1,4 @@
-namespace Codefarts.GridMapGame.EditorTools
+namespace Codefarts.UIControls
 {
     using System.ComponentModel;
 
@@ -7,7 +7,7 @@ namespace Codefarts.GridMapGame.EditorTools
     /// <summary>
     /// Provides a control with a <see cref="Slider"/>, <see cref="NumericTextField"/>, and a <see cref="TextBlock"/> label.
     /// </summary>
-    public class SliderTextBoxControl : RangeBase
+    public class SliderTextBox : RangeBase
     {
         /// <summary>
         /// The numeric text field for changing the value by hand.
@@ -180,9 +180,9 @@ namespace Codefarts.GridMapGame.EditorTools
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SliderTextBoxControl"/> class.
+        /// Initializes a new instance of the <see cref="SliderTextBox"/> class.
         /// </summary>
-        public SliderTextBoxControl()
+        public SliderTextBox()
         {
             this.container = new StackPanel() { Orientation = Orientation.Vertical };
             this.textField = new NumericTextField() { Text = "1", Width = 64, Minimum = 1, Maximum = 256 };
@@ -197,13 +197,13 @@ namespace Codefarts.GridMapGame.EditorTools
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SliderTextBoxControl"/> class.
+        /// Initializes a new instance of the <see cref="SliderTextBox"/> class.
         /// </summary>
         /// <param name="text">The text for the label.</param>
         /// <param name="value">The value.</param>
         /// <param name="min">The minimum allowable value.</param>
         /// <param name="max">The maximum allowable value.</param>
-        public SliderTextBoxControl(string text, float value, float min, float max)
+        public SliderTextBox(string text, float value, float min, float max)
             : this()
         {
             this.Text = text;
