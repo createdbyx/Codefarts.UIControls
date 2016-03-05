@@ -216,6 +216,16 @@
             GetValue(markup, "VerticalAlignment", x => (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), x, true), x => control.VerticalAlignment = x);
         }
 
+        public static void ParseRangeBase(this Markup markup, RangeBase control)
+        {
+            GetValue<float>(markup, "Minimum", x => control.Minimum = x);
+            GetValue<float>(markup, "Maximum", x => control.Maximum = x);
+            GetValue<int>(markup, "Precision", x => control.Precision = x);
+            GetValue<float>(markup, "Value", x => control.Value = x);
+            GetValue<float>(markup, "LargeChange", x => control.LargeChange = x);
+            GetValue<float>(markup, "SmallChange", x => control.SmallChange = x);
+        }
+
         public static void ParseGridPosition(this Markup markup, Control control)
         {
             //if (!(control.Parent is Grid))
@@ -302,6 +312,50 @@
                             break;
                     }
                 });
+
+            GetValue(markup, "Location", x => float.Parse(x), x =>
+            {
+                float top;
+                float left;
+                switch (x.Length)
+                {
+                    case 1:
+                        left = x[0];
+                        control.Location = new Point(left, left);
+                        break;
+
+                    case 2:
+                        left = x[0];
+                        top = x[1];
+                        control.Location = new Point(left, top);
+                        break;
+                }
+            });
+
+            GetValue(markup, "Size", x => float.Parse(x), x =>
+            {
+                float height;
+                float width;
+                switch (x.Length)
+                {
+                    case 1:
+                        width = x[0];
+                        control.Size = new Size(width, width);
+                        break;
+
+                    case 2:
+                        width = x[0];
+                        height = x[1];
+                        control.Size = new Size(width, height);
+                        break;
+                }
+            });
+
+            var location = control.Location;
+            GetValue<float>(markup, "Left", x => location.X = x);
+            GetValue<float>(markup, "Top", x => location.Y = x);
+            control.Location = location;   
+
         }
     }
 }
