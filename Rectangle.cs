@@ -1,6 +1,11 @@
 namespace Codefarts.UIControls
 {
-    using System;                
+    using System;
+    using System.Globalization;
+
+#if UNITY_5
+    using UnityEngine;
+#endif
 
     /// <summary>
     /// Stores a set of four floating-point numbers that represent the location and size of a rectangle.
@@ -530,7 +535,7 @@ namespace Codefarts.UIControls
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{{X={0}, Y={1}, Width={2}, Height={3}}}", this.x, this.y, this.width, this.height);
+            return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}, Width={2}, Height={3}}}", this.x, this.y, this.width, this.height);
         }
 
         /// <summary>
@@ -549,5 +554,18 @@ namespace Codefarts.UIControls
             var positionBottom = Math.Max(a.Y + a.Height, b.Y + b.Height);
             return new Rectangle(positionX, positionY, positionRight - positionX, positionBottom - positionY);
         }
+
+
+#if UNITY_5
+        public static implicit operator Rect(Rectangle rectangle)
+        {
+            return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        }
+
+        public static implicit operator Rectangle(Rect rectangle)
+        {
+            return new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        }
+#endif
     }
 }
