@@ -49,6 +49,33 @@
         }
 
 
+        public static bool GetValue<T>(this Markup markup, string name, out T result, T defaultValue)
+        {
+            if (markup == null)
+            {
+                throw new ArgumentNullException("markup");
+            }
+
+            result = defaultValue;
+            object value;
+            if (markup.Properties != null && markup.Properties.TryGetValue(name, out value))
+            {
+                try
+                {
+                    var convertedValue = (T)Convert.ChangeType(value, typeof(T), null);
+                    result = convertedValue;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+
         public static bool GetValue<T>(this Markup markup, IEnumerable<string> names, Action<T> callback)
         {
             if (markup == null)
@@ -352,7 +379,7 @@
             var location = control.Location;
             GetValue<float>(markup, "Left", x => location.X = x);
             GetValue<float>(markup, "Top", x => location.Y = x);
-            control.Location = location;   
+            control.Location = location;
 
         }
     }

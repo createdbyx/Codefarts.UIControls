@@ -11,15 +11,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Attribute" /> class.
         /// </summary>
-        /// <param name="fullName">The unique id associated with the type.</param>
-        public UniqueIDAttribute(Guid fullName)
+        /// <param name="id">The unique id associated with the type.</param>
+        public UniqueIDAttribute(string id)
         {
-            this.UniqueId = fullName;
+            this.UniqueId = id;
         }
 
         /// <summary>
         /// Gets or sets the unique id of the type.
         /// </summary>
-        public Guid UniqueId { get; set; }
+        public string UniqueId { get; set; }
     }
 }

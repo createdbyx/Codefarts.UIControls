@@ -21,16 +21,31 @@ namespace Codefarts.UIControls
             this.txtValue = new TextBox()
             {
                 AcceptsReturn = false,
+                AcceptsTab = false,
                 Width = this.Width,
                 Height = this.Height,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch ,
-                Text = this.value.ToString(CultureInfo.InvariantCulture)
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Text = this.value.ToString(CultureInfo.InvariantCulture),
             };
 
-            this.Controls.Add(this.txtValue);    
+            this.Controls.Add(this.txtValue);
             this.txtValue.PropertyChanged += this.TextValuePropertyChanged;
         }
+
+        #region Overrides of Control
+
+        /// <summary>Gets the default size of the control.</summary>
+        /// <returns>The default <see cref="Control.Size" /> of the control.</returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(100, 33);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Handles the property changed events for the <see cref="txtValue"/> field.
