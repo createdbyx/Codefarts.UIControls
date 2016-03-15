@@ -1266,7 +1266,6 @@ namespace Codefarts.UIControls
                     this.OnPropertyChanged("Left");
                     switch (this.horizontalAlignment)
                     {
-
                         case HorizontalAlignment.Center:
                             // ignore
                             break;
@@ -1293,6 +1292,51 @@ namespace Codefarts.UIControls
                             break;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the coordinates of the upper-left corner of the control relative to the upper-left corner of its container.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Point" /> that represents the upper-left corner of the control relative to the upper-left corner of its container.
+        /// </returns>
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(this.Location, this.Size);
+            }
+            set
+            {
+                var leftChanged = Math.Abs(this.Left - value.X) > float.Epsilon;
+                var topChanged = Math.Abs(this.Top - value.Y) > float.Epsilon;
+                var widthChanged = Math.Abs(this.Width - value.Width) > float.Epsilon;
+                var heightChanged = Math.Abs(this.Height - value.Height) > float.Epsilon;
+
+                if (leftChanged && this.horizontalAlignment == HorizontalAlignment.Center && this.Parent != null)
+                {
+                    value.X = (this.Parent.Width / 2) - (value.Width / 2);
+                }
+
+                if (topChanged && this.verticalAlignment == VerticalAlignment.Center && this.Parent != null)
+                {
+                    value.Y = (this.Parent.Height / 2) - (value.Height / 2);
+                }
+
+                if (this.location == value.Location && this.size == value.Size)
+                {
+                    return;
+                }
+
+                leftChanged = Math.Abs(this.Left - value.X) > float.Epsilon;
+                topChanged = Math.Abs(this.Top - value.Y) > float.Epsilon;
+                widthChanged = Math.Abs(this.Width - value.Width) > float.Epsilon;
+                heightChanged = Math.Abs(this.Height - value.Height) > float.Epsilon;
+
+                this.Location = value.Location;
+                this.Size = value.Size;
+                this.OnPropertyChanged("Bounds");
             }
         }
 
