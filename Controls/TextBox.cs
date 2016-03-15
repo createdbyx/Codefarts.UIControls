@@ -215,8 +215,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                value = !this.AcceptsReturn ? value.Replace("\r\n", string.Empty) : value;
-                value = value == null ? string.Empty : value;
+                value = !this.AcceptsReturn && value != null ? value.Replace("\r\n", string.Empty) : value;
                 var changed = this.text != value;
                 this.text = value;
                 if (changed)
