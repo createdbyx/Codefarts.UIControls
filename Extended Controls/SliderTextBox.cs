@@ -213,6 +213,24 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SliderTextBox"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        /// <param name="text">The text for the label.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="min">The minimum allowable value.</param>
+        /// <param name="max">The maximum allowable value.</param>
+        public SliderTextBox(string name,string text, float value, float min, float max)
+            : this()
+        {
+            this.Name = name;
+            this.Text = text;
+            this.Minimum = min;
+            this.Maximum = max;
+            this.Value = value;
+        }
+
+        /// <summary>
         /// Handles property changes from <see cref="textField"/>.
         /// </summary>
         /// <param name="sender">The sender.</param>
