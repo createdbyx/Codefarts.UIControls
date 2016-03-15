@@ -75,8 +75,8 @@ namespace Codefarts.UIControls
             this.X = x;
         }
 
-        /// <summary>Gets the current state of the left mouse button.</summary>
-        /// <returns>The current state of the left mouse button.</returns>
+        /// <summary>Gets the current state of the mouse buttons.</summary>
+        /// <returns>The current state of the mouse buttons.</returns>
         /// <remarks>The number of buttons is determined by <see cref="Constants.MaxMouseButtons"/> and may vary depending on the platform.</remarks>
         public float[] Buttons { get; set; }
 
@@ -143,6 +143,23 @@ namespace Codefarts.UIControls
         /// <summary>Gets the state of the mouse Y position.</summary>
         /// <returns>The current state of the mouse Y position.</returns>
         public float Y { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state of the mouse postion.
+        /// </summary>
+        public Point Position
+        {
+            get
+            {
+                return new Point(this.X,this.Y);
+            }
+
+            set
+            {
+                this.X = value.X;
+                this.Y = value.Y;
+            }
+        }
 
         /// <summary>Gets or sets the event type.</summary>
         /// <returns>The current event type.</returns>
