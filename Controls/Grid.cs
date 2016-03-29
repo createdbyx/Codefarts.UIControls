@@ -9,7 +9,7 @@
 
 namespace Codefarts.UIControls
 {
-    using System;                         
+    using System;
 
     using Codefarts.UIControls.Models;
 
@@ -101,6 +101,7 @@ namespace Codefarts.UIControls
             {
                 value = value < 1 ? 1 : value;
                 var changed = this.rows != value;
+                var oldRows = this.rows;
                 this.rows = value;
                 if (changed)
                 {
@@ -116,7 +117,7 @@ namespace Codefarts.UIControls
                     }
                     this.handleRowChangeEvent = true;
 
-                    this.UpdateCellArray();
+                    this.UpdateCellArray(this.columns, oldRows);
                     this.OnPropertyChanged("Rows");
                 }
             }
@@ -136,6 +137,7 @@ namespace Codefarts.UIControls
             {
                 value = value < 1 ? 1 : value;
                 var changed = this.columns != value;
+                var oldColumns = this.columns;
                 this.columns = value;
                 if (changed)
                 {
@@ -151,39 +153,57 @@ namespace Codefarts.UIControls
                     }
                     this.handleColumnChangeEvent = true;
 
-                    this.UpdateCellArray();
+                    this.UpdateCellArray(oldColumns, this.rows);
                     this.OnPropertyChanged("Columns");
                 }
             }
         }
 
-        private void UpdateCellArray()
+        private void UpdateCellArray(int oldColumns, int oldRows)
         {
-            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
+            this.cells = this.ResizeArray(this.cells, oldColumns, oldRows);
         }
 
-        private object[,] cells;
+        private object[] cells;
 
         public object GetCell(int column, int row)
         {
-            return this.cells[column, row];
+            return this.cells[(row * this.columns) + column];
         }
 
         public void SetCell(int column, int row, object value)
         {
-            this.cells[column, row] = value;
+            this.cells[(row * this.columns) + column] = value;
         }
 
-        protected T[,] ResizeArray<T>(T[,] original, int x, int y)
+        protected T[] ResizeArray<T>(T[] original, int oldColumns, int oldRows)
         {
-            T[,] newArray = new T[x, y];
-            var minX = Math.Min(original.GetLength(0), newArray.GetLength(0));
-            var minY = Math.Min(original.GetLength(1), newArray.GetLength(1));
+            var newArray = new T[this.columns * this.rows];
 
-            for (var i = 0; i < minY; ++i)
+            var columnCount = Math.Min(this.columns, oldColumns);
+            var rowCount = Math.Min(this.rows, oldRows);
+
+            for (var i = 0; i < rowCount; i++)
             {
-                Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
+                Array.Copy(original, i * oldColumns, newArray, i * this.columns, columnCount);
             }
+
+            //var minX = Math.Min(original.GetLength(0), newArray.GetLength(0));
+            //var minY = Math.Min(original.GetLength(1), newArray.GetLength(1));
+
+            //for (var row = 0; row < minX; row++)
+            //{
+            //    for (var idx = 0; idx < original.GetLength(0); idx++)
+            //    {
+
+            //    }
+            //}
+
+            //for (var i = 0; i < minY; ++i)
+            //{
+            //    Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
+            //    Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
+            //}
 
             return newArray;
         }
@@ -251,7 +271,7 @@ namespace Codefarts.UIControls
 
             this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
             this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
-            this.cells = new object[this.columns, this.rows];
+            this.cells = new object[this.columns * this.rows];
             this.Rows = rows;
             this.Columns = columns;
         }
@@ -294,7 +314,7 @@ namespace Codefarts.UIControls
         public Grid()
             : this(1, 1)
         {
-            this.canFocus= false;
+            this.canFocus = false;
             this.isTabStop = false;
         }
 
