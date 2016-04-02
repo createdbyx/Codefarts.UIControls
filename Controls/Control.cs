@@ -194,6 +194,15 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Control"/> class.
+        /// </summary>
+        /// <param name="name">The name of the control.</param>
+        public Control(string name) : this()
+        {
+            this.name = name;
+        }
+
+        /// <summary>
         /// Forces the control to apply layout logic to all its child controls.
         /// </summary>
         public virtual void PerformLayout()
@@ -353,7 +362,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Finds the control at specified point.
+        /// Finds a control at specified point in client space.
         /// </summary>
         /// <param name="x">The x client position to search for a control.</param>
         /// <param name="y">The y client position to search for a control.</param>
@@ -390,11 +399,7 @@ namespace Codefarts.UIControls
                         continue;
                     }
 
-                    if (item.Visibility == Visibility.Visible &&
-                        position.X >= item.Left &&
-                        position.Y >= item.Top &&
-                        position.X < item.Left + item.Width &&
-                        position.Y < item.Top + item.Height)
+                    if (item.Visibility == Visibility.Visible && item.Bounds.Contains(position))
                     {
                         var point = new Point(position.X - item.Left, position.Y - item.Top);
                         var child = item.FindControlAtPoint(point);
@@ -408,16 +413,7 @@ namespace Codefarts.UIControls
                 }
             }
 
-            if (this.Visibility == Visibility.Visible &&
-                position.X >= this.Left &&
-                position.Y >= this.Top &&
-                position.X < this.Width &&
-                position.Y < this.Height)
-            {
-                return this;
-            }
-
-            return null;
+            return this.Visibility == Visibility.Visible && this.Bounds.Contains(position) ? this : null;
         }
 
         /// <summary>
