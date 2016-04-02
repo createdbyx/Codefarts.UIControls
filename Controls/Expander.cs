@@ -15,9 +15,9 @@ namespace Codefarts.UIControls
     public class Expander : Control
     {
         /// <summary>
-        /// The previous height of the expander control before it was in an expanded state. Used as a key when storing values in the <see cref="Control.Properties"/> property.
+        /// The backing field for the <see cref="Content"/> property.
         /// </summary>
-        public const string UnexpandedHeightKey = "UnexpandedHeight_CD367661-CB86-4F9C-B58A-7E643D0AA678";
+        protected Control content;
 
         /// <summary>
         /// The backing field for the <see cref="Text"/> property.
@@ -34,17 +34,12 @@ namespace Codefarts.UIControls
         /// </summary>
         protected ExpandDirection expandDirection;
 
-        /// <summary>
-        /// The label text for the expander
-        /// </summary>
-        private TextBlock lblText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Expander"/> class.
         /// </summary>
-        public Expander() : base()
+        public Expander()
         {
-            this.Initialize();
         }
 
         /// <summary>
@@ -53,7 +48,6 @@ namespace Codefarts.UIControls
         /// <param name="name">The name of the control.</param>
         public Expander(string name) : base(name)
         {
-            this.Initialize();
         }
 
         /// <summary>
@@ -64,35 +58,7 @@ namespace Codefarts.UIControls
         public Expander(string name, string text) : base(name)
         {
             this.Text = text;
-            this.Initialize();
         }
-
-        protected void Initialize()
-        {
-            this.Properties[UnexpandedHeightKey] = this.DefaultSize.Height;
-            this.PropertyChanged += this.ExpanderPropertyChanged;
-            // var definition = this.RowDefinitions[0];
-            //   definition.MaxHeight = this.DefaultSize.Height;
-            //   definition.Height = definition.MaxHeight;
-            //  this.RowDefinitions[1].IsVisible = this.IsExpanded;
-        }
-
-        private void ExpanderPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Height" && !this.IsExpanded)
-            {
-                this.Properties[Expander.UnexpandedHeightKey] = this.Height;
-            }
-        }
-
-        #region Overrides of Grid
-
-        /// <summary>
-        /// Gets the control collection containing the child controls.
-        /// </summary>
-        //  public override ControlsCollection Controls { get; set; }
-
-        #endregion
 
         /// <summary>
         /// Gets or sets the direction in which the <see cref="Expander" /> content opens.  
@@ -119,6 +85,27 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Gets or sets the content control that houses the expander content.  
+        /// </summary>
+        public virtual Control Content
+        {
+            get
+            {
+                return this.content;
+            }
+
+            set
+            {
+                var changed = this.content != value;
+                this.content = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("Content");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets whether the <see cref="Expander" /> content is visible.  
         /// </summary>
         /// <returns>
@@ -137,7 +124,6 @@ namespace Codefarts.UIControls
                 this.isExpanded = value;
                 if (changed)
                 {
-                    //     this.RowDefinitions[1].IsVisible = this.isExpanded;
                     this.OnPropertyChanged("IsExpanded");
                 }
             }
