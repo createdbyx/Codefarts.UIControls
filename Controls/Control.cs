@@ -155,7 +155,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The value for the <see cref="IsVisible"/> property.
         /// </summary>
-        protected bool isVisible;
+        protected bool isVisible = true;
 
         /// <summary>
         /// The minimum size for the control.
@@ -740,7 +740,7 @@ namespace Codefarts.UIControls
                 }
 
                 return control.IsVisible;
-            }   
+            }
         }
 
         /// <summary>
