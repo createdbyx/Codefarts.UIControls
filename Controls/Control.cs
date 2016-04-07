@@ -8,13 +8,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Codefarts.UIControls
 {
+    using Codefarts.UIControls.Interfaces;
+    using Codefarts.UIControls.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-
-    using Codefarts.UIControls.Interfaces;
-    using Codefarts.UIControls.Models;
 
     /// <summary>
     /// The base control implementation.
@@ -67,11 +66,6 @@ namespace Codefarts.UIControls
         /// The vertical alignment.
         /// </summary>
         protected VerticalAlignment verticalAlignment = VerticalAlignment.Top;
-
-        /// <summary>
-        /// The visibility of the control.
-        /// </summary>
-        protected Visibility visibility = Visibility.Visible;
 
         /// <summary>
         /// The size of the control.
@@ -157,6 +151,11 @@ namespace Codefarts.UIControls
         /// The value for the <see cref="Parent"/> property.
         /// </summary>
         protected Control parent;
+
+        /// <summary>
+        /// The value for the <see cref="IsVisible"/> property.
+        /// </summary>
+        protected bool isVisible;
 
         /// <summary>
         /// The minimum size for the control.
@@ -399,7 +398,7 @@ namespace Codefarts.UIControls
                         continue;
                     }
 
-                    if (item.Visibility == Visibility.Visible && item.Bounds.Contains(position))
+                    if (item.IsVisible && item.Bounds.Contains(position))
                     {
                         var point = new Point(position.X - item.Left, position.Y - item.Top);
                         var child = item.FindControlAtPoint(point);
@@ -413,7 +412,7 @@ namespace Codefarts.UIControls
                 }
             }
 
-            return this.Visibility == Visibility.Visible && this.Bounds.Contains(position) ? this : null;
+            return this.IsVisible && this.Bounds.Contains(position) ? this : null;
         }
 
         /// <summary>
@@ -689,6 +688,30 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this control is visible in the user interface (UI).
+        /// </summary>
+        /// <returns>
+        /// true if the element is visible; otherwise, false.
+        /// </returns>
+        public virtual bool IsVisible
+        {
+            get
+            {
+                return this.isVisible;
+            }
+
+            set
+            {
+                var changed = this.isVisible != value;
+                this.isVisible = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("IsVisible");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this control is visible in the user interface (UI).
         /// </summary>
         /// <returns>
@@ -696,19 +719,19 @@ namespace Codefarts.UIControls
         /// </returns>
         /// <remarks>This property ensures that the control is potentially visible on screen by walking up the parent hierarchy and ensuring
         /// that all parents are visible as well.</remarks>
-        public virtual bool IsVisible
+        public virtual bool IsVisibleInHierarchy
         {
             get
             {
                 if (this.Parent == null)
                 {
-                    return this.Visibility == Visibility.Visible;
+                    return this.isVisible;
                 }
 
                 var control = this.Parent;
                 while (control != null)
                 {
-                    if (control.Visibility != Visibility.Visible)
+                    if (!control.IsVisible)
                     {
                         return false;
                     }
@@ -716,8 +739,8 @@ namespace Codefarts.UIControls
                     control = control.Parent;
                 }
 
-                return true;
-            }
+                return control.IsVisible;
+            }   
         }
 
         /// <summary>
@@ -1027,27 +1050,6 @@ namespace Codefarts.UIControls
                 if (changed)
                 {
                     this.OnPropertyChanged("VerticalContentAlignment");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the controls visibility.
-        /// </summary>
-        public virtual Visibility Visibility
-        {
-            get
-            {
-                return this.visibility;
-            }
-
-            set
-            {
-                var changed = this.visibility != value;
-                this.visibility = value;
-                if (changed)
-                {
-                    this.OnPropertyChanged("Visibility");
                 }
             }
         }
@@ -1442,7 +1444,7 @@ namespace Codefarts.UIControls
             markup.SetProperty("AutoSize", this.AutoSize, this.AutoSize);
             markup.SetProperty("ClipToBounds", !this.ClipToBounds, this.ClipToBounds);
             markup.SetProperty("IsEnabled", !this.IsEnabled, this.IsEnabled);
-            markup.SetProperty("Visibility", this.Visibility != Visibility.Visible, this.Visibility);
+            markup.SetProperty("IsVisible", !this.IsVisible, this.IsVisible);
             markup.SetProperty("HorizontalAlignment", this.HorizontalAlignment != HorizontalAlignment.Left, this.HorizontalAlignment);
             markup.SetProperty("HorizontalContentAlignment", this.HorizontalContentAlignment != HorizontalAlignment.Left, this.HorizontalContentAlignment);
             markup.SetProperty("VerticalAlignment", this.VerticalAlignment != VerticalAlignment.Top, this.VerticalAlignment);

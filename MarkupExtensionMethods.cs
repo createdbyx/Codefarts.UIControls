@@ -1,10 +1,9 @@
 ﻿namespace Codefarts.UIControls
 {
+    using Codefarts.UIControls.Models;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-
-    using Codefarts.UIControls.Models;
 
     public static class MarkupExtensionMethods
     {
@@ -207,7 +206,7 @@
             GetValue<string>(markup, "Name", x => control.Name = x);
 
             // ctrl visibility
-            GetValue(markup, "Visibility", x => (Visibility)Enum.Parse(typeof(Visibility), x, true), x => control.Visibility = x);
+            GetValue<bool>(markup, "IsVisible", x => control.IsVisible = x);
 
             // ctrl enabled
             GetValue<bool>(markup, "IsEnabled", x => control.IsEnabled = x);

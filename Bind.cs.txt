@@ -5,7 +5,6 @@
 // <summary>
 //   Represents a 2-tuple, or pair.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
@@ -73,7 +72,7 @@ namespace Codefarts.UIControls
                 // So reverse the expression list.
                 parts.Reverse();
 
-                parts.Select(GetAndAlsoExpressions).ToArray().ForEach(parts.AddRange);
+                parts.Select(expression => GetAndAlsoExpressions(expression)).ToArray().ForEach(parts.AddRange);
             }
 
             if (expr.NodeType == ExpressionType.Equal)
@@ -133,7 +132,7 @@ namespace Codefarts.UIControls
         /// </returns>
         static List<IDisposable> DisposableBindingsFromAndAlsoExpressions(IEnumerable<Expression> parts)
         {
-            List<IDisposable> result = new List<IDisposable>();
+            var result = new List<IDisposable>();
             foreach (var part in parts)
             {
                 if (part.NodeType == ExpressionType.Equal)
@@ -196,10 +195,10 @@ namespace Codefarts.UIControls
         /// </returns>
         static IDisposable CreateSimpleBinding(Expression left, Expression right)
         {
-            BindingMember leftB = BindingMember.FromExpression(left as MemberExpression);
-            BindingMember rightB = BindingMember.FromExpression(right as MemberExpression);
+            var leftB = BindingMember.FromExpression(left as MemberExpression);
+            var rightB = BindingMember.FromExpression(right as MemberExpression);
 
-            DisposableContainer disposable = new DisposableContainer();
+            var disposable = new DisposableContainer();
 
             // left GetMethod is available and right set method too
             // -> when left property changes then set right property
@@ -272,14 +271,14 @@ namespace Codefarts.UIControls
         /// </returns>
         static IDisposable CreateComplex(Expression left, Expression right)
         {
-            DisposableContainer disposable = new DisposableContainer();
+            var disposable = new DisposableContainer();
             var leftMemEx = left as MemberExpression;
 
             // Get the instance the property belongs too
-            object leftTarget = EvalExpression(leftMemEx.Expression);
+            var leftTarget = EvalExpression(leftMemEx.Expression);
 
             // Get the property name
-            string propertyName = leftMemEx.Member.Name;
+            var propertyName = leftMemEx.Member.Name;
 
             // Get a setter function for the property
             var propInfo = leftTarget.GetType().GetProperties().First(p => p.Name == propertyName);
@@ -307,8 +306,8 @@ namespace Codefarts.UIControls
         static IDisposable SubscribeToRightSidePropertys(
             Action rightChangedAction, List<Tuple<Expression, MemberInfo>> rightTrigger)
         {
-            Type typeNotifyPropertyChanged = typeof(INotifyPropertyChanged);
-            DisposableContainer disposable = new DisposableContainer();
+            var typeNotifyPropertyChanged = typeof(INotifyPropertyChanged);
+            var disposable = new DisposableContainer();
 
             // For all propertys on the right side
             foreach (var expr in rightTrigger)
@@ -409,7 +408,7 @@ namespace Codefarts.UIControls
         /// </returns>
         static List<Tuple<Expression, MemberInfo>> RightTriggerFromComplexExpression(Expression expr, List<Tuple<Expression, MemberInfo>> ts = null)
         {
-            List<Tuple<Expression, MemberInfo>> triggers = ts == null ? new List<Tuple<Expression, MemberInfo>>() : ts;
+            var triggers = ts == null ? new List<Tuple<Expression, MemberInfo>>() : ts;
             GetBindingMembers(expr, triggers);
             return triggers;
         }
@@ -468,15 +467,15 @@ namespace Codefarts.UIControls
             /// </returns>
             public static BindingMember FromExpression(MemberExpression memEx)
             {
-                object target = EvalExpression(memEx.Expression);
-                string propName = memEx.Member.Name;
-                PropertyInfo propInfo = target.GetType().GetProperties().First(p => p.Name == propName);
+                var target = EvalExpression(memEx.Expression);
+                var propName = memEx.Member.Name;
+                var propInfo = target.GetType().GetProperties().First(p => p.Name == propName);
 
                 return new BindingMember()
                 {
-                    Target = target,
-                    PropertyName = propName,
-                    GetMethod = () => propInfo.GetGetMethod().Invoke(target, null),
+                    Target = target, 
+                    PropertyName = propName, 
+                    GetMethod = () => propInfo.GetGetMethod().Invoke(target, null), 
                     SetMethod = obj => propInfo.GetSetMethod().Invoke(target, new[] { obj })
                 };
             }
@@ -551,7 +550,7 @@ namespace Codefarts.UIControls
                     value = ((ConstantExpression)operation).Value;
                     return true;
                 case ExpressionType.MemberAccess:
-                    MemberExpression me = (MemberExpression)operation;
+                    var me = (MemberExpression)operation;
                     object target;
                     if (TryEvaluate(me.Expression, out target))
                     { // instance target
@@ -686,7 +685,10 @@ namespace Codefarts.UIControls
         public DisposableContainer(Action onDispose = null, params IDisposable[] disposables)
         {
             if (onDispose != null)
+            {
                 this.AddDisposable(onDispose);
+            }
+
             disposables.ForEach(d => this.AddDisposable(d));
         }
 

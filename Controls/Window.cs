@@ -67,7 +67,7 @@ namespace Codefarts.UIControls
         /// <summary>Closes the window.</summary>
         public virtual void Close()
         {
-            this.Visibility = Visibility.Hidden;
+            this.IsVisible = false;
             this.OnClosed();
         }
 
@@ -76,7 +76,7 @@ namespace Codefarts.UIControls
         public virtual void Show(Window owner)
         {
             this.owner = owner;
-            this.Visibility = Visibility.Visible;
+            this.IsVisible = true;
             this.OnShown();
         }
 
