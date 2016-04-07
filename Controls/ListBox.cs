@@ -52,9 +52,15 @@ namespace Codefarts.UIControls
         protected List<object> selectedItems;
 
         /// <summary>
+        /// The backing field for the <see cref="SelectedIndicies"/> property.
+        /// </summary>
+        protected SelectedIndexCollection selectedIndicies;
+
+        /// <summary>
         /// The backing field for the <see cref="SelectionMode"/> property.
         /// </summary>
         protected SelectionMode selectionMode;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBox"/> class.
@@ -66,6 +72,7 @@ namespace Codefarts.UIControls
             this.items = new ItemsCollection();
             this.items.CollectionChanged += this.ItemsCollectionChanged;
             this.selectedItems = new List<object>();
+            this.selectedIndicies = new SelectedIndexCollection();
         }
 
         /// <summary>
@@ -108,11 +115,25 @@ namespace Codefarts.UIControls
         /// <returns>
         /// A <see cref="T:IList" /> containing the currently selected items in the control.
         /// </returns>
-        public virtual IList SelectedItems
+        public virtual List<object> SelectedItems
         {
             get
             {
                 return this.selectedItems;
+            }
+        }
+
+        /// <summary>
+        /// Gets a collection containing the currently selected item indexes in the <see cref="T:ListBox" />.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:SelectedIndexCollection" /> containing the currently selected item indexes in the control.
+        /// </returns>
+        public virtual SelectedIndexCollection SelectedIndicies
+        {
+            get
+            {
+                return this.selectedIndicies;
             }
         }
 
@@ -195,6 +216,15 @@ namespace Codefarts.UIControls
                 this.selectionMode = value;
                 if (changed)
                 {
+                    if (value == SelectionMode.Single)
+                    {
+                        this.selectedIndicies.Clear();
+                        if (this.selectedIndex != -1)
+                        {
+                            this.selectedIndicies.Add(this.selectedIndex);
+                        }
+                    }
+
                     this.OnPropertyChanged("SelectionMode");
                 }
             }
@@ -263,8 +293,15 @@ namespace Codefarts.UIControls
 
             set
             {
+                // quick check if we need to go further. This check if here because the call to GetItemCount is expensive.
+                if (this.selectedIndex == value)
+                {
+                    return;
+                }
+
+                var count = this.GetItemCount();
                 value = value < -1 ? -1 : value;
-                value = value > this.Items.Count - 1 ? this.Items.Count - 1 : value;
+                value = value > count - 1 ? count - 1 : value;
                 var changed = this.selectedIndex != value;
                 this.selectedIndex = value;
                 if (changed)
@@ -272,6 +309,56 @@ namespace Codefarts.UIControls
                     this.OnSelectionChanged();
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the item count of the items in the <see cref="Items"/> property or the <see cref="Control.DataContext"/>.
+        /// </summary>
+        /// <returns>The number of items in the list.</returns>
+        /// <remarks><p>If set the count will be returned from <see cref="Control.DataContext"/> property if it has been assigned
+        /// some type of ICollection, IList, Array, or IEnumerable. (Checked in that order).</p>
+        /// <p><b>NOTE:</b> If the <see cref="Control.DataContext"/> property is resolved to a IEnumerable and that enumerable is too large
+        /// or unending the cost of calling this method may be too high and your app may seem to lock up or suffer a performance hit.</p></remarks>
+        private int GetItemCount()
+        {
+            var count = this.Items.Count;
+            var context = this.dataContext;
+            if (context == null)
+            {
+                return count;
+            }
+
+            var collection = context as ICollection;
+            if (collection != null)
+            {
+                return collection.Count;
+            }
+
+            var list = context as IList;
+            if (list != null)
+            {
+                return list.Count;
+            }
+
+            var array = context as Array;
+            if (array != null)
+            {
+                return array.Length;
+            }
+
+            var enumerable = context as IEnumerable;
+            if (enumerable != null)
+            {
+                count = 0;
+                foreach (var item in enumerable)
+                {
+                    count++;
+                }
+
+                return count;
+            }
+
+            return count;
         }
 
         /// <returns>
