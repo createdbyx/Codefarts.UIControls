@@ -58,6 +58,7 @@
 
             this.namedBindings.Add(name, new BindingModel<T>() { Name = name, Source = source, GetLeftValue = getValue, SetLeftValue = setValue });
             source.PropertyChanged += this.OnSourceOnPropertyChanged;
+            this.OnSourceOnPropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
         private void OnSourceOnPropertyChanged(object s, PropertyChangedEventArgs e)
