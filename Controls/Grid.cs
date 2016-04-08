@@ -1,17 +1,21 @@
-/*
-<copyright>
-  Copyright(c) 2012 Codefarts
- All rights reserved.
- contact@codefarts.com
- http://www.codefarts.com
-</copyright>
-*/
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Grid.cs">
+//   Copyright(c) 2012 Codefarts
+//    All rights reserved.
+//    contact@codefarts.com
+//    http://www.codefarts.com
+// </copyright>
+// <summary>
+//   Provides a grid control that arranges child controls in a grid based layout.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Specialized;
 
 namespace Codefarts.UIControls
 {
+    using Models;
     using System;
-
-    using Codefarts.UIControls.Models;
 
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
@@ -19,7 +23,17 @@ namespace Codefarts.UIControls
     public class Grid : Control
     {
         /// <summary>
-        /// The rows varible used by the <see cref="Rows"/> property.
+        /// The control style key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
+        public const string Row = "Grid.Row_9353515E-66FB-4D22-BB72-6D360DE101FE";
+
+        /// <summary>
+        /// The control style key used when accessing a property from the <see cref="Properties"/> property.
+        /// </summary>
+        public const string Column = "Grid.Column_B19DA9A1-4149-4C9B-8D62-E88CED091985";
+
+        /// <summary>
+        /// The rows variable used by the <see cref="Rows"/> property.
         /// </summary>
         protected int rows = 1;
 
@@ -28,16 +42,23 @@ namespace Codefarts.UIControls
         /// </summary>
         protected int columns = 1;
 
+        /// <summary>
+        /// The handle column change event.
+        /// </summary>
         private bool handleColumnChangeEvent = true;
+
+        /// <summary>
+        /// The handle row change event.
+        /// </summary>
         private bool handleRowChangeEvent = true;
 
         /// <summary>
-        /// The row definitions varible used by the <see cref="RowDefinitions"/> property.
+        /// The row definitions variable used by the <see cref="RowDefinitions"/> property.
         /// </summary>
         protected RowDefinitionCollection rowDefinitions;
 
         /// <summary>
-        /// The column definitions varible used by the <see cref="ColumnDefinitions"/> property.
+        /// The column definitions variable used by the <see cref="ColumnDefinitions"/> property.
         /// </summary>
         protected ColumnDefinitionCollection columnDefinitions;
 
@@ -115,6 +136,7 @@ namespace Codefarts.UIControls
                     {
                         this.rowDefinitions.RemoveAt(this.rowDefinitions.Count - 1);
                     }
+
                     this.handleRowChangeEvent = true;
 
                     this.UpdateCellArray(this.columns, oldRows);
@@ -133,6 +155,7 @@ namespace Codefarts.UIControls
             {
                 return this.columnDefinitions.Count;
             }
+
             set
             {
                 value = value < 1 ? 1 : value;
@@ -151,6 +174,7 @@ namespace Codefarts.UIControls
                     {
                         this.columnDefinitions.RemoveAt(this.columnDefinitions.Count - 1);
                     }
+
                     this.handleColumnChangeEvent = true;
 
                     this.UpdateCellArray(oldColumns, this.rows);
@@ -159,23 +183,42 @@ namespace Codefarts.UIControls
             }
         }
 
+        /// <summary>
+        /// The update cell array.
+        /// </summary>
+        /// <param name="oldColumns">
+        /// The old columns.
+        /// </param>
+        /// <param name="oldRows">
+        /// The old rows.
+        /// </param>
         private void UpdateCellArray(int oldColumns, int oldRows)
         {
             this.cells = this.ResizeArray(this.cells, oldColumns, oldRows);
         }
 
-        private object[] cells;
+        /// <summary>
+        /// The cells.
+        /// </summary>
+        private Control[] cells;
 
-        public object GetCell(int column, int row)
-        {
-            return this.cells[(row * this.columns) + column];
-        }
-
-        public void SetCell(int column, int row, object value)
-        {
-            this.cells[(row * this.columns) + column] = value;
-        }
-
+        /// <summary>
+        /// The resize array.
+        /// </summary>
+        /// <param name="original">
+        /// The original.
+        /// </param>
+        /// <param name="oldColumns">
+        /// The old columns.
+        /// </param>
+        /// <param name="oldRows">
+        /// The old rows.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T[]"/>.
+        /// </returns>
         protected T[] ResizeArray<T>(T[] original, int oldColumns, int oldRows)
         {
             var newArray = new T[this.columns * this.rows];
@@ -188,28 +231,14 @@ namespace Codefarts.UIControls
                 Array.Copy(original, i * oldColumns, newArray, i * this.columns, columnCount);
             }
 
-            //var minX = Math.Min(original.GetLength(0), newArray.GetLength(0));
-            //var minY = Math.Min(original.GetLength(1), newArray.GetLength(1));
-
-            //for (var row = 0; row < minX; row++)
-            //{
-            //    for (var idx = 0; idx < original.GetLength(0); idx++)
-            //    {
-
-            //    }
-            //}
-
-            //for (var i = 0; i < minY; ++i)
-            //{
-            //    Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
-            //    Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
-            //}
-
             return newArray;
         }
 
+        /// <summary>
+        /// The default size.
+        /// </summary>
         /// <returns>
-        /// The default <see cref="Size" /> of the control.
+        /// The default <see cref="Size"/> of the control.
         /// </returns>
         protected override Size DefaultSize
         {
@@ -219,26 +248,15 @@ namespace Codefarts.UIControls
             }
         }
 
-        #region Overrides of Control
-
-        /// <summary>
-        /// Gets the control collection containing the child controls.
-        /// </summary>
-        public override ControlsCollection Controls
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
         /// </summary>
-        /// <param name="rows">The number of grid rows.</param>
-        /// <param name="columns">The number of grid columns.</param>
+        /// <param name="columns">
+        /// The number of grid columns.
+        /// </param>
+        /// <param name="rows">
+        /// The number of grid rows.
+        /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// value;Columns must be greater then 0.
         /// or
@@ -267,11 +285,11 @@ namespace Codefarts.UIControls
             for (var i = 0; i < rows; i++)
             {
                 this.rowDefinitions.Add(new RowDefinition());
-            }
+            }                                                                      
 
             this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
             this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
-            this.cells = new object[this.columns * this.rows];
+            this.cells = new Control[this.columns * this.rows];
             this.Rows = rows;
             this.Columns = columns;
         }
@@ -279,9 +297,13 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Columns the definitions collection changed.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
-        private void ColumnDefinitionsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.
+        /// </param>
+        private void ColumnDefinitionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!this.handleColumnChangeEvent || this.columns == this.columnDefinitions.Count)
             {
@@ -295,9 +317,13 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Rows the definitions collection changed.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
-        private void RowDefinitionsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.
+        /// </param>
+        private void RowDefinitionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!this.handleRowChangeEvent || this.rows == this.rowDefinitions.Count)
             {
@@ -316,14 +342,48 @@ namespace Codefarts.UIControls
         {
             this.canFocus = false;
             this.isTabStop = false;
+            this.Controls.CollectionChanged += this.ControlsCollectionChanged;
+        }
+
+        /// <summary>
+        /// handles changes to the <see cref="Control.Controls"/> collection.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.
+        /// </param>
+        private void ControlsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    break;
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
         /// </summary>
-        /// <param name="name">The name of the control.</param>
-        /// <param name="rows">The number of grid rows.</param>
-        /// <param name="columns">The number of grid columns.</param>
+        /// <param name="name">
+        /// The name of the control.
+        /// </param>
+        /// <param name="columns">
+        /// The number of grid columns.
+        /// </param>
+        /// <param name="rows">
+        /// The number of grid rows.
+        /// </param>
         public Grid(string name, int columns, int rows) : this(columns, rows)
         {
             this.name = name;
@@ -332,7 +392,9 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
         /// </summary>
-        /// <param name="name">The name of the control.</param>
+        /// <param name="name">
+        /// The name of the control.
+        /// </param>
         public Grid(string name) : this()
         {
             this.name = name;
@@ -340,6 +402,12 @@ namespace Codefarts.UIControls
 
         #region Overrides of Control
 
+        /// <summary>
+        /// The to markup.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Markup"/>.
+        /// </returns>
         public override Markup ToMarkup()
         {
             var markup = base.ToMarkup();
