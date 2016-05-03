@@ -16,6 +16,7 @@ namespace Codefarts.UIControls
 {
     using Models;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
@@ -43,6 +44,17 @@ namespace Codefarts.UIControls
         protected int columns = 1;
 
         /// <summary>
+        /// The row definitions variable used by the <see cref="RowDefinitions"/> property.
+        /// </summary>
+        protected RowDefinitionCollection rowDefinitions;
+
+        /// <summary>
+        /// The column definitions variable used by the <see cref="ColumnDefinitions"/> property.
+        /// </summary>
+        protected ColumnDefinitionCollection columnDefinitions;
+
+
+        /// <summary>
         /// The handle column change event.
         /// </summary>
         private bool handleColumnChangeEvent = true;
@@ -53,15 +65,89 @@ namespace Codefarts.UIControls
         private bool handleRowChangeEvent = true;
 
         /// <summary>
-        /// The row definitions variable used by the <see cref="RowDefinitions"/> property.
+        /// Initializes a new instance of the <see cref="Grid"/> class.
         /// </summary>
-        protected RowDefinitionCollection rowDefinitions;
+        public Grid()
+            : this(1, 1)
+        {
+            this.canFocus = false;
+            this.isTabStop = false;
+            this.Controls.CollectionChanged += this.ControlsCollectionChanged;
+        }
 
         /// <summary>
-        /// The column definitions variable used by the <see cref="ColumnDefinitions"/> property.
+        /// Initializes a new instance of the <see cref="Grid"/> class.
         /// </summary>
-        protected ColumnDefinitionCollection columnDefinitions;
+        /// <param name="columns">
+        /// The number of grid columns.
+        /// </param>
+        /// <param name="rows">
+        /// The number of grid rows.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// value;Columns must be greater then 0.
+        /// or
+        /// value;Rows must be greater then 0.
+        /// </exception>
+        public Grid(int columns, int rows)
+        {
+            if (columns < 1)
+            {
+                throw new ArgumentOutOfRangeException("columns", "Columns must be greater then 0.");
+            }
 
+            if (rows < 1)
+            {
+                throw new ArgumentOutOfRangeException("rows", "Rows must be greater then 0.");
+            }
+
+            this.columnDefinitions = new ColumnDefinitionCollection();
+            this.rowDefinitions = new RowDefinitionCollection();
+
+            for (var i = 0; i < columns; i++)
+            {
+                this.columnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (var i = 0; i < rows; i++)
+            {
+                this.rowDefinitions.Add(new RowDefinition());
+            }
+
+            this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
+            this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
+            this.cells = new List<Control>[this.columns * this.rows];
+            this.Rows = rows;
+            this.Columns = columns;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the control.
+        /// </param>
+        /// <param name="columns">
+        /// The number of grid columns.
+        /// </param>
+        /// <param name="rows">
+        /// The number of grid rows.
+        /// </param>
+        public Grid(string name, int columns, int rows) : this(columns, rows)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the control.
+        /// </param>
+        public Grid(string name) : this()
+        {
+            this.name = name;
+        }
 
         /// <summary>
         /// Gets the column definitions.
@@ -200,7 +286,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The cells.
         /// </summary>
-        private Control[] cells;
+        private List<Control>[] cells;
 
         /// <summary>
         /// The resize array.
@@ -249,52 +335,6 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
-        /// </summary>
-        /// <param name="columns">
-        /// The number of grid columns.
-        /// </param>
-        /// <param name="rows">
-        /// The number of grid rows.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// value;Columns must be greater then 0.
-        /// or
-        /// value;Rows must be greater then 0.
-        /// </exception>
-        public Grid(int columns, int rows)
-        {
-            if (columns < 1)
-            {
-                throw new ArgumentOutOfRangeException("columns", "Columns must be greater then 0.");
-            }
-
-            if (rows < 1)
-            {
-                throw new ArgumentOutOfRangeException("rows", "Rows must be greater then 0.");
-            }
-
-            this.columnDefinitions = new ColumnDefinitionCollection();
-            this.rowDefinitions = new RowDefinitionCollection();
-
-            for (var i = 0; i < columns; i++)
-            {
-                this.columnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (var i = 0; i < rows; i++)
-            {
-                this.rowDefinitions.Add(new RowDefinition());
-            }                                                                      
-
-            this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
-            this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
-            this.cells = new Control[this.columns * this.rows];
-            this.Rows = rows;
-            this.Columns = columns;
-        }
-
-        /// <summary>
         /// Columns the definitions collection changed.
         /// </summary>
         /// <param name="sender">
@@ -335,17 +375,6 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
-        /// </summary>
-        public Grid()
-            : this(1, 1)
-        {
-            this.canFocus = false;
-            this.isTabStop = false;
-            this.Controls.CollectionChanged += this.ControlsCollectionChanged;
-        }
-
-        /// <summary>
         /// handles changes to the <see cref="Control.Controls"/> collection.
         /// </summary>
         /// <param name="sender">
@@ -359,45 +388,87 @@ namespace Codefarts.UIControls
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    foreach (var newItem in e.NewItems)
+                    {
+                        var child = newItem as Control;
+                        this.DoAddNewChild(child);
+                    }
+
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
+                    foreach (var newItem in e.OldItems)
+                    {
+                        var child = newItem as Control;
+                        this.DoRemoveChild(child);
+                    }
+
                     break;
+
                 case NotifyCollectionChangedAction.Replace:
-                    break;
                 case NotifyCollectionChangedAction.Move:
+                    foreach (var newItem in e.OldItems)
+                    {
+                        var child = newItem as Control;
+                        this.DoRemoveChild(child);
+                    }
+
+                    foreach (var newItem in e.NewItems)
+                    {
+                        var child = newItem as Control;
+                        this.DoAddNewChild(child);
+                    }
+
                     break;
+
                 case NotifyCollectionChangedAction.Reset:
                     break;
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the control.
-        /// </param>
-        /// <param name="columns">
-        /// The number of grid columns.
-        /// </param>
-        /// <param name="rows">
-        /// The number of grid rows.
-        /// </param>
-        public Grid(string name, int columns, int rows) : this(columns, rows)
+        private void DoRemoveChild(Control child)
         {
-            this.name = name;
+            if (child == null)
+            {
+                return;
+            }
+
+            var pos = child.GetGridPosition();
+            var cellIndex = ((int)pos.Y * this.columns) + (int)pos.X;
+            if (cellIndex < 0 || cellIndex > this.cells.Length - 1)
+            {
+                return;
+            }
+
+            var list = this.cells[cellIndex];
+            if (list != null)
+            {
+                list.Remove(child);
+            }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the control.
-        /// </param>
-        public Grid(string name) : this()
+        private void DoAddNewChild(Control child)
         {
-            this.name = name;
+            if (child == null)
+            {
+                return;
+            }
+
+            var pos = child.GetGridPosition();
+            var cellIndex = ((int)pos.Y * this.columns) + (int)pos.X;
+            if (cellIndex < 0 || cellIndex > this.cells.Length - 1)
+            {
+                return;
+            }
+
+            var list = this.cells[cellIndex];
+            if (list == null)
+            {
+                list = new List<Control>();
+                this.cells[cellIndex] = list;
+            }
+
+            list.Add(child);
         }
 
         #region Overrides of Control

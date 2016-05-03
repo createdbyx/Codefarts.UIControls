@@ -4,8 +4,9 @@
     using System.ComponentModel;
 
     /// <summary>
-    /// Defines objects used to paint graphical objects. Classes that derive from <see cref="Brush" /> describe how the area is painted.       
+    /// Defines objects used to paint graphical objects. Classes that derive from <see cref="Brush" /> describe how the area is painted.
     /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public abstract class Brush : INotifyPropertyChanged
     {
         /// <summary>
@@ -39,8 +40,15 @@
             }
         }
 
+        /// <summary>
+        /// Raised when a brush property has changed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName">Name of the property hat changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var onPropertyChanged = this.PropertyChanged;
