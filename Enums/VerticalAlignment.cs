@@ -17,7 +17,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// The child element is aligned to the bottom of the parent's layout slot.
-        ///  </summary>
+        /// </summary>
         Bottom,
 
         /// <summary>
