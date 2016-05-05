@@ -52,7 +52,7 @@ namespace Codefarts.UIControls.Controls
         {
             this.lblText = new TextBlock();
             this.Controls.Add(this.lblText);
-            this.container = new StackPanel(Orientation.Horizontial);
+            this.container = new StackPanel(Orientation.Horizontal);
             this.txtPath = new TextBox();
             this.container.Controls.Add(this.txtPath);
             this.btnSelect = new Button("...");

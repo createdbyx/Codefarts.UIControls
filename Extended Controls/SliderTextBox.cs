@@ -186,7 +186,7 @@ namespace Codefarts.UIControls
         {
             this.container = new StackPanel() { Orientation = Orientation.Vertical };
             this.textField = new NumericTextField() { Text = "1", Width = 64, Minimum = 1, Maximum = 256 };
-            this.slider = new Slider() { Orientation = Orientation.Horizontial, Value = 1, Minimum = 1, Maximum = 256, HorizontalAlignment = HorizontalAlignment.Stretch };
+            this.slider = new Slider() { Orientation = Orientation.Horizontal , Value = 1, Minimum = 1, Maximum = 256, HorizontalAlignment = HorizontalAlignment.Stretch };
             this.slider.PropertyChanged += this.SliderPropertyChanged;
             this.textField.PropertyChanged += this.TextFieldPropertyChanged;
             this.TextBlock = new TextBlock();

@@ -10,7 +10,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The backing field for the <see cref="Orientation"/> property.
         /// </summary>
-        protected Orientation orientation = Orientation.Horizontial;
+        protected Orientation orientation = Orientation.Horizontal;
 
         /// <summary>
         /// The backing field for the <see cref="Text"/> property.
