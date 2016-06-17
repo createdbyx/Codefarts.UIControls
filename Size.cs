@@ -29,6 +29,7 @@
             {
                 return this.height;
             }
+
             set
             {
                 this.height = value;
@@ -45,6 +46,7 @@
                 {
                     return false;
                 }
+
                 return Math.Abs(this.height) < float.Epsilon;
             }
         }
@@ -57,6 +59,7 @@
             {
                 return this.width;
             }
+
             set
             {
                 this.width = value;
@@ -115,11 +118,13 @@
             {
                 return false;
             }
+
             var size = (Size)obj;
             if (Math.Abs(size.width - this.width) > float.Epsilon)
             {
                 return false;
             }
+
             return Math.Abs(size.height - this.height) < float.Epsilon;
         }
 
@@ -154,6 +159,7 @@
             {
                 return false;
             }
+
             return Math.Abs(sz1.Height - sz2.Height) < float.Epsilon;
         }
 
