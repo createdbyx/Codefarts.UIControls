@@ -16,6 +16,7 @@ namespace Codefarts.UIControls.Models
             {
                 return this.count;
             }
+
             set
             {
                 var changed = this.count != value;
@@ -33,6 +34,7 @@ namespace Codefarts.UIControls.Models
             {
                 return this.total;
             }
+
             set
             {
                 var changed = this.total != value;

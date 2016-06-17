@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.Reflection;
 
+    /// <summary>
+    /// Provides extension methods for the <see cref="Markup"/> class.
+    /// </summary>
     public static class MarkupExtensionMethods
     {
         public static void SetProperty(this Markup markup, string name, bool conditional, object value)
