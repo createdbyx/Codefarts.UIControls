@@ -406,7 +406,9 @@ namespace Codefarts.UIControls
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
+#if !PORTABLE
                 case NotifyCollectionChangedAction.Move:
+#endif
                     foreach (var newItem in e.OldItems)
                     {
                         var child = newItem as Control;
