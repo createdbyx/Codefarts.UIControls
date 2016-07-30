@@ -382,7 +382,130 @@
             GetValue<float>(markup, "Left", x => location.X = x);
             GetValue<float>(markup, "Top", x => location.Y = x);
             control.Location = location;
+        }
 
+        public static Rectangle ParsePositionAndSize(this Markup markup, bool designSizeFallback, Rectangle? defaultValue)
+        {
+            // process anchor first
+            //   ProcessHorizontialAndVerticalAlignments(markup, control);
+
+            var size = defaultValue.HasValue ? defaultValue.Value.Size : Size.Empty;//= control.Size;
+            var position = defaultValue.HasValue ? defaultValue.Value.Location : Point.Empty;
+            if (!GetValue<float>(markup, "Width", x => size.Width = x) && designSizeFallback)
+            {
+                GetValue<float>(markup, "DesignWidth", x => size.Width = x);
+            }
+            if (!GetValue<float>(markup, "Height", x => size.Height = x) && designSizeFallback)
+            {
+                GetValue<float>(markup, "DesignHeight", x => size.Height = x);
+            }
+
+            GetValue(markup, "Margin", x => float.Parse(x), x =>
+            {
+                var top = 0f;
+                var left = 0f;
+                Rectangle parentRect;
+                switch (x.Length)
+                {
+                    case 1:
+                        left = x[0];
+                        top = left;
+
+                        if (markup.Parent != null)
+                        {
+                            parentRect = markup.Parent.ParsePositionAndSize(designSizeFallback, null);
+
+                            size.Width = parentRect.Width - left;
+                            size.Height = parentRect.Height - left;
+                        }
+
+                        //if (parent != null)
+                        //{
+                        //    control.SetBounds(left, left, parent.Width - left, parent.Height - left);
+                        //}
+                        //else
+                        //{
+                        //    //do something
+                        //}
+
+                        break;
+
+                    case 2:
+                        left = x[0];
+                        top = x[1];
+                        if (markup.Parent != null)
+                        {
+                            parentRect = markup.Parent.ParsePositionAndSize(designSizeFallback, null);
+
+                            size.Width = parentRect.Width - left;
+                            size.Height = parentRect.Height - top;
+                        }
+                        // control.Location = new Point(left, top);
+                        //if (parent != null)
+                        //{
+                        //    control.SetBounds(left, top, parent.Width - x[0], parent.Height - x[1]);
+                        //}
+                        //else
+                        //{
+                        //    //do something
+                        //}
+                        break;
+
+                    case 4:
+                        left = x[0];
+                        top = x[1];
+                        size.Width = x[2] - left;
+                        size.Height = x[3] - top;
+                        //control.SetBounds(left, top, x[2] - left, x[3] - top);
+                        break;
+                }
+
+                position = new Point(left, top);
+            });
+
+            GetValue(markup, "Location", x => float.Parse(x), x =>
+            {
+                float left;
+                switch (x.Length)
+                {
+                    case 1:
+                        left = x[0];
+                        // control.Location = new Point(left, left);
+                        position = new Point(left, left);
+                        break;
+
+                    case 2:
+                        left = x[0];
+                        var top = x[1];
+                        // control.Location = new Point(left, top);
+                        position = new Point(left, top);
+                        break;
+                }
+            });
+
+            GetValue(markup, "Size", x => float.Parse(x), x =>
+            {
+                float width;
+                switch (x.Length)
+                {
+                    case 1:
+                        width = x[0];
+                        size = new Size(width, width);
+                        break;
+
+                    case 2:
+                        width = x[0];
+                        var height = x[1];
+                        size = new Size(width, height);
+                        break;
+                }
+            });
+
+            // var location = control.Location;
+            GetValue<float>(markup, "Left", x => position.X = x);
+            GetValue<float>(markup, "Top", x => position.Y = x);
+
+            return new Rectangle(position, size);
         }
     }
 }
