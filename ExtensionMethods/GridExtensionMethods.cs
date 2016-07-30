@@ -25,8 +25,8 @@ namespace Codefarts.UIControls
 
             foreach (var child in control.Controls)
             {
-                var childRow = control.GetProperty(Grid.Row, 0);
-                var childColumn = control.GetProperty(Grid.Column, 0);
+                var childRow = child.GetProperty(Grid.Row, 0);
+                var childColumn = child.GetProperty(Grid.Column, 0);
                 if (row == childRow && column == childColumn)
                 {
                     return child;

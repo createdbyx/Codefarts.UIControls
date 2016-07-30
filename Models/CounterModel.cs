@@ -2,7 +2,7 @@ namespace Codefarts.UIControls.Models
 {
     using System;
 
-    internal class CounterModel
+    public class CounterModel
     {
         private int count;
 

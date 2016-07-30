@@ -61,7 +61,7 @@ namespace Codefarts.UIControls
         /// <summary>
         /// The backing field for the <see cref="SelectionMode"/> property.
         /// </summary>
-        protected SelectionMode selectionMode;
+        protected SelectionMode selectionMode = SelectionMode.Single;
 
         private bool sorted;
 

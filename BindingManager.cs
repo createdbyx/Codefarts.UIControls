@@ -43,7 +43,7 @@
                 return this.namedBindings.Count;
             }
         }
-
+            
         public void Bind<T>(INotifyPropertyChanged source, string name, Func<T> getValue, Action<T> setValue)
         {
             if (getValue == null)
