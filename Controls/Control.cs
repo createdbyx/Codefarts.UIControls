@@ -449,7 +449,7 @@ namespace Codefarts.UIControls
 
             set
             {
-                if (this.parent != value && this.parent.Controls != null)
+                if (this.parent != value)
                 {
                     if (value != null && value.Controls != null)
                     {
@@ -457,7 +457,10 @@ namespace Codefarts.UIControls
                         return;
                     }
 
-                    this.parent.Controls.Remove(this);
+                    if (this.parent.Controls != null)
+                    {
+                        this.parent.Controls.Remove(this);
+                    }
                 }
 
                 // this.SetSizeInternal(this.Size);
