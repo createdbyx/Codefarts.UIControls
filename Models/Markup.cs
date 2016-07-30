@@ -23,6 +23,11 @@ namespace Codefarts.UIControls.Models
         public IDictionary<string, object> Properties { get; set; }
 
         /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        public Markup Parent { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Markup"/> class.
         /// </summary>
         public Markup()
