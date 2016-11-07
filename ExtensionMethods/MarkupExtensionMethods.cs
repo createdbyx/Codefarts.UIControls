@@ -37,8 +37,17 @@
             {
                 try
                 {
-                    var convertedValue = (T)Convert.ChangeType(value, typeof(T), null);
-                    callback(convertedValue);
+                    if (typeof(T).IsEnum)
+                    {
+                        var convertedValue = (T)Enum.Parse(typeof(T), value.ToString());
+                        callback(convertedValue);
+                    }
+                    else
+                    {
+                        var convertedValue = (T)Convert.ChangeType(value, typeof(T), null);
+                        callback(convertedValue);
+                    }
+
                     return true;
                 }
                 catch

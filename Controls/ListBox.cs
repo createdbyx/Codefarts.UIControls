@@ -521,8 +521,6 @@ namespace Codefarts.UIControls
                 // this.OnSelectionChanged();
                 // }
 
-
-
                 if (value < -1 || value >= (this.items == null ? 0 : this.items.Count))
                 {
                     throw new ArgumentOutOfRangeException("SelectedIndex");
@@ -533,46 +531,53 @@ namespace Codefarts.UIControls
                     throw new ArgumentException("Cannot call this method when SelectionMode is SelectionMode.None.", "SelectedIndex");
                 }
 
-                if (this.selectionMode == SelectionMode.Single && value != -1)
+                this.UnselectAll();
+                if (value > -1 && value != this.selectedIndex)
                 {
-                    var selectedIndex = this.SelectedIndex;
-                    if (selectedIndex != value)
-                    {
-                        if (selectedIndex != -1)
-                        {
-                            this.SelectedItems.SetSelected(selectedIndex, false);
-                        }
-
-                        this.SelectedItems.SetSelected(value, true);
-
-                        // if (base.IsHandleCreated)
-                        // {
-                        // this.NativeSetSelected(value, true);
-                        // }
-                        this.selectedIndex = value;
-                        this.OnSelectionChanged();
-                        // return;
-                    }
-                }
-                else if (value == -1)
-                {
-                    if (this.SelectedIndex != -1)
-                    {
-                        this.UnselectAll();
-                        // return;
-                    }
-                }
-                else if (!this.SelectedItems.GetSelected(value))
-                {
-                    this.selectedIndex = this.selectedIndex == -1 ? value : this.selectedIndex;
+                    this.selectedIndex = value;
                     this.SelectedItems.SetSelected(value, true);
-
-                    // if (base.IsHandleCreated)
-                    // {
-                    // this.NativeSetSelected(value, true);
-                    // }
                     this.OnSelectionChanged();
                 }
+
+                //if (this.selectionMode == SelectionMode.Single && value != -1)
+                //{
+                //    var selectedIndex = this.SelectedIndex;
+                //    if (selectedIndex != value)
+                //    {
+                //        if (selectedIndex != -1)
+                //        {
+                //            this.SelectedItems.SetSelected(selectedIndex, false);
+                //        }
+
+                //        this.SelectedItems.SetSelected(value, true);
+
+                //        // if (base.IsHandleCreated)
+                //        // {
+                //        // this.NativeSetSelected(value, true);
+                //        // }
+                //        this.selectedIndex = value;
+                //        this.OnSelectionChanged();
+                //        // return;
+                //    }
+                //}
+                //else if (value == -1)
+                //{
+                //    if (this.SelectedIndex != -1)
+                //    {
+                //        this.UnselectAll();
+                //        // return;
+                //    }
+                //}
+                //else if (!this.SelectedItems.GetSelected(value))
+                //{
+                //    this.selectedIndex = this.selectedIndex == -1 ? value : this.selectedIndex;
+                //    this.SelectedItems.SetSelected(value, true);
+
+                //    // if (base.IsHandleCreated)
+                //    // {
+                //    // this.NativeSetSelected(value, true);
+                //    // }
+                //    this.OnSelectionChanged();
             }
         }
 
@@ -729,12 +734,23 @@ namespace Codefarts.UIControls
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            if (this.selectionMode == SelectionMode.None)
+            switch (this.selectionMode)
             {
-                throw new InvalidOperationException("Cannot call this method when SelectionMode is SelectionMode.None.");
-            }
+                case SelectionMode.None:
+                    throw new InvalidOperationException("Cannot call this method when SelectionMode is SelectionMode.None.");
 
-            this.SelectedItems.SetSelected(index, value);
+                case SelectionMode.Single:
+                    this.SelectedItems.Clear();
+                    this.SelectedItems.SetSelected(index, value);
+                    break;
+
+                case SelectionMode.Multiple:
+                    break;
+
+                case SelectionMode.Extended:
+                    this.SelectedItems.SetSelected(index, value);
+                    break;
+            }
 
             this.selectedIndex = this.selectedIndex == -1 && value ? index : this.selectedIndex;
             this.SelectedItems.Dirty();
