@@ -11,7 +11,9 @@
         private interface IExecuter
         {
             void Execute();
+
             string Name { get; set; }
+
             INotifyPropertyChanged Source { get; set; }
         }
 
@@ -43,7 +45,7 @@
                 return this.namedBindings.Count;
             }
         }
-            
+
         public void Bind<T>(INotifyPropertyChanged source, string name, Func<T> getValue, Action<T> setValue)
         {
             if (getValue == null)
@@ -64,12 +66,14 @@
         private void OnSourceOnPropertyChanged(object s, PropertyChangedEventArgs e)
         {
             IExecuter model;
-            if (this.namedBindings.TryGetValue(e.PropertyName, out model))
+            if (!this.namedBindings.TryGetValue(e.PropertyName, out model))
             {
-                if (e.PropertyName == model.Name)
-                {
-                    model.Execute();
-                }
+                return;
+            }
+
+            if (e.PropertyName == model.Name)
+            {
+                model.Execute();
             }
         }
 
@@ -83,6 +87,7 @@
             this.namedBindings.Clear();
         }
 
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
         public void Unbind(string name)
         {
             if (name == null)
@@ -91,11 +96,13 @@
             }
 
             IExecuter executer;
-            if (this.namedBindings.TryGetValue(name, out executer))
+            if (!this.namedBindings.TryGetValue(name, out executer))
             {
-                executer.Source.PropertyChanged -= this.OnSourceOnPropertyChanged;
-                this.namedBindings.Remove(name);
+                return;
             }
+
+            executer.Source.PropertyChanged -= this.OnSourceOnPropertyChanged;
+            this.namedBindings.Remove(name);
         }
     }
 }
