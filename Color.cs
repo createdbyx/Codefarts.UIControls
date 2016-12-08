@@ -314,6 +314,17 @@ namespace Codefarts.UIControls
             return new Color() { A = a / 255f, R = r / 255f, G = g / 255f, B = b / 255f };
         }
 
+        /// <summary>Creates a new <see cref="Color" /> structure by using the specified sRGB alpha channel and color channel values. </summary>
+        /// <returns>A <see cref="Color" /> structure with the specified values.</returns>
+        /// <param name="a">The alpha channel, <see cref="Color.A" />, of the new color.</param>
+        /// <param name="r">The red channel, <see cref="Color.R" />, of the new color.</param>
+        /// <param name="g">The green channel, <see cref="Color.G" />, of the new color.</param>
+        /// <param name="b">The blue channel, <see cref="Color.B" />, of the new color.</param>
+        public static Color FromArgb(float a, float r, float g, float b)
+        {
+            return new Color() { A = a, R = r, G = g, B = b };
+        }
+
         /// <summary>Creates a new <see cref="Color" /> structure by using the specified color channel values. </summary>
         /// <returns>A <see cref="Color" /> structure with the specified values and an alpha channel value of 255.</returns>
         /// <param name="r">The red channel, <see cref="Color.R" />, of the new color.</param>
