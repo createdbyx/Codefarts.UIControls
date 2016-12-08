@@ -39,7 +39,7 @@
                 {
                     if (typeof(T).IsEnum)
                     {
-                        var convertedValue = (T)Enum.Parse(typeof(T), value.ToString());
+                        var convertedValue = (T)Enum.Parse(typeof(T), value.ToString(), true);
                         callback(convertedValue);
                     }
                     else
@@ -287,6 +287,16 @@
 
             // var newIndex = (row * grid.Columns) + column;
             //  grid.Controls.Move(index, newIndex);
+        }
+
+        public static void ParseCanvasPosition(this Markup markup, Control control)
+        {
+            var top = control.Top;
+            var left = control.Left;
+            GetValue<float>(markup, "Canvas.Left", x => left = x);
+            GetValue<float>(markup, "Canvas.Top", x => top = x);
+            control.Properties["Canvas.Top"] = top;
+            control.Properties["Canvas.Left"] = left;
         }
 
         public static void ParsePositionAndSize(this Markup markup, Control control, Control parent)
