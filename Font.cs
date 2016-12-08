@@ -27,7 +27,8 @@ namespace Codefarts.UIControls
         /// Initializes a new instance of the <see cref="Font"/> class.
         /// </summary>
         /// <param name="fontName">Name of the font.</param>
-        public Font(string fontName) : this(fontName, 12)
+        public Font(string fontName)
+            : this(fontName, 12)
         {
         }
 

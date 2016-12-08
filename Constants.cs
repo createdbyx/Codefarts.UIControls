@@ -1,7 +1,7 @@
 namespace Codefarts.UIControls
 {
     /// <summary>
-    /// Provices various constants used by UIControls.
+    /// Provides various constants used by UIControls.
     /// </summary>
     public class Constants
     {
@@ -14,12 +14,12 @@ namespace Codefarts.UIControls
         /// The left mouse button index;
         /// </summary>
         public const int LeftMouseButton = 0;
-        
+
         /// <summary>
         /// The right mouse button index.
         /// </summary>
         public const int RightMouseButton = 1;
-        
+
         /// <summary>
         /// The middle mouse button index.
         /// </summary>

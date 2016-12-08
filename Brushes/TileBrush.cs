@@ -26,7 +26,7 @@
         protected TileMode tileMode;
 
         /// <summary>
-        /// Gets or sets the horizontal alignment of content in the <see cref="TileBrush" /> base tile.  
+        /// Gets or sets the horizontal alignment of content in the <see cref="TileBrush" /> base tile.
         /// </summary>
         /// <returns>
         /// A value that specifies the horizontal position of <see cref="TileBrush" /> content in its base tile. The default value is <see cref="F:HorizontalAlignment.Center" />.

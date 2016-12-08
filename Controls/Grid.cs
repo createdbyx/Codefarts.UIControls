@@ -10,13 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Specialized;
-
 namespace Codefarts.UIControls
 {
-    using Models;
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using Models;
 
     /// <summary>
     /// Provides a grid control that arranges child controls in a grid based layout.
@@ -406,7 +405,7 @@ namespace Codefarts.UIControls
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-#if !PORTABLE
+#if !PORTABLE && !UNITY_5
                 case NotifyCollectionChangedAction.Move:
 #endif
                     foreach (var newItem in e.OldItems)
