@@ -46,8 +46,7 @@ namespace Codefarts.UIControls.Controls
             {
                 AcceptsReturn = false,
                 AcceptsTab = false,
-                IsEnabled = false,
-
+                IsEnabled = false, 
             };
 
             this.btnNew = new Button("txtNew", "New") { VerticalAlignment = VerticalAlignment.Stretch, Size = new Size(30, this.Height) };
@@ -86,11 +85,7 @@ namespace Codefarts.UIControls.Controls
 
         private void OpenOnClick(object sender, EventArgs e)
         {
-#if UNITY_5
-            var file = this.ShowSavePathDialog("Save As", Environment.CurrentDirectory);
-#else
-            var file = this.ShowSavePathDialog("Save As", string.Empty);
-#endif
+            var file = this.ShowOpenPathDialog("Open", string.Empty);
             if (file.Length == 0)
             {
                 return;
