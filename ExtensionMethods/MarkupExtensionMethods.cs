@@ -37,7 +37,13 @@
             {
                 try
                 {
-                    if (typeof(T).IsEnum)
+#if WINDOWS_UWP
+                    var t = typeof(T);
+                    var isEnum = t.GetTypeInfo().IsEnum;
+#else
+                    var isEnum = typeof(T).IsEnum;
+#endif
+                    if (isEnum)
                     {
                         var convertedValue = (T)Enum.Parse(typeof(T), value.ToString(), true);
                         callback(convertedValue);
