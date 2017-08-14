@@ -2,13 +2,12 @@ namespace Codefarts.UIControls
 {
     using System;
 
-    using Codefarts.UIControls.Interfaces;
     using Codefarts.UIControls.Models;
 
     /// <summary>
     /// Defines column-specific properties that apply to <see cref="Grid" /> elements. 
     /// </summary>
-    public class ColumnDefinition : DefinitionBase   
+    public class ColumnDefinition : DefinitionBase
     {
         /// <summary>
         /// The is offset value for the related property.
@@ -29,6 +28,21 @@ namespace Codefarts.UIControls
         /// The is minWidth value for the related property.
         /// </summary>
         protected float minWidth;
+
+        /// <summary>
+        /// The backing field for the <see cref="CanUserResize"/> property.
+        /// </summary>
+        private bool canUserResize;
+
+        /// <summary>
+        /// The backing field for the <see cref="CanUserSort"/> property.
+        /// </summary>
+        private bool canUserSort;
+
+        /// <summary>
+        /// The backing field for the <see cref="CanUserReorder"/> property.
+        /// </summary>
+        private bool canUserReorder;
 
         /// <summary>
         /// Gets or sets a value that represents the minimum allowable width of a <see cref="ColumnDefinition" />.  
@@ -105,6 +119,94 @@ namespace Codefarts.UIControls
                 if (changed)
                 {
                     this.OnPropertyChanged("Width");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the user can adjust the column width by using a input device such as a mouse.
+        /// </summary>
+        /// <returns>
+        /// true if the user can resize the column; otherwise, false. The registered default is false. 
+        /// </returns>
+        /// <remarks>
+        /// <para>This property does not affect whether column widths can be changed programmatically, such as by changing the Width property.</para>
+        /// <para>You can set this resize behavior for all columns by setting the DataGrid.CanUserResizeColumns property. 
+        /// If the DataGridColumn.CanUserResize property and the DataGrid.CanUserResizeColumns property are both set, a value of false takes 
+        /// precedence over a value of true.</para>
+        /// </remarks>
+        public virtual bool CanUserResize
+        {
+            get
+            {
+                return this.canUserResize;
+            }
+
+            set
+            {
+                var changed = this.canUserResize != value;
+                this.canUserResize = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("CanUserResize");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the user can sort the column by clicking the column header.
+        /// </summary>
+        /// <returns>
+        /// true if the user can sort the column; otherwise, false. The registered default is false.
+        /// </returns>
+        /// <remarks>
+        /// You can set this sorting behavior for all columns by setting the <see cref="DataGrid.CanUserSortColumns"/> property. 
+        /// If the DataGridColumn.CanUserSort property and the DataGrid.CanUserSortColumns property are both set, 
+        /// a value of false takes precedence over a value of true.
+        /// </remarks>
+        public virtual bool CanUserSort
+        {
+            get
+            {
+                return this.canUserSort;
+            }
+
+            set
+            {
+                var changed = this.canUserSort != value;
+                this.canUserSort = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("CanUserSort");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the user can change the column display position by dragging the column header.
+        /// </summary>
+        /// <returns>
+        /// true if the user can drag the column header to a new position; otherwise, false. The registered default is false.
+        /// </returns>
+        /// <remarks>
+        /// You can set this reorder behavior for all columns by setting the <see cref="DataGrid.CanUserReorderColumns"/> property. 
+        /// If the DataGridColumn.CanUserReorder property and the DataGrid.CanUserReorderColumns property are both set, a 
+        /// value of false takes precedence over a value of true.
+        /// </remarks>
+        public virtual bool CanUserReorder
+        {
+            get
+            {
+                return this.canUserReorder;
+            }
+
+            set
+            {
+                var changed = this.canUserReorder != value;
+                this.canUserReorder = value;
+                if (changed)
+                {
+                    this.OnPropertyChanged("CanUserReorder");
                 }
             }
         }
