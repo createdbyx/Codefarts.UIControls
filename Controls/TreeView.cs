@@ -72,7 +72,17 @@ namespace Codefarts.UIControls
         /// <summary>
         /// Initializes a new instance of the <see cref="TreeView" /> class.
         /// </summary>
-        public TreeView()
+        public TreeView() : this(string.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeView"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The control name.
+        /// </param>
+        public TreeView(string name) : base(name)
         {
             this.canFocus = true;
             this.isTabStop = true;
