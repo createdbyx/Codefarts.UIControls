@@ -878,7 +878,7 @@ namespace Codefarts.UIControls
                 }
             }
 
-#if !PORTABLE
+#if !PORTABLE && !WINDOWS_UWP
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
@@ -1565,7 +1565,7 @@ namespace Codefarts.UIControls
         {
             private ListBox owner;
 
-#if !PORTABLE
+#if !PORTABLE && !WINDOWS_UWP
             [Browsable(false)]
 #endif
             public int Count
@@ -1844,7 +1844,7 @@ namespace Codefarts.UIControls
                 }
             }
 
-#if !PORTABLE
+#if !PORTABLE && !WINDOWS_UWP
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
