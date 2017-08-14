@@ -1,12 +1,42 @@
 namespace Codefarts.UIControls
 {
     using System;
+#if UNITY_5
+    using UnityEngine;
+#endif
 
     /// <summary>
     /// The Control extension methods.
     /// </summary>
     public static class ControlExtensionMethods
     {
+#if UNITY_5
+        /// <summary>
+        /// Gets the screen rectangle for the control.
+        /// </summary>
+        /// <param name="control">A reference to the control to get the screen rectangle for.</param>
+        /// <returns>Returns the screen rectangle for the control.</returns>
+        public static Rect GetScreenRectangle(this Control control)
+        {
+            //var a = GUIUtility.GUIToScreenPoint(new Vector2(control.Left, control.Top));
+            //var b = GUIUtility.GUIToScreenPoint(new Vector2(control.Left + control.Width, control.Top + control.Height));
+            //return new Rect(a.x, a.y, b.x - a.x, b.y - a.y);
+
+            var screenMin = GUIUtility.ScreenToGUIPoint(new Vector2(0, 0));
+            var screenMax = GUIUtility.ScreenToGUIPoint(new Vector2(Screen.width, Screen.height));
+
+            // top left corner in screen coordinates
+            var tl = Vector2.zero - screenMin;
+
+            // get bottom right corner in screen coordinates
+            var br = screenMax - (tl + new Vector2(control.Width, control.Height));
+
+            br = GUIUtility.GUIToScreenPoint(br - tl);
+            tl = GUIUtility.GUIToScreenPoint(tl);
+            return new Rect(tl.x, tl.y, br.x - tl.x, br.y - tl.y);
+        }
+#endif
+
         /// <summary>
         /// Gets the value of a property.
         /// </summary>
