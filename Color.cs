@@ -485,7 +485,7 @@ namespace Codefarts.UIControls
         }
 
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
         public static implicit operator UnityEngine.Color(Color color)
         {
             return new UnityEngine.Color(color.R, color.G, color.B, color.A);

@@ -1,32 +1,41 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Bind.cs">
-//   
-// </copyright>
-// <summary>
-//   Represents a 2-tuple, or pair.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
 namespace Codefarts.UIControls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     /// <summary>
-    /// Bind class for creating bindings between propertys
+    /// Bind class for creating bindings between properties
     /// using expressions.
     /// </summary>
     /// <remarks>
     /// Based on https://github.com/praeclarum/Bind. 
     /// Based on https://github.com/Muraad/Bind.
-    /// Heavily refactored and simplified.
+    /// Heavily rewritten and simplified.
     /// </remarks>
     public static class Bind
     {
+        internal class ExpressionData
+        {
+            private MemberInfo member;
+
+            public ExpressionData()
+            {
+            }
+
+            public ExpressionData(Expression expression, MemberInfo member)
+            {
+                this.Expression = expression;
+                this.member = member;
+            }
+
+            public Expression Expression { get; set; }
+            public MemberInfo Info { get; set; }
+        }
+
         /// <summary>
         /// Create a binding from given expression
         /// </summary>
@@ -53,7 +62,7 @@ namespace Codefarts.UIControls
         /// The get and also expressions.
         /// </summary>
         /// <param name="expr">
-        /// The expr.
+        /// The expression.
         /// </param>
         /// <returns>
         /// The <see cref="List"/>.
@@ -169,13 +178,20 @@ namespace Codefarts.UIControls
         static IDisposable CreateBinding(Expression left, Expression right)
         {
             if (left.NodeType != ExpressionType.MemberAccess)
+            {
                 throw new ArgumentException("NOT ALLOWED");
+            }
 
             IDisposable result = null;
             if (right.NodeType == ExpressionType.MemberAccess)   // right is simple too
+            {
                 result = CreateSimpleBinding(left, right);
+            }
             else
+            {
                 result = CreateComplex(left, right);
+            }
+
             return result;
         }
 
@@ -292,7 +308,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// The subscribe to right side propertys.
+        /// The subscribe to right side properties.
         /// </summary>
         /// <param name="rightChangedAction">
         /// The right changed action.
@@ -303,19 +319,18 @@ namespace Codefarts.UIControls
         /// <returns>
         /// The <see cref="IDisposable"/>.
         /// </returns>
-        static IDisposable SubscribeToRightSidePropertys(
-            Action rightChangedAction, List<Tuple<Expression, MemberInfo>> rightTrigger)
+        static IDisposable SubscribeToRightSidePropertys(Action rightChangedAction, List<ExpressionData> rightTrigger)
         {
             var typeNotifyPropertyChanged = typeof(INotifyPropertyChanged);
             var disposable = new DisposableContainer();
 
-            // For all propertys on the right side
+            // For all properties on the right side
             foreach (var expr in rightTrigger)
             {
                 // IF this is a property access expression
-                if (expr.Item1.NodeType == ExpressionType.MemberAccess)
+                if (expr.Expression.NodeType == ExpressionType.MemberAccess)
                 {
-                    var memEx = expr.Item1 as MemberExpression;
+                    var memEx = expr.Expression as MemberExpression;
 
                     // Get the type this property belongs too and check if it is implementing INotifyPropertyChanged
                     if (typeNotifyPropertyChanged.GetType().IsAssignableFrom(memEx.Type.GetType()))
@@ -324,7 +339,7 @@ namespace Codefarts.UIControls
                         disposable.AddDisposable(
                             AddChangeNotificationEventHandler(
                                 EvalExpression(memEx), // get instance that declares the current right side property
-                                expr.Item2.Name, // the property name where to subscribe to property changed
+                                expr.Info.Name, // the property name where to subscribe to property changed
                                 rightChangedAction));
 
                         // the action that is updating the left side property when right side changes
@@ -365,7 +380,9 @@ namespace Codefarts.UIControls
                 PropertyChangedEventHandler handler = (obj, args) =>
                 {
                     if (args.PropertyName == propertyName)
+                    {
                         action();
+                    }
                 };
                 npc.PropertyChanged += handler;
                 binding = Disposable.Create(() => npc.PropertyChanged -= handler);
@@ -387,11 +404,11 @@ namespace Codefarts.UIControls
         /// <returns>
         /// The <see cref="Tuple"/>.
         /// </returns>
-        static Tuple<Expression, MemberInfo> LeftTriggerFromMemberExpression(Expression expr)
+        static ExpressionData LeftTriggerFromMemberExpression(Expression expr)
         {
             // This expression represents a field or property of an instance.
             var m = (MemberExpression)expr;
-            return new Tuple<Expression, MemberInfo>(m.Expression, m.Member);
+            return new ExpressionData(m.Expression, m.Member);
         }
 
         /// <summary>
@@ -406,9 +423,9 @@ namespace Codefarts.UIControls
         /// <returns>
         /// The <see cref="List"/>.
         /// </returns>
-        static List<Tuple<Expression, MemberInfo>> RightTriggerFromComplexExpression(Expression expr, List<Tuple<Expression, MemberInfo>> ts = null)
+        static List<ExpressionData> RightTriggerFromComplexExpression(Expression expr, List<ExpressionData> ts = null)
         {
-            var triggers = ts == null ? new List<Tuple<Expression, MemberInfo>>() : ts;
+            var triggers = ts == null ? new List<ExpressionData>() : ts;
             GetBindingMembers(expr, triggers);
             return triggers;
         }
@@ -422,7 +439,7 @@ namespace Codefarts.UIControls
         /// <param name="triggers">
         /// The triggers.
         /// </param>
-        static void GetBindingMembers(Expression s, List<Tuple<Expression, MemberInfo>> triggers)
+        static void GetBindingMembers(Expression s, List<ExpressionData> triggers)
         {
             if (s.NodeType == ExpressionType.MemberAccess)
                 triggers.Add(LeftTriggerFromMemberExpression(s));
@@ -473,9 +490,9 @@ namespace Codefarts.UIControls
 
                 return new BindingMember()
                 {
-                    Target = target, 
-                    PropertyName = propName, 
-                    GetMethod = () => propInfo.GetGetMethod().Invoke(target, null), 
+                    Target = target,
+                    PropertyName = propName,
+                    GetMethod = () => propInfo.GetGetMethod().Invoke(target, null),
                     SetMethod = obj => propInfo.GetSetMethod().Invoke(target, new[] { obj })
                 };
             }
@@ -595,7 +612,9 @@ namespace Codefarts.UIControls
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable)
+            {
                 action(item);
+            }
         }
     }
 
@@ -630,7 +649,9 @@ namespace Codefarts.UIControls
             where T : IDisposableContainer
         {
             if (subscriptable != null && subscriptable.Disposables != null)
+            {
                 subscriptable.Disposables.Add(disposable);
+            }
         }
 
         /// <summary>
@@ -648,7 +669,9 @@ namespace Codefarts.UIControls
             where T : IDisposableContainer
         {
             if (onDispose != null)
+            {
                 disposableContainer.Disposables.Add(Disposable.Create(onDispose));
+            }
         }
 
         /// <summary>
@@ -663,7 +686,9 @@ namespace Codefarts.UIControls
             where T : IDisposableContainer
         {
             if (subscriptable.Disposables != null)
+            {
                 subscriptable.Disposables.ForEach(s => s.Dispose());
+            }
         }
 
     }
@@ -740,7 +765,9 @@ namespace Codefarts.UIControls
         public DelegateDisposable(Action onDispose = null)
         {
             if (onDispose != null)
+            {
                 OnDispose = onDispose;
+            }
         }
 
         /// <summary>
@@ -749,7 +776,9 @@ namespace Codefarts.UIControls
         public void Dispose()
         {
             if (OnDispose != null)
+            {
                 OnDispose();
+            }
         }
     }
 
@@ -790,16 +819,16 @@ namespace Codefarts.UIControls
         public static IDisposable Create<T>(T reference, Action<T> onDispose)
            where T : class
         {
-            var weakReference = new WeakReference<T>(reference);
+            var weakReference = new WeakReference(reference);
             return new DelegateDisposable(() =>
             {
-                T target = null;
-                if (weakReference.TryGetTarget(out target))
+                var target = (T)weakReference.Target;
+                if (target != null)
                 {
                     onDispose(target);
                 }
             });
-        }                                       
+        }
 #endif
 
         /// <summary>

@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
     using UnityEngine;
 #endif
 
@@ -168,7 +168,7 @@
             return new Point(size.Width, size.Height);
         }
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
         public static implicit operator Vector2(Size size)
         {
             return new Vector2(size.Width, size.Height);

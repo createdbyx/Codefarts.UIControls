@@ -70,7 +70,7 @@
 
         /// <summary>
         /// Gets the metadata for the image source.
-        /// </summary>    
+        /// </summary>
         public virtual ImageMetadata Metadata
         {
             get

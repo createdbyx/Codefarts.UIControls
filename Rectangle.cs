@@ -3,7 +3,7 @@ namespace Codefarts.UIControls
     using System;
     using System.Globalization;
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
     using UnityEngine;
 #endif
 
@@ -556,7 +556,7 @@ namespace Codefarts.UIControls
         }
 
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
         public static implicit operator Rect(Rectangle rectangle)
         {
             return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);

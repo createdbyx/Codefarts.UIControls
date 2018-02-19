@@ -1,7 +1,7 @@
 namespace Codefarts.UIControls
 {
     using System;
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
     using UnityEngine;
 #endif
 
@@ -10,7 +10,7 @@ namespace Codefarts.UIControls
     /// </summary>
     public static class ControlExtensionMethods
     {
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
         /// <summary>
         /// Gets the screen rectangle for the control.
         /// </summary>

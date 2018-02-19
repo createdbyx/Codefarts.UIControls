@@ -3,7 +3,7 @@ namespace Codefarts.UIControls
     using System;
     using System.Globalization;
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
     using UnityEngine;
 #endif
 
@@ -175,7 +175,7 @@ namespace Codefarts.UIControls
             return new Size(size.X, size.Y);
         }
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
         public static implicit operator Vector2(Point point)
         {
             return new Vector2(point.X, point.Y);

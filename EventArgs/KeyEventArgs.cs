@@ -1,6 +1,6 @@
 namespace Codefarts.UIControls
 {
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
     using KeyCode = UnityEngine.KeyCode; 
 #endif
 #if WINDOWS
