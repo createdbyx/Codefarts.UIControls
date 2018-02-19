@@ -78,6 +78,14 @@ namespace Codefarts.UIControls
 
 
         /// <summary>
+        /// Clears all text from the text box control.
+        /// </summary>
+        public void Clear()
+        {
+            this.Text = string.Empty;
+        }
+        
+        /// <summary>
         /// Gets or sets a value that indicates whether a horizontal scroll bar is shown. 
         /// </summary>
         /// <returns>
