@@ -110,6 +110,7 @@ namespace Codefarts.UIControls
             {
                 return this.width;
             }
+
             set
             {
                 value = Math.Abs(this.MinWidth) > float.Epsilon && value < this.MinWidth ? this.MinWidth : value;
@@ -223,6 +224,7 @@ namespace Codefarts.UIControls
             {
                 return this.offset;
             }
+
             set
             {
                 var changed = Math.Abs(this.offset - value) < float.Epsilon;

@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Provides a attribite for assigning a unique id to a type.
+    /// Provides a attribute for assigning a unique id to a type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class UniqueIDAttribute : Attribute

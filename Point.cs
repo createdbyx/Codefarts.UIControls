@@ -51,6 +51,7 @@ namespace Codefarts.UIControls
             {
                 return this.x;
             }
+
             set
             {
                 this.x = value;
@@ -65,6 +66,7 @@ namespace Codefarts.UIControls
             {
                 return this.y;
             }
+
             set
             {
                 this.y = value;

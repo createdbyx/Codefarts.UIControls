@@ -13,6 +13,7 @@ namespace Codefarts.UIControls
         public float ItemHeight { get; set; }
 
         public float ElapsedGameTime { get; set; }
+
         public float TotalGameTime { get; set; }
     }
 }

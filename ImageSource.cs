@@ -28,7 +28,7 @@
 
         /// <summary>
         /// Gets the image width.
-        /// </summary>      
+        /// </summary>
         public virtual int Width
         {
             get
@@ -112,9 +112,9 @@
         /// <summary>
         /// Builds a <see cref="Markup"/> object that represent the state of the implementor.
         /// </summary>
-        /// <returns>A <see cref="Markup"/> object containing the relavent information.</returns>
+        /// <returns>A <see cref="Markup"/> object containing the relevant information.</returns>
         /// <remarks>
-        /// <p>The returned <see cref="Markup"/> object contains the relavnet data stored by the implementor.</p>
+        /// <p>The returned <see cref="Markup"/> object contains the relevant data stored by the implementor.</p>
         /// </remarks>
         public Markup ToMarkup()
         {

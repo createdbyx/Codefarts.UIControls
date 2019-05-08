@@ -305,6 +305,7 @@ namespace Codefarts.UIControls
             {
                 return this.autoSize;
             }
+
             set
             {
                 var changed = this.canFocus != value;
@@ -328,6 +329,7 @@ namespace Codefarts.UIControls
             {
                 return this.autoSize;
             }
+
             set
             {
                 var changed = this.autoSize != value;
@@ -479,6 +481,7 @@ namespace Codefarts.UIControls
             {
                 return this.opacity;
             }
+
             set
             {
                 value = Math.Min(1, value);
@@ -1237,6 +1240,7 @@ namespace Codefarts.UIControls
             {
                 return this.location;
             }
+
             set
             {
                 var leftChanged = Math.Abs(this.location.X - value.X) > float.Epsilon;
@@ -1308,6 +1312,7 @@ namespace Codefarts.UIControls
             {
                 return new Rectangle(this.Location, this.Size);
             }
+
             set
             {
                 var leftChanged = Math.Abs(this.Left - value.X) > float.Epsilon;

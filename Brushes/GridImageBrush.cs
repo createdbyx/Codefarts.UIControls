@@ -116,6 +116,7 @@
             {
                 return this.columnDefinitions.Count;
             }
+
             set
             {
                 value = value < 1 ? 1 : value;

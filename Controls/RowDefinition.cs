@@ -96,6 +96,7 @@ namespace Codefarts.UIControls
             {
                 return this.height;
             }
+
             set
             {
                 value = Math.Abs(this.MinHeight) > float.Epsilon && value < this.MinHeight ? this.MinHeight : value;
@@ -121,6 +122,7 @@ namespace Codefarts.UIControls
             {
                 return this.offset;
             }
+
             set
             {
                 var changed = Math.Abs(this.offset - value) < float.Epsilon;

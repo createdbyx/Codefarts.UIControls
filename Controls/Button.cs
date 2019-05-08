@@ -50,7 +50,8 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="name">The name of the button.</param>
         /// <param name="text">The text for the button.</param>
-        public Button(string name, string text) : this(text)
+        public Button(string name, string text)
+            : this(text)
         {
             this.name = name;
         }
@@ -59,7 +60,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the button text.
-        /// </summary>               
+        /// </summary>
         public virtual string Text
         {
             get
@@ -116,10 +117,10 @@ namespace Codefarts.UIControls
         /// Builds a <see cref="Markup" /> object that represent the state of the implementor.
         /// </summary>
         /// <returns>
-        /// A <see cref="Markup" /> object containing the relavent information.
+        /// A <see cref="Markup" /> object containing the relevant information.
         /// </returns>
         /// <remarks>
-        ///   <p>The returned <see cref="Markup" /> object contains the relavnet data stored by the implementor.</p>
+        ///   <p>The returned <see cref="Markup" /> object contains the relevant data stored by the implementor.</p>
         /// </remarks>
         public override Markup ToMarkup()
         {
@@ -135,6 +136,6 @@ namespace Codefarts.UIControls
 
         #endregion
 
-        #endregion     
+        #endregion
     }
 }

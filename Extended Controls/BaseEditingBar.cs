@@ -15,8 +15,11 @@ namespace Codefarts.UIControls.Controls
         private Button btnSaveAs;
 
         public event EventHandler New;
+
         public event EventHandler Open;
+
         public event EventHandler Save;
+
         public event EventHandler<PropertyChangedEventArgs<string>> SaveAs;
 
         public string FileExtension { get; set; }

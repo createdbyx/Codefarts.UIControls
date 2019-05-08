@@ -197,6 +197,7 @@ namespace Codefarts.UIControls
             {
                 return this.maxLength;
             }
+
             set
             {
                 var changed = this.maxLength != value;
