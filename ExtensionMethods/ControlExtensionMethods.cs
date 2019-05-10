@@ -55,7 +55,7 @@ namespace Codefarts.UIControls
         /// <param name="control">The control to retrieve the property value from.</param>
         /// <param name="name">The name of the property.</param>
         /// <param name="defaultValue">The default value that will be returned if the property can not be found.</param>
-        /// <returns>Returns the value of the property, otherwise returns the <see cref="defaultValue"/> that was specified.</returns>
+        /// <returns>Returns the value of the property, otherwise returns the <paramref name="defaultValue"/> that was specified.</returns>
         /// <exception cref="System.ArgumentNullException">control</exception>
         /// <seealso cref="GetProperty{T}(Codefarts.UIControls.Control,string)"/>
         public static T GetProperty<T>(this Control control, string name, T defaultValue)

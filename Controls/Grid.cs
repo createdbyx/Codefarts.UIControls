@@ -145,7 +145,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets the column definitions.
+        /// Gets or sets the column definitions.
         /// </summary>
         public virtual ColumnDefinitionCollection ColumnDefinitions
         {
@@ -167,7 +167,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets the row definitions.
+        /// Gets or sets the row definitions.
         /// </summary>
         public virtual RowDefinitionCollection RowDefinitions
         {
@@ -299,13 +299,27 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// The update cell array.
+        /// Gets the default size.
+        /// </summary>
+        /// <returns>
+        /// The default <see cref="Size"/> of the control.
+        /// </returns>
+        protected override Size DefaultSize
+        {
+            get
+            {
+                return new Size(200, 100);
+            }
+        }
+
+        /// <summary>
+        /// Update the internal cell array that holds the controls.
         /// </summary>
         /// <param name="oldColumns">
-        /// The old columns.
+        /// The old column count.
         /// </param>
         /// <param name="oldRows">
-        /// The old rows.
+        /// The old row count.
         /// </param>
         private void UpdateCellArray(int oldColumns, int oldRows)
         {
@@ -313,21 +327,25 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// The resize array.
+        /// Resizes an array and keeps the old values.
         /// </summary>
         /// <param name="original">
-        /// The original.
+        /// The original array.
         /// </param>
         /// <param name="oldColumns">
-        /// The old columns.
+        /// The old column count.
         /// </param>
         /// <param name="oldRows">
-        /// The old rows.
+        /// The old row count.
         /// </param>
-        /// <param name="columns"></param>
-        /// <param name="rows"></param>
+        /// <param name="columns">
+        /// The new column count.
+        /// </param>
+        /// <param name="rows">
+        /// The new row count.
+        /// </param>
         /// <returns>
-        /// The <see cref="T[]"/>.
+        /// Returns a new resized array containing the old values.
         /// </returns>
         private T[] ResizeArray<T>(T[] original, int oldColumns, int oldRows, int columns, int rows)
         {
@@ -342,20 +360,6 @@ namespace Codefarts.UIControls
             }
 
             return newArray;
-        }
-
-        /// <summary>
-        /// The default size.
-        /// </summary>
-        /// <returns>
-        /// The default <see cref="Size"/> of the control.
-        /// </returns>
-        protected override Size DefaultSize
-        {
-            get
-            {
-                return new Size(200, 100);
-            }
         }
 
         /// <summary>
