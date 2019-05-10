@@ -33,25 +33,14 @@ namespace Codefarts.UIControls
         public const string Column = "Grid.Column_B19DA9A1-4149-4C9B-8D62-E88CED091985";
 
         /// <summary>
-        /// The rows variable used by the <see cref="Rows"/> property.
-        /// </summary>
-        protected int rows = 1;
-
-        /// <summary>
-        /// The columns varible used by the <see cref="Columns"/> property.
-        /// </summary>
-        protected int columns = 1;
-
-        /// <summary>
         /// The row definitions variable used by the <see cref="RowDefinitions"/> property.
         /// </summary>
-        protected RowDefinitionCollection rowDefinitions;
+        private RowDefinitionCollection rowDefinitions;
 
         /// <summary>
         /// The column definitions variable used by the <see cref="ColumnDefinitions"/> property.
         /// </summary>
-        protected ColumnDefinitionCollection columnDefinitions;
-
+        private ColumnDefinitionCollection columnDefinitions;
 
         /// <summary>
         /// The handle column change event.
@@ -62,6 +51,11 @@ namespace Codefarts.UIControls
         /// The handle row change event.
         /// </summary>
         private bool handleRowChangeEvent = true;
+
+        /// <summary>
+        /// The cells.
+        /// </summary>
+        private List<Control>[] cells;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Grid"/> class.
@@ -115,7 +109,7 @@ namespace Codefarts.UIControls
 
             this.rowDefinitions.CollectionChanged += this.RowDefinitionsCollectionChanged;
             this.columnDefinitions.CollectionChanged += this.ColumnDefinitionsCollectionChanged;
-            this.cells = new List<Control>[this.columns * this.rows];
+            this.cells = new List<Control>[columns * rows];
             this.Rows = rows;
             this.Columns = columns;
         }
@@ -132,7 +126,8 @@ namespace Codefarts.UIControls
         /// <param name="rows">
         /// The number of grid rows.
         /// </param>
-        public Grid(string name, int columns, int rows) : this(columns, rows)
+        public Grid(string name, int columns, int rows)
+            : this(columns, rows)
         {
             this.name = name;
         }
@@ -143,7 +138,8 @@ namespace Codefarts.UIControls
         /// <param name="name">
         /// The name of the control.
         /// </param>
-        public Grid(string name) : this()
+        public Grid(string name)
+            : this()
         {
             this.name = name;
         }
@@ -200,32 +196,49 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.rowDefinitions.Count;
+                var definitions = this.rowDefinitions;
+                if (definitions != null)
+                {
+                    return definitions.Count;
+                }
+
+                return 0;
             }
 
             set
             {
                 value = value < 1 ? 1 : value;
-                var changed = this.rows != value;
-                var oldRows = this.rows;
-                this.rows = value;
+                var definitions = this.rowDefinitions;
+                var setRows = false;
+                if (definitions == null)
+                {
+                    definitions = new RowDefinitionCollection();
+                    setRows = true;
+                }
+
+                var oldRows = definitions.Count;
+                var changed = definitions.Count != value;
                 if (changed)
                 {
                     this.handleRowChangeEvent = false;
-                    while (value > this.rowDefinitions.Count)
+                    while (value > definitions.Count)
                     {
-                        this.rowDefinitions.Add(new RowDefinition());
+                        definitions.Add(new RowDefinition());
                     }
 
-                    while (value < this.rowDefinitions.Count)
+                    while (value < definitions.Count)
                     {
-                        this.rowDefinitions.RemoveAt(this.rowDefinitions.Count - 1);
+                        definitions.RemoveAt(definitions.Count - 1);
                     }
 
                     this.handleRowChangeEvent = true;
-
-                    this.UpdateCellArray(this.columns, oldRows);
+                    this.UpdateCellArray(this.Columns, oldRows);
                     this.OnPropertyChanged("Rows");
+                }
+
+                if (setRows)
+                {
+                    this.RowDefinitions = definitions;
                 }
             }
         }
@@ -238,32 +251,49 @@ namespace Codefarts.UIControls
         {
             get
             {
-                return this.columnDefinitions.Count;
+                var definitions = this.columnDefinitions;
+                if (definitions != null)
+                {
+                    return definitions.Count;
+                }
+
+                return 0;
             }
 
             set
             {
                 value = value < 1 ? 1 : value;
-                var changed = this.columns != value;
-                var oldColumns = this.columns;
-                this.columns = value;
+                var definitions = this.columnDefinitions;
+                var setRows = false;
+                if (definitions == null)
+                {
+                    definitions = new ColumnDefinitionCollection();
+                    setRows = true;
+                }
+
+                var oldColumns = definitions.Count;
+                var changed = definitions.Count != value;
                 if (changed)
                 {
                     this.handleColumnChangeEvent = false;
-                    while (value > this.columnDefinitions.Count)
+                    while (value > definitions.Count)
                     {
-                        this.columnDefinitions.Add(new ColumnDefinition());
+                        definitions.Add(new ColumnDefinition());
                     }
 
-                    while (value < this.columnDefinitions.Count)
+                    while (value < definitions.Count)
                     {
-                        this.columnDefinitions.RemoveAt(this.columnDefinitions.Count - 1);
+                        definitions.RemoveAt(definitions.Count - 1);
                     }
 
                     this.handleColumnChangeEvent = true;
-
-                    this.UpdateCellArray(oldColumns, this.rows);
+                    this.UpdateCellArray(oldColumns, this.Rows);
                     this.OnPropertyChanged("Columns");
+                }
+
+                if (setRows)
+                {
+                    this.ColumnDefinitions = definitions;
                 }
             }
         }
@@ -279,13 +309,8 @@ namespace Codefarts.UIControls
         /// </param>
         private void UpdateCellArray(int oldColumns, int oldRows)
         {
-            this.cells = this.ResizeArray(this.cells, oldColumns, oldRows);
+            this.cells = this.ResizeArray(this.cells, oldColumns, oldRows, this.Columns, this.Rows);
         }
-
-        /// <summary>
-        /// The cells.
-        /// </summary>
-        private List<Control>[] cells;
 
         /// <summary>
         /// The resize array.
@@ -299,21 +324,21 @@ namespace Codefarts.UIControls
         /// <param name="oldRows">
         /// The old rows.
         /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
+        /// <param name="columns"></param>
+        /// <param name="rows"></param>
         /// <returns>
         /// The <see cref="T[]"/>.
         /// </returns>
-        protected T[] ResizeArray<T>(T[] original, int oldColumns, int oldRows)
+        private T[] ResizeArray<T>(T[] original, int oldColumns, int oldRows, int columns, int rows)
         {
-            var newArray = new T[this.columns * this.rows];
+            var newArray = new T[columns * rows];
 
-            var columnCount = Math.Min(this.columns, oldColumns);
-            var rowCount = Math.Min(this.rows, oldRows);
+            var columnCount = Math.Min(columns, oldColumns);
+            var rowCount = Math.Min(rows, oldRows);
 
             for (var i = 0; i < rowCount; i++)
             {
-                Array.Copy(original, i * oldColumns, newArray, i * this.columns, columnCount);
+                Array.Copy(original, i * oldColumns, newArray, i * columns, columnCount);
             }
 
             return newArray;
@@ -344,13 +369,13 @@ namespace Codefarts.UIControls
         /// </param>
         private void ColumnDefinitionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!this.handleColumnChangeEvent || this.columns == this.columnDefinitions.Count)
+            if (!this.handleColumnChangeEvent || this.Columns == this.columnDefinitions.Count)
             {
                 return;
             }
 
-            this.columns = this.columnDefinitions.Count;
-            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
+            this.Columns = this.columnDefinitions.Count;
+            this.cells = this.ResizeArray(this.cells, this.Columns, this.Rows, this.Columns, this.Rows);
         }
 
         /// <summary>
@@ -364,13 +389,13 @@ namespace Codefarts.UIControls
         /// </param>
         private void RowDefinitionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!this.handleRowChangeEvent || this.rows == this.rowDefinitions.Count)
+            if (!this.handleRowChangeEvent || this.Rows == this.rowDefinitions.Count)
             {
                 return;
             }
 
-            this.rows = this.rowDefinitions.Count;
-            this.cells = this.ResizeArray(this.cells, this.columns, this.rows);
+            this.Rows = this.rowDefinitions.Count;
+            this.cells = this.ResizeArray(this.cells, this.Columns, this.Rows, this.Columns, this.Rows);
         }
 
         /// <summary>
@@ -435,7 +460,7 @@ namespace Codefarts.UIControls
             }
 
             var pos = child.GetGridPosition();
-            var cellIndex = ((int)pos.Y * this.columns) + (int)pos.X;
+            var cellIndex = ((int)pos.Y * this.Columns) + (int)pos.X;
             if (cellIndex < 0 || cellIndex > this.cells.Length - 1)
             {
                 return;
@@ -456,7 +481,7 @@ namespace Codefarts.UIControls
             }
 
             var pos = child.GetGridPosition();
-            var cellIndex = ((int)pos.Y * this.columns) + (int)pos.X;
+            var cellIndex = ((int)pos.Y * this.Columns) + (int)pos.X;
             if (cellIndex < 0 || cellIndex > this.cells.Length - 1)
             {
                 return;
