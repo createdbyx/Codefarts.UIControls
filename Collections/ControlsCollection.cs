@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ControlsCollection.cs" company="">
-//   
+//
 // </copyright>
 // <summary>
 //   The controls collection.
@@ -202,7 +202,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets the control owner of this collection.
-        /// </summary>    
+        /// </summary>
         public Control Owner
         {
             get

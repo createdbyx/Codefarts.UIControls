@@ -15,7 +15,7 @@ namespace Codefarts.UIControls
 #endif
     public struct Point
     {
-        /// <summary>Represents a new instance of the <see cref="Point" /> class with member data left uninitialized.</summary>              
+        /// <summary>Represents a new instance of the <see cref="Point" /> class with member data left uninitialized.</summary>
         public readonly static Point Empty;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Codefarts.UIControls
         private float y;
 
         /// <summary>Gets a value indicating whether this <see cref="Point" /> is empty.</summary>
-        /// <returns>true if both <see cref="Point.X" /> and <see cref="Point.Y" /> are 0; otherwise, false.</returns>                       
+        /// <returns>true if both <see cref="Point.X" /> and <see cref="Point.Y" /> are 0; otherwise, false.</returns>
         public bool IsEmpty
         {
             get
@@ -59,7 +59,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>Gets or sets the y-coordinate of this <see cref="Point" />.</summary>
-        /// <returns>The y-coordinate of this <see cref="Point" />.</returns>   
+        /// <returns>The y-coordinate of this <see cref="Point" />.</returns>
         public float Y
         {
             get
@@ -93,7 +93,7 @@ namespace Codefarts.UIControls
 
         /// <summary>Specifies whether this <see cref="Point" /> contains the same coordinates as the specified <see cref="T:System.Object" />.</summary>
         /// <returns>This method returns true if <paramref name="obj" /> is a <see cref="Point" /> and has the same coordinates as this <see cref="Point" />.</returns>
-        /// <param name="obj">The <see cref="T:System.Object" /> to test. </param>  
+        /// <param name="obj">The <see cref="T:System.Object" /> to test. </param>
         public override bool Equals(object obj)
         {
             if (!(obj is Point))
@@ -109,7 +109,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>Returns a hash code for this <see cref="Point" /> structure.</summary>
-        /// <returns>An integer value that specifies a hash value for this <see cref="Point" /> structure.</returns>  
+        /// <returns>An integer value that specifies a hash value for this <see cref="Point" /> structure.</returns>
         public override int GetHashCode()
         {
             var temp = this;
@@ -166,7 +166,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>Converts this <see cref="Point" /> to a human readable string.</summary>
-        /// <returns>A string that represents this <see cref="Point" />.</returns>         
+        /// <returns>A string that represents this <see cref="Point" />.</returns>
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", this.x, this.y);

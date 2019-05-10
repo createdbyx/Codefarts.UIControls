@@ -12,7 +12,7 @@ namespace Codefarts.UIControls
 #if WINDOWS_UWP
     using KeyCode = Windows.System.VirtualKey; //System.Windows.Forms.Keys;
 #endif
-    /// <summary>Provides data for the <see cref="E:Control.KeyUp" /> and <see cref="E:Control.KeyDown" /> routed events, 
+    /// <summary>Provides data for the <see cref="E:Control.KeyUp" /> and <see cref="E:Control.KeyDown" /> routed events,
     /// as well as related attached and Preview events.</summary>
     public class KeyEventArgs  : KeyboardEventArgs
     {
@@ -50,6 +50,6 @@ namespace Codefarts.UIControls
 
         /// <summary>Gets the keyboard key associated with the event. </summary>
         /// <returns>The key referenced by the event.</returns>
-        public KeyCode Key { get; private set; }   
+        public KeyCode Key { get; private set; }
     }
 }

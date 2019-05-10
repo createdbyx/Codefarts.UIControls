@@ -1,5 +1,7 @@
 ﻿namespace Codefarts.UIControls
 {
+    using Codefarts.UIControls.Models;
+
     /// <summary>
     /// Describes a way to paint a region by using one or more tiles.
     /// </summary>
@@ -8,22 +10,22 @@
         /// <summary>
         /// The alignment x value for the <see cref="AlignmentX"/> property.
         /// </summary>
-        protected AlignmentX alignmentX;
+        private AlignmentX alignmentX;
 
         /// <summary>
         /// The alignment y value for the <see cref="AlignmentY"/> property.
         /// </summary>
-        protected AlignmentY alignmentY;
+        private AlignmentY alignmentY;
 
         /// <summary>
         /// The alignment stretch value for the <see cref="Stretch"/> property.
         /// </summary>
-        protected Stretch stretch;
+        private Stretch stretch;
 
         /// <summary>
         /// The alignment tile mode value for the <see cref="TileMode"/> property.
         /// </summary>
-        protected TileMode tileMode;
+        private TileMode tileMode;
 
         /// <summary>
         /// Gets or sets the horizontal alignment of content in the <see cref="TileBrush" /> base tile.
@@ -50,7 +52,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the vertical alignment of content in the <see cref="TileBrush" /> base tile.  
+        /// Gets or sets the vertical alignment of content in the <see cref="TileBrush" /> base tile.
         /// </summary>
         /// <returns>
         /// A value that specifies the vertical position of <see cref="TileBrush" /> content in its base tile. The default value is <see cref="F:AlignmentY.Center" />.
@@ -74,7 +76,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies how the content of this <see cref="TileBrush" /> stretches to fit its tiles.   
+        /// Gets or sets a value that specifies how the content of this <see cref="TileBrush" /> stretches to fit its tiles.
         /// </summary>
         /// <returns>
         /// A value that specifies how this <see cref="TileBrush" /> content is projected onto its base tile. The default value is <see cref="F:Stretch.Fill" />.
@@ -98,7 +100,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies how a <see cref="TileBrush" /> fills the area that you are painting if the base tile is smaller than the output area.  
+        /// Gets or sets a value that specifies how a <see cref="TileBrush" /> fills the area that you are painting if the base tile is smaller than the output area.
         /// </summary>
         /// <returns>
         /// A value that specifies how the <see cref="TileBrush" /> tiles fill the output area. The default value is <see cref="F:TileMode.None" />.
@@ -119,6 +121,26 @@
                     this.OnPropertyChanged("TileMode");
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts to markup.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Markup" /> object containing the relevant information.
+        /// </returns>
+        /// <remarks>
+        ///   <p>The returned <see cref="Markup" /> object contains the relevant data stored by the implementor.</p>
+        /// </remarks>
+        public override Markup ToMarkup()
+        {
+            var markup = base.ToMarkup();
+            markup.Name = this.GetType().FullName;
+            markup["AlignmentX"] = this.AlignmentX;
+            markup["AlignmentY"] = this.AlignmentY;
+            markup["Stretch"] = this.Stretch;
+            markup["TileMode"] = this.TileMode;
+            return markup;
         }
     }
 }

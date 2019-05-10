@@ -8,14 +8,14 @@
 */
 
 namespace Codefarts.UIControls
-{                
+{
     /// <summary>
     /// Specifies the visibility of a ScrollBar for scrollable content.
     /// </summary>
     public enum ScrollBarVisibility
     {
         /// <summary>
-        /// A ScrollBar does not appear even when the viewport cannot display all of the content. 
+        /// A ScrollBar does not appear even when the viewport cannot display all of the content.
         /// </summary>
         Disabled = 0,
 
@@ -25,12 +25,12 @@ namespace Codefarts.UIControls
         Auto = 1,
 
         /// <summary>
-        /// A ScrollBar does not appear even when the viewport cannot display all of the content. 
+        /// A ScrollBar does not appear even when the viewport cannot display all of the content.
         /// </summary>
         Hidden = 2,
 
         /// <summary>
-        /// A ScrollBar always appears. 
+        /// A ScrollBar always appears.
         /// </summary>
         Visible = 3
     }

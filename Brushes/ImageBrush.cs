@@ -1,7 +1,9 @@
 ﻿namespace Codefarts.UIControls
 {
+    using Codefarts.UIControls.Models;
+
     /// <summary>
-    /// Paints an area with an image. 
+    /// Paints an area with an image.
     /// </summary>
     public class ImageBrush : TileBrush
     {
@@ -26,7 +28,7 @@
 
         /// <summary>
         /// Gets or sets the image source.
-        /// </summary>   
+        /// </summary>
         public virtual ImageSource ImageSource
         {
             get
@@ -43,6 +45,24 @@
                     this.OnPropertyChanged("ImageSource");
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts to markup.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Markup" /> object containing the relevant information.
+        /// </returns>
+        /// <remarks>
+        ///   <p>The returned <see cref="Markup" /> object contains the relevant data stored by the implementor.</p>
+        /// </remarks>
+        public override Markup ToMarkup()
+        {
+            var markup = base.ToMarkup();
+            markup.Name = this.GetType().FullName;
+            var image = this.ImageSource;
+            markup["ImageSource"] = image != null ? image.ToMarkup() : null;
+            return markup;
         }
     }
 }

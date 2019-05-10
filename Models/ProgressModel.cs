@@ -70,6 +70,6 @@ namespace Codefarts.UIControls.Models
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        public string Title { get; set; }   
+        public string Title { get; set; }
     }
 }

@@ -61,10 +61,10 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the direction in which the <see cref="Expander" /> content opens.  
+        /// Gets or sets the direction in which the <see cref="Expander" /> content opens.
         /// </summary>
         /// <returns>
-        /// One of the <see cref="ExpandDirection" /> values that defines which direction the content opens. The default is <see cref="UIControls.ExpandDirection.Down" />. 
+        /// One of the <see cref="ExpandDirection" /> values that defines which direction the content opens. The default is <see cref="UIControls.ExpandDirection.Down" />.
         /// </returns>
         public virtual ExpandDirection ExpandDirection
         {
@@ -85,7 +85,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the content control that houses the expander content.  
+        /// Gets or sets the content control that houses the expander content.
         /// </summary>
         public virtual Control Content
         {
@@ -106,7 +106,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets whether the <see cref="Expander" /> content is visible.  
+        /// Gets or sets whether the <see cref="Expander" /> content is visible.
         /// </summary>
         /// <returns>
         /// true if the content is expanded; otherwise, false. The default is false.
@@ -131,7 +131,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the header text.
-        /// </summary>                  
+        /// </summary>
         public virtual string Text
         {
             get

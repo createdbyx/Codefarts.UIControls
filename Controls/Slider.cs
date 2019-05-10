@@ -20,7 +20,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that determines the orientation of the slider.  
+        /// Gets or sets a value that determines the orientation of the slider.
         /// </summary>
         public virtual Orientation Orientation
         {

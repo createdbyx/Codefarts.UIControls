@@ -3,7 +3,7 @@ namespace Codefarts.UIControls
     using System;
 
     /// <summary>
-    /// Describes a color in terms of alpha, red, green, and blue channels. 
+    /// Describes a color in terms of alpha, red, green, and blue channels.
     /// </summary>
     public struct Color : IEquatable<Color>
     {
@@ -47,7 +47,7 @@ namespace Codefarts.UIControls
         public float A { get; set; }
 
         /// <summary>
-        /// Gets or sets the blue channel value of the color. 
+        /// Gets or sets the blue channel value of the color.
         /// </summary>
         /// <returns>
         /// The blue channel value of the current <see cref="Color" /> structure.
@@ -55,7 +55,7 @@ namespace Codefarts.UIControls
         public float B { get; set; }
 
         /// <summary>
-        /// Gets or sets the green channel value of the color. 
+        /// Gets or sets the green channel value of the color.
         /// </summary>
         /// <returns>
         /// The green channel value of the current <see cref="Color" /> structure.
@@ -63,7 +63,7 @@ namespace Codefarts.UIControls
         public float G { get; set; }
 
         /// <summary>
-        /// Gets or sets the red channel value of the color. 
+        /// Gets or sets the red channel value of the color.
         /// </summary>
         /// <returns>
         /// The red channel value of the current <see cref="Color" /> structure.
@@ -213,7 +213,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Sets the color channels of the color to within the gamut of 0 to 1, if they are outside that range. 
+        /// Sets the color channels of the color to within the gamut of 0 to 1, if they are outside that range.
         /// </summary>
         public void Clamp()
         {

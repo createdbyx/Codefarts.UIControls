@@ -24,7 +24,7 @@ namespace Codefarts.UIControls
             var ownerOrigin = owner.PointToScreen(Point.Empty);
             this.Location = ownerOrigin + new Point(0, owner.Height) - root.Location;
 
-            // perform checking weather or not popup is within 
+            // perform checking weather or not popup is within
             this.IsVisible=true;
 
             root.Controls.Add(this);

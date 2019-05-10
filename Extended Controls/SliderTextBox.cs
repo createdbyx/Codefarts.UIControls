@@ -31,7 +31,7 @@ namespace Codefarts.UIControls
 
 
         /// <summary>
-        /// Gets or sets a value to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control. 
+        /// Gets or sets a value to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.
         /// </summary>
         /// <returns>
         /// <see cref="RangeBase.Value" /> to add to or subtract from the <see cref="RangeBase.Value" /> of the <see cref="RangeBase" /> element. The default is 1.</returns>
@@ -51,7 +51,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a <see cref="RangeBase.Value" /> to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.  
+        /// Gets or sets a <see cref="RangeBase.Value" /> to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.
         /// </summary>
         /// <returns>
         /// <see cref="RangeBase.Value" /> to add to or subtract from the <see cref="RangeBase.Value" /> of the <see cref="RangeBase" /> element. The default is 0.1.
@@ -109,7 +109,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the text used as the label.
-        /// </summary>  
+        /// </summary>
         public virtual string Text
         {
             get
@@ -142,7 +142,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the dimension by which child elements are stacked.  
+        /// Gets or sets a value that indicates the dimension by which child elements are stacked.
         /// </summary>
         public virtual Orientation Orientation
         {

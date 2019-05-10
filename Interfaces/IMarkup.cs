@@ -8,7 +8,7 @@ namespace Codefarts.UIControls.Interfaces
     public interface IMarkup
     {
         /// <summary>
-        /// Builds a <see cref="Markup"/> object that represent the state of the implementor.
+        /// Builds a <see cref="Markup"/> object that represents the current state of the implementor.
         /// </summary>
         /// <returns>A <see cref="Markup"/> object containing the relevant information.</returns>
         /// <remarks>

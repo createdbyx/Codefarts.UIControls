@@ -16,7 +16,7 @@ namespace Codefarts.UIControls
     /// Used to group collections of controls.
     /// </summary>
     public class Panel : ScrollViewer
-    {                              
+    {
         /// <summary>
         /// The backing field for the <see cref="AutoSizeMode"/> property.
         /// </summary>

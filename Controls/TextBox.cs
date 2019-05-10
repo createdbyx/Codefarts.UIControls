@@ -84,9 +84,9 @@ namespace Codefarts.UIControls
         {
             this.Text = string.Empty;
         }
-        
+
         /// <summary>
-        /// Gets or sets a value that indicates whether a horizontal scroll bar is shown. 
+        /// Gets or sets a value that indicates whether a horizontal scroll bar is shown.
         /// </summary>
         /// <returns>
         /// A value that is defined by the <see cref="ScrollBarVisibility" /> enumeration. The default value is <see cref="Visibility.Hidden" />.
@@ -110,7 +110,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether a vertical scroll bar is shown. 
+        /// Gets or sets a value that indicates whether a vertical scroll bar is shown.
         /// </summary>
         /// <returns>
         /// A value that is defined by the <see cref="ScrollBarVisibility" /> enumeration. The default value is <see cref="Visibility.Hidden" />.
@@ -137,9 +137,9 @@ namespace Codefarts.UIControls
         /// Gets or sets the horizontal scroll position.
         /// </summary>
         /// <returns>
-        /// A floating-point value that specifies the horizontal scroll position. 
-        /// Setting this property causes the text editing control to scroll to the specified horizontal offset. 
-        /// Reading this property returns the current horizontal offset.                                                                             
+        /// A floating-point value that specifies the horizontal scroll position.
+        /// Setting this property causes the text editing control to scroll to the specified horizontal offset.
+        /// Reading this property returns the current horizontal offset.
         /// </returns>
         public virtual float HorizontalOffset
         {
@@ -164,7 +164,7 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <returns>
         /// A floating-point value that specifies the vertical scroll position.
-        /// Setting this property causes the text editing control to scroll to the specified vertical offset. 
+        /// Setting this property causes the text editing control to scroll to the specified vertical offset.
         /// Reading this property returns the current vertical offset.
         /// </returns>
         public virtual float VerticalOffset
@@ -245,19 +245,19 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary> 
+        /// <summary>
         /// Character number of the selected text
         /// </summary>
         /// <remarks>
-        /// Length is calculated as unicode count, so it counts 
+        /// Length is calculated as unicode count, so it counts
         /// eacn \r\n combination as 2 - even though it is actially
-        /// one caret position, and it would be illegal to insert 
-        /// any characters between them or expect selection ends 
+        /// one caret position, and it would be illegal to insert
+        /// any characters between them or expect selection ends
         /// to stay between them.
-        /// Because of that after setting SelectionLength to some value 
+        /// Because of that after setting SelectionLength to some value
         /// it can be automatically corrected (by adding 1)
         /// if selection end happens to be between \r and \n.
-        /// </remarks>              
+        /// </remarks>
         public virtual int SelectionLength
         {
             get
@@ -287,16 +287,16 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// The start position of the selection. 
+        /// The start position of the selection.
         /// </summary>
         /// <remarks>
         /// Index is calculated as unicode offset, so it counts
-        /// eacn \r\n combination as 2 - even though it is actially 
+        /// eacn \r\n combination as 2 - even though it is actially
         /// one caret position, and it would be illegal to insert
-        /// any characters between them or expect selection ends 
-        /// to stay between them. 
+        /// any characters between them or expect selection ends
+        /// to stay between them.
         /// Because of that after setting SelectionStart to some value
-        /// it can be automatically corrected (by adding 1) 
+        /// it can be automatically corrected (by adding 1)
         /// if it happens to be between \r and \n.
         /// </remarks>
         public virtual int SelectionStart
@@ -326,9 +326,9 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary> 
+        /// <summary>
         /// Position of the caret.
-        /// </summary> 
+        /// </summary>
         public virtual int CaretIndex
         {
             get
@@ -363,7 +363,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Number of lines in the TextBox. 
+        /// Number of lines in the TextBox.
         /// </summary>
         public virtual int LineCount
         {
@@ -375,7 +375,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets a value indicating whether the text box accepts return keys.
-        /// </summary> 
+        /// </summary>
         public virtual bool AcceptsReturn
         {
             get
@@ -396,7 +396,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets a value indicating whether the text box accepts tab keys.
-        /// </summary> 
+        /// </summary>
         public virtual bool AcceptsTab
         {
             get

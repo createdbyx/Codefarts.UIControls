@@ -125,11 +125,12 @@ namespace Codefarts.UIControls
         public override Markup ToMarkup()
         {
             var markup = base.ToMarkup();
+            markup.Name = this.GetType().FullName;
             var value = this.Text;
-            markup.SetProperty("Text", value != null, value);
+            markup["Text"] = value;
 
             var imageSource = this.Image;
-            markup.SetProperty("Image", imageSource != null, imageSource.ToMarkup());
+            markup["Image"] = imageSource != null ? imageSource.ToMarkup() : null;
 
             return markup;
         }

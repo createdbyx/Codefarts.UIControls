@@ -26,7 +26,7 @@ namespace Codefarts.UIControls.Controls
 
         /// <summary>
         /// Gets or sets the image source.
-        /// </summary>              
+        /// </summary>
         public virtual ImageSource Source
         {
             get
@@ -47,8 +47,8 @@ namespace Codefarts.UIControls.Controls
 
         /// <summary>
         /// Gets or sets the stretch style.
-        /// </summary>            
-        /// <remarks>Default is <see cref="UIControls.Stretch.None"/></remarks>         
+        /// </summary>
+        /// <remarks>Default is <see cref="UIControls.Stretch.None"/></remarks>
         public virtual Stretch Stretch
         {
             get
@@ -72,7 +72,7 @@ namespace Codefarts.UIControls.Controls
         /// </summary>
         public Image()
         {
-            this.Stretch = Stretch.None;        
+            this.Stretch = Stretch.None;
             this.isTabStop = false;
             this.canFocus = false;
         }

@@ -12,7 +12,7 @@ namespace Codefarts.UIControls
     using System;
 
     /// <summary>
-    /// Represents a scrollable area that can contain other controls. 
+    /// Represents a scrollable area that can contain other controls.
     /// </summary>
     public class ScrollViewer : Control
     {
@@ -51,10 +51,10 @@ namespace Codefarts.UIControls
         #endregion
 
         /// <summary>
-        /// Gets or sets a value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed. 
+        /// Gets or sets a value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed. 
+        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a horizontal <see cref="T:ScrollBar" /> should be displayed.
         /// The default is <see cref="ScrollBarVisibility.Auto" />.
         /// </returns>
         public virtual ScrollBarVisibility HorizontialScrollBarVisibility
@@ -76,10 +76,10 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed. 
+        /// Gets or sets a value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed. 
+        /// A <see cref="T:ScrollBarVisibility" /> value that indicates whether a vertical <see cref="T:ScrollBar" /> should be displayed.
         /// The default is <see cref="ScrollBarVisibility.Auto" />.
         /// </returns>
         public virtual ScrollBarVisibility VerticalScrollBarVisibility
@@ -101,7 +101,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets a value that contains the horizontal offset of the scrolled content.  
+        /// Gets a value that contains the horizontal offset of the scrolled content.
         /// </summary>
         /// <returns>
         /// A <see cref="Single" /> that represents the horizontal offset of the scrolled content. The default is 0.0.
@@ -125,7 +125,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets a value that contains the vertical offset of the scrolled content.  
+        /// Gets a value that contains the vertical offset of the scrolled content.
         /// </summary>
         /// <returns>
         /// A <see cref="Single" /> that represents the vertical offset of the scrolled content. The default is 0.0.
@@ -157,14 +157,14 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Scroll content by one line to the bottom. 
-        /// </summary>                                                                                                             
+        /// Scroll content by one line to the bottom.
+        /// </summary>
         public virtual void LineDown()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary> 
+        /// <summary>
         /// Scroll content by one line to the left.
         /// </summary>
         public virtual void LineLeft()
@@ -172,15 +172,15 @@ namespace Codefarts.UIControls
             throw new NotImplementedException();
         }
 
-        /// <summary> 
+        /// <summary>
         /// Scroll content by one line to the right.
-        /// </summary> 
+        /// </summary>
         public virtual void LineRight()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary> 
+        /// <summary>
         /// Scroll content by one page to the top.
         /// </summary>
         public virtual void PageUp()
@@ -188,16 +188,16 @@ namespace Codefarts.UIControls
             throw new NotImplementedException();
         }
 
-        /// <summary> 
+        /// <summary>
         /// Scroll content by one page to the bottom.
-        /// </summary> 
+        /// </summary>
         public virtual void PageDown()
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Scroll content by one page to the left. 
+        /// Scroll content by one page to the left.
         /// </summary>
         public virtual void PageLeft()
         {
@@ -205,7 +205,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Scroll content by one page to the right. 
+        /// Scroll content by one page to the right.
         /// </summary>
         public virtual void PageRight()
         {
@@ -213,7 +213,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Horizontally scroll to the beginning of the content. 
+        /// Horizontally scroll to the beginning of the content.
         /// </summary>
         public virtual void ScrollToLeftEnd()
         {
@@ -221,7 +221,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Horizontally scroll to the end of the content. 
+        /// Horizontally scroll to the end of the content.
         /// </summary>
         public virtual void ScrollToRightEnd()
         {
@@ -229,7 +229,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Scroll to Top-Left of the content. 
+        /// Scroll to Top-Left of the content.
         /// </summary>
         public virtual void ScrollToHome()
         {
@@ -237,18 +237,18 @@ namespace Codefarts.UIControls
             this.HorizontialOffset = int.MinValue;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Scroll to Bottom-Left of the content.
-        /// </summary> 
+        /// </summary>
         public virtual void ScrollToEnd()
         {
             this.VerticalOffset = int.MaxValue;
             this.HorizontialOffset = int.MinValue;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Vertically scroll to the beginning of the content.
-        /// </summary> 
+        /// </summary>
         public virtual void ScrollToTop()
         {
             this.VerticalOffset = int.MinValue;
@@ -256,7 +256,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Vertically scroll to the end of the content.
-        /// </summary> 
+        /// </summary>
         public virtual void ScrollToBottom()
         {
             this.VerticalOffset = int.MaxValue;

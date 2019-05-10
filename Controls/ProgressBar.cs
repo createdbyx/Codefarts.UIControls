@@ -48,7 +48,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the amount by which a call to the <see cref="ProgressBar.PerformStep" /> method increases the current position 
+        /// Gets or sets the amount by which a call to the <see cref="ProgressBar.PerformStep" /> method increases the current position
         /// of the progress bar.
         /// </summary>
         /// <returns>The amount by which to increment the progress bar with each call to the <see cref="ProgressBar.PerformStep" /> method. The default is 10.</returns>
@@ -74,7 +74,7 @@ namespace Codefarts.UIControls
         /// Advances the current position of the progress bar by the specified amount.
         /// </summary>
         /// <param name="value">
-        /// The amount by which to increment the progress bar's current position. 
+        /// The amount by which to increment the progress bar's current position.
         /// </param>
         public virtual void Increment(float value)
         {
@@ -90,7 +90,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that determines the orientation of the progress bar.  
+        /// Gets or sets a value that determines the orientation of the progress bar.
         /// </summary>
         public virtual Orientation Orientation
         {

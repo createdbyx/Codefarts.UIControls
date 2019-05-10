@@ -5,7 +5,7 @@
 #endif
 
     /// <summary>
-    /// Paints an area with a solid color. 
+    /// Paints an area with a solid color.
     /// </summary>
     public class SolidColorBrush : Brush
     {
@@ -69,7 +69,7 @@
         /// Initializes a new instance of the <see cref="SolidColorBrush"/> class.
         /// </summary>
         public SolidColorBrush()
-        {   
+        {
         }
     }
 }

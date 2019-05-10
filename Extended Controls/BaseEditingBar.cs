@@ -49,7 +49,7 @@ namespace Codefarts.UIControls.Controls
             {
                 AcceptsReturn = false,
                 AcceptsTab = false,
-                IsEnabled = false, 
+                IsEnabled = false,
             };
 
             this.btnNew = new Button("txtNew", "New") { VerticalAlignment = VerticalAlignment.Stretch, Size = new Size(30, this.Height) };

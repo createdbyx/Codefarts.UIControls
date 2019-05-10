@@ -7,7 +7,7 @@ namespace Codefarts.UIControls
 #endif
 
     /// <summary>
-    /// Implements a set of predefined <see cref="SolidColorBrush" /> objects. 
+    /// Implements a set of predefined <see cref="SolidColorBrush" /> objects.
     /// </summary>
     public sealed class Brushes
     {
@@ -22,7 +22,7 @@ namespace Codefarts.UIControls
         static Brushes()
         {
             cachedBrushes = new Dictionary<int, SolidColorBrush>();
-        }   
+        }
 
         /// <summary>
         /// Creates a <see cref="SolidColorBrush"/> from a ARGB integer.

@@ -19,7 +19,7 @@ namespace Codefarts.UIControls
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Represents a control to display a list of items. 
+    /// Represents a control to display a list of items.
     /// </summary>
     public class ListBox : ScrollViewer
     {
@@ -190,7 +190,7 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <returns>
         /// true if items in the control are sorted; otherwise, false. The default is false.
-        /// </returns>      
+        /// </returns>
         [DefaultValue(false)]
         public bool Sorted
         {
@@ -425,7 +425,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the vertical scroll bar visibility.
-        /// </summary>    
+        /// </summary>
         public override ScrollBarVisibility VerticalScrollBarVisibility
         {
             get
@@ -582,9 +582,9 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>Returns the text representation of the specified item.</summary>
-        /// <returns>If the <see cref="P:ListBox.DisplayMember" /> property is not specified, the value returned by 
-        /// <see cref="M:ListBox.GetItemText(System.Object)" /> is the value of the item's ToString method. Otherwise, 
-        /// the method returns the string value of the member returned by <see cref="P:ListBox.DisplayMember" /> property 
+        /// <returns>If the <see cref="P:ListBox.DisplayMember" /> property is not specified, the value returned by
+        /// <see cref="M:ListBox.GetItemText(System.Object)" /> is the value of the item's ToString method. Otherwise,
+        /// the method returns the string value of the member returned by <see cref="P:ListBox.DisplayMember" /> property
         /// for the object specified in the <paramref name="item" /> parameter.</returns>
         /// <param name="item">The object from which to get the contents to display. </param>
         public string GetItemText(object item)
@@ -699,8 +699,8 @@ namespace Codefarts.UIControls
             }
         }
 
-        /// <summary> 
-        /// Selects all the items in a <see cref="T:ListBox" />. 
+        /// <summary>
+        /// Selects all the items in a <see cref="T:ListBox" />.
         /// </summary>
         /// <exception cref="T:System.NotSupportedException">
         /// The <see cref="P:ListBox.SelectionMode" /> property is set to <see cref="UIControls.SelectionMode.Single" />.
@@ -726,7 +726,7 @@ namespace Codefarts.UIControls
         /// <param name="index">The zero-based index of the item in a <see cref="T:ListBox" /> to select or clear the selection for. </param>
         /// <param name="value">true to select the specified item; otherwise, false. </param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">The specified index was outside the range of valid values. </exception>
-        /// <exception cref="T:System.InvalidOperationException">The <see cref="P:ListBox.SelectionMode" /> property was set to None.</exception>   
+        /// <exception cref="T:System.InvalidOperationException">The <see cref="P:ListBox.SelectionMode" /> property was set to None.</exception>
         public void SetSelected(int index, bool value)
         {
             if (index < 0 || index >= (this.items == null ? 0 : this.items.Count))

@@ -70,12 +70,12 @@
         /// Gets or sets a value that indicates whether the user can adjust the width of columns by using an input device such as a mouse.
         /// </summary>
         /// <returns>
-        /// true if the user can resize the column; otherwise, false. The registered default is false. 
+        /// true if the user can resize the column; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
         /// <para>This property does not affect whether column widths can be changed programmatically, such as by changing a column Width property.</para>
-        /// <para>You can set this resize behavior for individual columns by setting the ColumnDefinition.CanUserResize property. 
-        /// If the ColumnDefinition.CanUserResize property and the DataGrid.CanUserResizeColumns property are both set, a 
+        /// <para>You can set this resize behavior for individual columns by setting the ColumnDefinition.CanUserResize property.
+        /// If the ColumnDefinition.CanUserResize property and the DataGrid.CanUserResizeColumns property are both set, a
         /// value of false takes precedence over a value of true.</para>
         /// </remarks>
         public virtual bool CanUserResizeColumns
@@ -100,12 +100,12 @@
         /// Gets or sets a value that indicates whether the user can adjust the height of rows by using an input device such as a mouse.
         /// </summary>
         /// <returns>
-        /// true if the user can resize the row; otherwise, false. The registered default is false. 
+        /// true if the user can resize the row; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
         /// <para>This property does not affect whether row heights can be changed programmatically, such as by changing a <see cref="RowDefinition.Height"/> property.</para>
-        /// <para>You can set this resize behavior for individual columns by setting the <see cref="RowDefinition.CanUserResize"/> property. 
-        /// If the ColumnDefinition.CanUserResize property and the DataGrid.CanUserResizeRows property are both set, a 
+        /// <para>You can set this resize behavior for individual columns by setting the <see cref="RowDefinition.CanUserResize"/> property.
+        /// If the ColumnDefinition.CanUserResize property and the DataGrid.CanUserResizeRows property are both set, a
         /// value of false takes precedence over a value of true.</para>
         /// </remarks>
         public virtual bool CanUserResizeRows
@@ -133,8 +133,8 @@
         /// true if the user can sort the columns; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
-        /// You can set this sorting behavior for individual columns by setting the DataGridColumn.CanUserSort property. 
-        /// If the DataGridColumn.CanUserSort property and the DataGrid.CanUserSortColumns property are both set, a value 
+        /// You can set this sorting behavior for individual columns by setting the DataGridColumn.CanUserSort property.
+        /// If the DataGridColumn.CanUserSort property and the DataGrid.CanUserSortColumns property are both set, a value
         /// of false takes precedence over a value of true.
         /// </remarks>
         public virtual bool CanUserSortColumns
@@ -162,9 +162,9 @@
         /// true if the user can reorder columns; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
-        /// <para>You can set this reorder behavior for individual columns by setting the <see cref="ColumnDefinition.CanUserReorder"/> property. 
-        /// If the ColumnDefinition.CanUserReorder property and the DataGrid.CanUserReorderColumns property are both set, a value of 
-        /// false will take precedence over a value of true.</para>  
+        /// <para>You can set this reorder behavior for individual columns by setting the <see cref="ColumnDefinition.CanUserReorder"/> property.
+        /// If the ColumnDefinition.CanUserReorder property and the DataGrid.CanUserReorderColumns property are both set, a value of
+        /// false will take precedence over a value of true.</para>
         /// </remarks>
         public virtual bool CanUserReorderColumns
         {
@@ -227,7 +227,7 @@
                 return;
             }
 
-            var type = firstItem.GetType();  
+            var type = firstItem.GetType();
             var typeProperties = type.GetProperties().Where(x => x.GetGetMethod().IsPublic);
             var members = typeProperties.Where(this.ValidatePropertyType).ToArray();
 
@@ -298,7 +298,7 @@
         {
             return x.GetMethod.IsPublic && x.CanRead && (x.PropertyType.GetTypeInfo().IsValueType || x.PropertyType == typeof(string));
         }
-#else     
+#else
         private bool ValidatePropertyType(PropertyInfo x)
         {
             return x.PropertyType.IsPublic && x.CanRead && (x.PropertyType.IsValueType || x.PropertyType == typeof(string));

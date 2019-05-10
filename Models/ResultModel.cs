@@ -1,6 +1,6 @@
 namespace Codefarts.UIControls.Models
 {
-    using System;                      
+    using System;
 
     /// <summary>
     /// Provides a result class for reporting result data.
@@ -17,7 +17,7 @@ namespace Codefarts.UIControls.Models
         /// Initializes a new instance of the <see cref="ResultModel{T}"/> class.
         /// </summary>
         public ResultModel()
-        {   
+        {
         }
 
         /// <summary>

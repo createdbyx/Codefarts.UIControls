@@ -19,12 +19,12 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the elapsed game time.
-        /// </summary>   
+        /// </summary>
         public float ElapsedGameTime { get; set; }
-       
+
         /// <summary>
         /// Gets or sets the total game time.
-        /// </summary>  
+        /// </summary>
         public float TotalGameTime { get; set; }
 
         /// <summary>

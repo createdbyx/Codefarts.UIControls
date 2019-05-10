@@ -8,7 +8,7 @@
 */
 
 namespace Codefarts.UIControls
-{                                           
+{
     /// <summary>
     /// Represents a <see cref="CheckBox" />.
     /// </summary>
@@ -99,7 +99,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the text.
-        /// </summary>            
+        /// </summary>
         public virtual string Text
         {
             get
@@ -141,7 +141,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets a value indicating whether the checkbox checked.
-        /// </summary>   
+        /// </summary>
         public virtual bool IsChecked
         {
             get

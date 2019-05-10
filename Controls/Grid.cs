@@ -194,7 +194,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the grid rows.
-        /// </summary>    
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">value;Rows must be greater then 0.</exception>
         public virtual int Rows
         {
@@ -232,7 +232,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the grid columns.
-        /// </summary>     
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">value;Columns must be greater then 0.</exception>
         public virtual int Columns
         {
@@ -484,10 +484,10 @@ namespace Codefarts.UIControls
         {
             var markup = base.ToMarkup();
             markup.Name = this.GetType().FullName;
-            markup.SetProperty("Rows", this.Rows != 1, this.Rows);
-            markup.SetProperty("Columns", this.Columns != 1, this.Columns);
-            markup.SetProperty("RowDefinitions", this.RowDefinitions.Count != 0, this.RowDefinitions.ToMarkup());
-            markup.SetProperty("ColumnDefinitions", this.ColumnDefinitions.Count != 0, this.ColumnDefinitions.ToMarkup());
+            var rows = this.rowDefinitions;
+            markup["RowDefinitions"] = rows != null ? rows.ToMarkup() : null;
+            var columns = this.columnDefinitions;
+            markup["ColumnDefinitions"] = columns != null ? columns.ToMarkup() : null;
             return markup;
         }
 

@@ -6,7 +6,7 @@ namespace Codefarts.UIControls
     using Codefarts.UIControls.Models;
 
     /// <summary>
-    /// Defines the functionality required to support a shared-size group that is used by the <see cref="ColumnDefinitionCollection" /> and 
+    /// Defines the functionality required to support a shared-size group that is used by the <see cref="ColumnDefinitionCollection" /> and
     /// <see cref="RowDefinitionCollection" /> classes. This is an abstract class. </summary>
     public abstract class DefinitionBase : INotifyPropertyChanged, IMarkup
     {
@@ -37,7 +37,7 @@ namespace Codefarts.UIControls
 
 
         /// <summary>
-        /// Gets or sets a value that indicates whether this element is visible in the user interface (UI).  
+        /// Gets or sets a value that indicates whether this element is visible in the user interface (UI).
         /// </summary>
         /// <returns>
         /// true if the element is visible; otherwise, false. The default value is true.
@@ -61,7 +61,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether this element is enabled in the user interface (UI).  
+        /// Gets or sets a value that indicates whether this element is enabled in the user interface (UI).
         /// </summary>
         /// <returns>
         /// true if the element is enabled; otherwise, false. The default value is true.
@@ -85,8 +85,8 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the identifying name of the element. The name provides an instance reference so that programmatic code-behind, such as 
-        /// event handler code, can refer to an element once it is constructed during parsing of XAML. 
+        /// Gets or sets the identifying name of the element. The name provides an instance reference so that programmatic code-behind, such as
+        /// event handler code, can refer to an element once it is constructed during parsing of XAML.
         /// </summary>
         /// <returns>
         /// The name of the element.
@@ -110,8 +110,8 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets an arbitrary object value that can be used to store custom information about this element. 
-        /// </summary>  
+        /// Gets or sets an arbitrary object value that can be used to store custom information about this element.
+        /// </summary>
         public virtual object Tag
         {
             get
@@ -131,7 +131,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the tool-tip object that is displayed for this element in the user interface (UI). 
+        /// Gets or sets the tool-tip object that is displayed for this element in the user interface (UI).
         /// </summary>
         /// <returns>
         /// The tooltip object. See Remarks below for details on why this parameter is not strongly typed.
@@ -185,10 +185,10 @@ namespace Codefarts.UIControls
         {
             var markup = new Markup();
             markup.Name = this.GetType().FullName;
-            markup.SetProperty("ToolTip", this.ToolTip != null, this.ToolTip);
-            markup.SetProperty("Tag", this.Tag != null, this.Tag);
-            markup.SetProperty("Name", this.Name != null, this.Name);
-            markup.SetProperty("IsEnabled", !this.IsEnabled, this.IsEnabled);
+            markup["ToolTip"] = this.ToolTip;
+            markup["Tag"] = this.Tag;
+            markup["Name"] = this.Name;
+            markup["IsEnabled"] = this.IsEnabled;
             return markup;
         }
     }

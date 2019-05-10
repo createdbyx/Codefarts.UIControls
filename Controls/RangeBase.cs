@@ -3,7 +3,7 @@ namespace Codefarts.UIControls
     using System;
 
     /// <summary>
-    /// Represents a control that has a value within a specific range. 
+    /// Represents a control that has a value within a specific range.
     /// </summary>
     public abstract class RangeBase : Control
     {
@@ -39,7 +39,7 @@ namespace Codefarts.UIControls
 
 
         /// <summary>
-        /// Gets or sets a <see cref="RangeBase.Value" /> to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.  
+        /// Gets or sets a <see cref="RangeBase.Value" /> to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.
         /// </summary>
         /// <returns>
         /// <see cref="RangeBase.Value" /> to add to or subtract from the <see cref="RangeBase.Value" /> of the <see cref="RangeBase" /> element. The default is 0.1.
@@ -63,7 +63,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control. 
+        /// Gets or sets a value to be added to or subtracted from the <see cref="RangeBase.Value" /> of a <see cref="RangeBase" /> control.
         /// </summary>
         /// <returns>
         /// <see cref="RangeBase.Value" /> to add to or subtract from the <see cref="RangeBase.Value" /> of the <see cref="RangeBase" /> element. The default is 1.</returns>
@@ -112,7 +112,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the decimal precision from 0 to 28.
-        /// </summary>  
+        /// </summary>
         public virtual int Precision
         {
             get
@@ -134,7 +134,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///  Gets or sets a minimum allowable value. 
+        ///  Gets or sets a minimum allowable value.
         /// </summary>
         public virtual float Minimum
         {
@@ -157,7 +157,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a maximum allowable value. 
+        /// Gets or sets a maximum allowable value.
         /// </summary>
         public virtual float Maximum
         {

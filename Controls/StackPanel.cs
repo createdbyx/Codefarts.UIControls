@@ -60,7 +60,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the dimension by which child elements are stacked.  
+        /// Gets or sets a value that indicates the dimension by which child elements are stacked.
         /// </summary>
         /// <returns>
         /// The <see cref="Orientation" /> of child content.

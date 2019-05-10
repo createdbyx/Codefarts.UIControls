@@ -1,7 +1,7 @@
 namespace Codefarts.UIControls
 {
     /// <summary>
-    /// Specifies the direction in which an <see cref="Expander" /> control opens. 
+    /// Specifies the direction in which an <see cref="Expander" /> control opens.
     /// </summary>
     public enum ExpandDirection
     {
@@ -21,7 +21,7 @@ namespace Codefarts.UIControls
         Left,
 
         /// <summary>
-        /// The <see cref="Expander" /> control opens right. 
+        /// The <see cref="Expander" /> control opens right.
         /// </summary>
         Right
     }

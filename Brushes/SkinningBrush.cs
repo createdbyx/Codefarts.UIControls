@@ -1,7 +1,7 @@
 namespace Codefarts.UIControls
-{                         
+{
     /// <summary>
-    /// Paints an area with an image. 
+    /// Paints an area with an image.
     /// </summary>
     public class SkinningBrush : GridImageBrush
     {
@@ -32,14 +32,15 @@ namespace Codefarts.UIControls
 
         /// <summary>Initializes a new instance of the <see cref="SkinningBrush" /> class that paints an area with the specified image. </summary>
         /// <param name="source">The image to display.</param>
-        public SkinningBrush(ImageSource source) : base(source)
+        public SkinningBrush(ImageSource source)
+            : base(source)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkinningBrush" /> class with no content.
         /// </summary>
-        public SkinningBrush()  
+        public SkinningBrush()
         {
         }
     }

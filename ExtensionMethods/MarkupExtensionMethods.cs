@@ -10,20 +10,20 @@
     /// </summary>
     public static class MarkupExtensionMethods
     {
-        public static void SetProperty(this Markup markup, string name, bool conditional, object value)
-        {
-            if (markup == null)
-            {
-                throw new ArgumentNullException("markup");
-            }
+        //public static void SetProperty(this Markup markup, string name, bool conditional, object value)
+        //{
+        //    if (markup == null)
+        //    {
+        //        throw new ArgumentNullException("markup");
+        //    }
 
-            if (!conditional)
-            {
-                return;
-            }
+        //    if (!conditional)
+        //    {
+        //        return;
+        //    }
 
-            markup.Properties[name] = value;
-        }
+        //    markup.Properties[name] = value;
+        //}
 
         public static bool GetValue<T>(this Markup markup, string name, Action<T> callback)
         {
@@ -33,7 +33,8 @@
             }
 
             object value;
-            if (markup.Properties != null && markup.Properties.TryGetValue(name, out value))
+            var props = markup.Properties;
+            if (props != null && props.TryGetValue(name, out value))
             {
                 try
                 {
@@ -75,7 +76,8 @@
 
             result = defaultValue;
             object value;
-            if (markup.Properties != null && markup.Properties.TryGetValue(name, out value))
+            var props = markup.Properties;
+            if (props != null && props.TryGetValue(name, out value))
             {
                 try
                 {
@@ -119,7 +121,8 @@
             }
 
             object value;
-            if (markup.Properties.TryGetValue(name, out value))
+            var props = markup.Properties;
+            if (props != null && props.TryGetValue(name, out value))
             {
                 var stringValue = (string)value;
                 var parts = stringValue.Split(',');
@@ -144,7 +147,8 @@
             }
 
             object value;
-            if (markup.Properties.TryGetValue(name, out value))
+            var props = markup.Properties;
+            if (props != null && props.TryGetValue(name, out value))
             {
                 callback(enumParser((string)value));
                 return true;

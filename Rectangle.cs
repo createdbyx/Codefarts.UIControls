@@ -96,7 +96,7 @@ namespace Codefarts.UIControls
         /// Gets or sets the x-coordinate of the left edge of this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
-        /// The x-coordinate of the left edge of this <see cref="Rectangle" /> structure. 
+        /// The x-coordinate of the left edge of this <see cref="Rectangle" /> structure.
         /// </returns>
         public float Left
         {
@@ -135,7 +135,7 @@ namespace Codefarts.UIControls
         /// Gets or sets the x-coordinate that is the sum of <see cref="Rectangle.X" /> and <see cref="Rectangle.Width" /> of this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
-        /// The x-coordinate that is the sum of <see cref="Rectangle.X" /> and <see cref="Rectangle.Width" /> of this <see cref="Rectangle" /> structure. 
+        /// The x-coordinate that is the sum of <see cref="Rectangle.X" /> and <see cref="Rectangle.Width" /> of this <see cref="Rectangle" /> structure.
         /// </returns>
         public float Right
         {
@@ -278,7 +278,7 @@ namespace Codefarts.UIControls
         /// Determines if the specified point is contained within this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
-        /// This method returns true if the point defined by <paramref name="positionX" /> and <paramref name="positionY" /> 
+        /// This method returns true if the point defined by <paramref name="positionX" /> and <paramref name="positionY" />
         /// is contained within this <see cref="Rectangle" /> structure; otherwise false.
         /// </returns>
         /// <param name="positionX">The x-coordinate of the point to test.</param>
@@ -297,7 +297,7 @@ namespace Codefarts.UIControls
         /// Determines if the specified point is contained within this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
-        /// This method returns true if the point represented by the <paramref name="point" /> parameter is contained 
+        /// This method returns true if the point represented by the <paramref name="point" /> parameter is contained
         /// within this <see cref="Rectangle" /> structure; otherwise false.
         /// </returns>
         /// <param name="point">The <see cref="Point" /> to test. </param>
@@ -307,11 +307,11 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Determines if the rectangular region represented by <paramref name="rectangle" /> is entirely contained within 
+        /// Determines if the rectangular region represented by <paramref name="rectangle" /> is entirely contained within
         /// this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
-        /// This method returns true if the rectangular region represented by <paramref name="rectangle" /> is entirely 
+        /// This method returns true if the rectangular region represented by <paramref name="rectangle" /> is entirely
         /// contained within the rectangular region represented by this <see cref="Rectangle" />; otherwise false.
         /// </returns>
         /// <param name="rectangle">The <see cref="Rectangle" /> to test. </param>
@@ -329,7 +329,7 @@ namespace Codefarts.UIControls
         /// Tests whether <paramref name="obj" /> is a <see cref="Rectangle" /> with the same location and size of this <see cref="Rectangle" />.
         /// </summary>
         /// <returns>
-        /// This method returns true if <paramref name="obj" /> is a <see cref="Rectangle" /> and its X, Y, Width, and Height 
+        /// This method returns true if <paramref name="obj" /> is a <see cref="Rectangle" /> and its X, Y, Width, and Height
         /// properties are equal to the corresponding properties of this <see cref="Rectangle" />; otherwise, false.
         /// </returns>
         /// <param name="obj">The <see cref="T:System.Object" /> to test. </param>
@@ -365,7 +365,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets the hash code for this <see cref="Rectangle" /> structure. 
+        /// Gets the hash code for this <see cref="Rectangle" /> structure.
         /// </summary>
         /// <returns>
         /// The hash code for this <see cref="Rectangle" />.
@@ -401,7 +401,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Creates and returns an enlarged copy of the specified <see cref="Rectangle" /> structure. 
+        /// Creates and returns an enlarged copy of the specified <see cref="Rectangle" /> structure.
         /// The copy is enlarged by the specified amount and the original rectangle remains unmodified.
         /// </summary>
         /// <returns>
@@ -431,7 +431,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Returns a <see cref="Rectangle" /> structure that represents the intersection of two rectangles. 
+        /// Returns a <see cref="Rectangle" /> structure that represents the intersection of two rectangles.
         /// If there is no intersection, and empty <see cref="Rectangle" /> is returned.
         /// </summary>
         /// <returns>
@@ -494,7 +494,7 @@ namespace Codefarts.UIControls
         /// Tests whether two <see cref="Rectangle" /> structures have equal location and size.
         /// </summary>
         /// <returns>
-        /// This operator returns true if the two specified <see cref="Rectangle" /> structures have equal 
+        /// This operator returns true if the two specified <see cref="Rectangle" /> structures have equal
         /// <see cref="Rectangle.X" />, <see cref="Rectangle.Y" />, <see cref="Rectangle.Width" />, and
         /// <see cref="Rectangle.Height" /> properties.
         /// </returns>
@@ -515,7 +515,7 @@ namespace Codefarts.UIControls
         /// Tests whether two <see cref="Rectangle" /> structures differ in location or size.
         /// </summary>
         /// <returns>
-        /// This operator returns true if any of the <see cref="Rectangle.X" />, <see cref="Rectangle.Y" />, <see cref="Rectangle.Width" />, 
+        /// This operator returns true if any of the <see cref="Rectangle.X" />, <see cref="Rectangle.Y" />, <see cref="Rectangle.Width" />,
         /// or <see cref="Rectangle.Height" /> properties of the two <see cref="Rectangle" /> structures are unequal; otherwise false.
         /// </returns>
         /// <param name="left">The <see cref="Rectangle" /> structure that is to the left of the inequality operator. </param>
@@ -530,7 +530,7 @@ namespace Codefarts.UIControls
         /// Converts the Location and <see cref="Size" /> of this <see cref="Rectangle" /> to a human-readable string.
         /// </summary>
         /// <returns>
-        /// A string that contains the position, width, and height of this <see cref="Rectangle" /> structure. 
+        /// A string that contains the position, width, and height of this <see cref="Rectangle" /> structure.
         /// For example, "{X=20, Y=20, Width=100, Height=50}".
         /// </returns>
         public override string ToString()

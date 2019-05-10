@@ -30,7 +30,7 @@ namespace Codefarts.UIControls
         protected float minHeight;
 
         /// <summary>
-        /// Gets or sets a value that represents the minimum allowable height of a <see cref="RowDefinition" />.  
+        /// Gets or sets a value that represents the minimum allowable height of a <see cref="RowDefinition" />.
         /// </summary>
         /// <returns>
         /// A <see cref="float" /> that represents the minimum allowable height. The default value is 0.
@@ -58,10 +58,10 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that represents the maximum height of a <see cref="RowDefinition" />.  
+        /// Gets or sets a value that represents the maximum height of a <see cref="RowDefinition" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="float" /> that represents the maximum height. 
+        /// A <see cref="float" /> that represents the maximum height.
         /// </returns>
         public virtual float MaxHeight
         {
@@ -85,7 +85,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets the height of a <see cref="RowDefinition" /> element.   
+        /// Gets the height of a <see cref="RowDefinition" /> element.
         /// </summary>
         /// <returns>
         /// The height of the row. The default value is 1.0.
@@ -147,10 +147,10 @@ namespace Codefarts.UIControls
         {
             var markup = base.ToMarkup();
             markup.Name = this.GetType().FullName;
-            markup.SetProperty("Offset", Math.Abs(this.Offset - 1) > float.Epsilon, this.Offset);
-            markup.SetProperty("Height", Math.Abs(this.Height - 1) > float.Epsilon, this.Height);
-            markup.SetProperty("MaxHeight", Math.Abs(this.MaxHeight) > float.Epsilon, this.MaxHeight);
-            markup.SetProperty("MinHeight", Math.Abs(this.MinHeight) > float.Epsilon, this.MinHeight);
+            markup["Offset"] = this.Offset;
+            markup["Height"] = this.Height;
+            markup["MaxHeight"] = this.MaxHeight;
+            markup["MinHeight"] = this.MinHeight;
             return markup;
         }
     }

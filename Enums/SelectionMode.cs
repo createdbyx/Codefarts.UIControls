@@ -9,9 +9,9 @@
         /// No items can be selected.
         /// </summary>
         None,
-      
+
         /// <summary>
-        /// The user can select only one item at a time. 
+        /// The user can select only one item at a time.
         /// </summary>
         Single,
 

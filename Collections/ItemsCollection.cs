@@ -16,6 +16,6 @@ namespace Codefarts.UIControls
     /// </summary>
     /// <remarks>This collection is used by the <see cref="ListBox"/> control.</remarks>
     public class ItemsCollection : ObservableCollection<object>
-    {                                           
+    {
     }
 }

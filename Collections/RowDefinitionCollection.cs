@@ -11,7 +11,7 @@ namespace Codefarts.UIControls
     /// </summary>
     /// <seealso cref="System.Collections.ObjectModel.ObservableCollection{RowDefinition}" />
     /// <seealso cref="IMarkup" />
-    public class RowDefinitionCollection : ObservableCollection<RowDefinition>   ,IMarkup
+    public class RowDefinitionCollection : ObservableCollection<RowDefinition>, IMarkup
     {
         /// <summary>
         /// Builds a <see cref="Markup" /> object that represent the state of the implementor.

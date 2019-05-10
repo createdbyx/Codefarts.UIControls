@@ -5,7 +5,7 @@ namespace Codefarts.UIControls
     using Codefarts.UIControls.Models;
 
     /// <summary>
-    /// Defines column-specific properties that apply to <see cref="Grid" /> elements. 
+    /// Defines column-specific properties that apply to <see cref="Grid" /> elements.
     /// </summary>
     public class ColumnDefinition : DefinitionBase
     {
@@ -45,7 +45,7 @@ namespace Codefarts.UIControls
         private bool canUserReorder;
 
         /// <summary>
-        /// Gets or sets a value that represents the minimum allowable width of a <see cref="ColumnDefinition" />.  
+        /// Gets or sets a value that represents the minimum allowable width of a <see cref="ColumnDefinition" />.
         /// </summary>
         /// <returns>
         /// A <see cref="float" /> that represents the minimum allowable width. The default value is 0.
@@ -72,10 +72,10 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that represents the maximum width of a <see cref="ColumnDefinition" />.  
+        /// Gets or sets a value that represents the maximum width of a <see cref="ColumnDefinition" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="float" /> that represents the maximum width. 
+        /// A <see cref="float" /> that represents the maximum width.
         /// </returns>
         public virtual float MaxWidth
         {
@@ -99,7 +99,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets the width of a <see cref="ColumnDefinition" /> element.   
+        /// Gets the width of a <see cref="ColumnDefinition" /> element.
         /// </summary>
         /// <returns>
         /// The width of the row. The default value is 1.0.
@@ -128,12 +128,12 @@ namespace Codefarts.UIControls
         /// Gets or sets a value that indicates whether the user can adjust the column width by using a input device such as a mouse.
         /// </summary>
         /// <returns>
-        /// true if the user can resize the column; otherwise, false. The registered default is false. 
+        /// true if the user can resize the column; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
         /// <para>This property does not affect whether column widths can be changed programmatically, such as by changing the Width property.</para>
-        /// <para>You can set this resize behavior for all columns by setting the DataGrid.CanUserResizeColumns property. 
-        /// If the DataGridColumn.CanUserResize property and the DataGrid.CanUserResizeColumns property are both set, a value of false takes 
+        /// <para>You can set this resize behavior for all columns by setting the DataGrid.CanUserResizeColumns property.
+        /// If the DataGridColumn.CanUserResize property and the DataGrid.CanUserResizeColumns property are both set, a value of false takes
         /// precedence over a value of true.</para>
         /// </remarks>
         public virtual bool CanUserResize
@@ -161,8 +161,8 @@ namespace Codefarts.UIControls
         /// true if the user can sort the column; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
-        /// You can set this sorting behavior for all columns by setting the <see cref="DataGrid.CanUserSortColumns"/> property. 
-        /// If the DataGridColumn.CanUserSort property and the DataGrid.CanUserSortColumns property are both set, 
+        /// You can set this sorting behavior for all columns by setting the <see cref="DataGrid.CanUserSortColumns"/> property.
+        /// If the DataGridColumn.CanUserSort property and the DataGrid.CanUserSortColumns property are both set,
         /// a value of false takes precedence over a value of true.
         /// </remarks>
         public virtual bool CanUserSort
@@ -190,8 +190,8 @@ namespace Codefarts.UIControls
         /// true if the user can drag the column header to a new position; otherwise, false. The registered default is false.
         /// </returns>
         /// <remarks>
-        /// You can set this reorder behavior for all columns by setting the <see cref="DataGrid.CanUserReorderColumns"/> property. 
-        /// If the DataGridColumn.CanUserReorder property and the DataGrid.CanUserReorderColumns property are both set, a 
+        /// You can set this reorder behavior for all columns by setting the <see cref="DataGrid.CanUserReorderColumns"/> property.
+        /// If the DataGridColumn.CanUserReorder property and the DataGrid.CanUserReorderColumns property are both set, a
         /// value of false takes precedence over a value of true.
         /// </remarks>
         public virtual bool CanUserReorder
@@ -269,19 +269,19 @@ namespace Codefarts.UIControls
         /// Builds a <see cref="Markup" /> object that represent the state of the implementor.
         /// </summary>
         /// <returns>
-        /// A <see cref="Markup" /> object containing the relavent information.
+        /// A <see cref="Markup" /> object containing the relevant information.
         /// </returns>
         /// <remarks>
-        ///   <p>The returned <see cref="Markup" /> object contains the relavnet data stored by the implementor.</p>
+        ///   <p>The returned <see cref="Markup" /> object contains the relevant data stored by the implementor.</p>
         /// </remarks>
         public override Markup ToMarkup()
         {
             var markup = base.ToMarkup();
             markup.Name = this.GetType().FullName;
-            markup.SetProperty("Offset", Math.Abs(this.Offset - 1) > float.Epsilon, this.Offset);
-            markup.SetProperty("Width", Math.Abs(this.Width - 1) > float.Epsilon, this.Width);
-            markup.SetProperty("MaxWidth", Math.Abs(this.MaxWidth) > float.Epsilon, this.MaxWidth);
-            markup.SetProperty("MinWidth", Math.Abs(this.MinWidth) > float.Epsilon, this.MinWidth);
+            markup["Offset"] = this.Offset;
+            markup["Width"] = this.Width;
+            markup["MaxWidth"] = this.MaxWidth;
+            markup["MinWidth"] = this.MinWidth;
             return markup;
         }
     }

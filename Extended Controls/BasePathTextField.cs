@@ -57,7 +57,7 @@ namespace Codefarts.UIControls.Controls
             this.container.Controls.Add(this.txtPath);
             this.btnSelect = new Button("...");
             this.container.Controls.Add(this.btnSelect);
-            this.btnSelect.Click += (s, e) => this.ShowDialog();  
+            this.btnSelect.Click += (s, e) => this.ShowDialog();
         }
 
         /// <summary>

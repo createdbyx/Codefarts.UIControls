@@ -10,7 +10,7 @@
 namespace Codefarts.UIControls
 {
     /// <summary>
-    /// Provides data for the selection changed" /> events. 
+    /// Provides data for the selection changed" /> events.
     /// </summary>
     /// <seealso cref="System.EventArgs" />
     public class SelectionChangedEventArgs : System.EventArgs

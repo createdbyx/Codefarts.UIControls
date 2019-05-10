@@ -64,7 +64,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets the text trimming behavior to employ when content overflows the content area.  
+        /// Gets or sets the text trimming behavior to employ when content overflows the content area.
         /// </summary>
         /// <returns>
         /// One of the <see cref="TextTrimming" /> values that specifies the text trimming behavior to employ. The default is <see cref="TextTrimming.None" />.
@@ -88,7 +88,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets how the <see cref="TextBlock" /> should wrap text. 
+        /// Gets or sets how the <see cref="TextBlock" /> should wrap text.
         /// </summary>
         /// <returns>
         /// One of the <see cref="TextWrapping" /> values. The default is <see cref="TextWrapping.NoWrap" />.
@@ -112,7 +112,7 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the horizontal alignment of text content.  
+        /// Gets or sets a value that indicates the horizontal alignment of text content.
         /// </summary>
         /// <returns>
         /// One of the <see cref="TextAlignment" /> values that specifies the desired alignment. The default is <see cref="TextAlignment.Left" />.
@@ -137,7 +137,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets the TextBlock text.
-        /// </summary>    
+        /// </summary>
         public virtual string Text
         {
             get

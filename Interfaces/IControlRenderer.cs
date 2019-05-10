@@ -7,7 +7,7 @@
     {
         /// <summary>
         /// Gets the type of the control that the renderer is designed to render.
-        /// </summary> 
+        /// </summary>
        // Type ControlType { get; }
 
         /// <summary>
@@ -22,7 +22,7 @@
         /// <param name="args">The rendering argument information.</param>
         /// <remarks>
         /// <p>This method is provided if a control has is animated and it's animation state can be updated independently of drawing.</p>
-        /// <p>Updates generally occur more frequently then draws.</p> 
+        /// <p>Updates generally occur more frequently then draws.</p>
         /// </remarks>
         void Update(ControlRenderingArgs args);
     }

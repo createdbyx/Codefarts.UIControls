@@ -23,6 +23,25 @@ namespace Codefarts.UIControls.Models
         public IDictionary<string, object> Properties { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="System.Object"/> with the specified property name.
+        /// </summary>
+        /// <param name="key">The name of the property.</param>
+        /// <returns>Return the value of the property.</returns>
+        /// <remarks>Can throw <see cref="System.NullReferenceException"/> if the <seealso cref="Properties"/> property is null.</remarks>
+        public object this[string key]
+        {
+            get
+            {
+                return this.Properties[key];
+            }
+
+            set
+            {
+                this.Properties[key] = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the parent.
         /// </summary>
         public Markup Parent { get; set; }

@@ -497,7 +497,7 @@ namespace Codefarts.UIControls
 
         /// <summary>
         /// Gets or sets a brush that describes the background of a control.
-        /// </summary>   
+        /// </summary>
         public virtual Brush Background
         {
             get
@@ -517,8 +517,8 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        ///  Gets or sets the font of the text displayed by the control. 
-        /// </summary>   
+        ///  Gets or sets the font of the text displayed by the control.
+        /// </summary>
         public virtual Font Font
         {
             get
@@ -795,13 +795,13 @@ namespace Codefarts.UIControls
         }
 
         /// <summary>
-        /// Gets a value indicating whether the mouse pointer is located over this element (including child elements in the visual tree).  
+        /// Gets a value indicating whether the mouse pointer is located over this element (including child elements in the visual tree).
         /// </summary>
         /// <returns>
         /// true if mouse pointer is over the element or its child elements; otherwise, false. The default is false.
         /// </returns>
         /// <remarks><p>This property fetches it's state from the <see cref="Properties"/> property.</p>
-        /// <example>It's the responsibility of the <see cref="ControlManager"/> to 
+        /// <example>It's the responsibility of the <see cref="ControlManager"/> to
         /// set the state. <code>Control.Properties[Control.IsMouseOverKey] = true</code></example></remarks>
         public bool IsMouseOver
         {
@@ -1160,7 +1160,7 @@ namespace Codefarts.UIControls
         /// <returns>
         /// The child <see cref="Control" /> at the specified coordinates.
         /// </returns>
-        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control. 
+        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control.
         /// Coordinates are expressed relative to the upper-left corner of the control's client area.</param>
         /// <param name="skipValue">One of the values of <see cref="GetChildAtPointSkip" />, determining whether to ignore child controls of a certain type.</param>
         public virtual Control GetChildAtPoint(Point point, GetChildAtPointSkip skipValue)
@@ -1187,7 +1187,7 @@ namespace Codefarts.UIControls
         /// <returns>
         /// A <see cref="Control" /> that represents the control that is located at the specified point.
         /// </returns>
-        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control. 
+        /// <param name="point">A <see cref="Point" /> that contains the coordinates where you want to look for a control.
         /// Coordinates are expressed relative to the upper-left corner of the control's client area. </param>
         public virtual Control GetChildAtPoint(Point point)
         {
@@ -1440,28 +1440,28 @@ namespace Codefarts.UIControls
         {
             var markup = new Markup();
             markup.Name = this.GetType().FullName;
-            markup.SetProperty("Name", this.Name != null, this.Name);
-            markup.SetProperty("Location", this.Location != Point.Empty, this.Location);
-            markup.SetProperty("Size", this.Size != this.DefaultSize, this.Size);
-            markup.SetProperty("MinimumSize", this.MinimumSize != Size.Empty, this.MinimumSize);
-            markup.SetProperty("MaximumSize", this.MaximumSize != Size.Empty, this.MaximumSize);
-            markup.SetProperty("Opacity", Math.Abs(this.Opacity - 1) > float.Epsilon, this.Opacity);
-            markup.SetProperty("Foreground", this.Foreground != null, this.Foreground);
-            markup.SetProperty("Background", this.Background != null, this.Background);
-            markup.SetProperty("Font", this.Font != null, this.Font);
-            markup.SetProperty("AutoSize", this.AutoSize, this.AutoSize);
-            markup.SetProperty("ClipToBounds", !this.ClipToBounds, this.ClipToBounds);
-            markup.SetProperty("IsEnabled", !this.IsEnabled, this.IsEnabled);
-            markup.SetProperty("IsVisible", !this.IsVisible, this.IsVisible);
-            markup.SetProperty("HorizontalAlignment", this.HorizontalAlignment != HorizontalAlignment.Left, this.HorizontalAlignment);
-            markup.SetProperty("HorizontalContentAlignment", this.HorizontalContentAlignment != HorizontalAlignment.Left, this.HorizontalContentAlignment);
-            markup.SetProperty("VerticalAlignment", this.VerticalAlignment != VerticalAlignment.Top, this.VerticalAlignment);
-            markup.SetProperty("VerticalContentAlignment", this.VerticalContentAlignment != VerticalAlignment.Top, this.VerticalContentAlignment);
-            markup.SetProperty("ToolTip", this.ToolTip != null, this.ToolTip);
-            markup.SetProperty("Tag", this.Tag != null, this.Tag);
-            markup.SetProperty("DataContext", this.DataContext != null, this.DataContext);
+            markup["Name"] = this.Name;
+            markup["Location"] = this.Location;
+            markup["Size"] = this.Size;
+            markup["MinimumSize"] = this.MinimumSize;
+            markup["MaximumSize"] = this.MaximumSize;
+            markup["Opacity"] = this.Opacity;
+            markup["Foreground"] = this.Foreground;
+            markup["Background"] = this.Background;
+            markup["Font"] = this.Font == null ? null : this.font.ToMarkup();
+            markup["AutoSize"] = this.AutoSize;
+            markup["ClipToBounds"] = this.ClipToBounds;
+            markup["IsEnabled"] = this.IsEnabled;
+            markup["IsVisible"] = this.IsVisible;
+            markup["HorizontalAlignment"] = this.HorizontalAlignment;
+            markup["HorizontalContentAlignment"] = this.HorizontalContentAlignment;
+            markup["VerticalAlignment"] = this.VerticalAlignment;
+            markup["VerticalContentAlignment"] = this.VerticalContentAlignment;
+            markup["ToolTip"] = this.ToolTip;
+            markup["Tag"] = this.Tag;
+            markup["DataContext"] = this.DataContext;
             var props = this.Properties;
-            markup.SetProperty("Properties", props != null && props.Count > 0, new Dictionary<string, object>(this.properties));
+            markup["Properties"] = props != null ? new Dictionary<string, object>(props) : null;
             markup.Children = this.Controls.Select(x => x.ToMarkup()).ToList();
             return markup;
         }

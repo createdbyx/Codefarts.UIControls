@@ -4,7 +4,7 @@ namespace Codefarts.UIControls
     using System.ComponentModel;
 
     /// <summary>
-    /// Contains state information and event data associated with a event. 
+    /// Contains state information and event data associated with a event.
     /// </summary>
     public class RoutedEventArgs : EventArgs  , INotifyPropertyChanged
     {
@@ -19,8 +19,8 @@ namespace Codefarts.UIControls
         private bool handled;
 
         /// <summary>Gets or sets a value that indicates the present state of the event handling for a routed event as it travels the route. </summary>
-        /// <returns>If setting, set to true if the event is to be marked handled; otherwise false. If reading this value, true indicates that either a 
-        /// class handler, or some instance handler along the route, has already marked this event handled. false indicates that no such handler 
+        /// <returns>If setting, set to true if the event is to be marked handled; otherwise false. If reading this value, true indicates that either a
+        /// class handler, or some instance handler along the route, has already marked this event handled. false indicates that no such handler
         /// has marked the event handled. The default value is false.</returns>
         public bool Handled
         {
@@ -55,7 +55,7 @@ namespace Codefarts.UIControls
                 this.source = value;
                 if (changed)
                 {
-                    this.OnPropertyChanged("Source");   
+                    this.OnPropertyChanged("Source");
                 }
             }
         }

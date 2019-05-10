@@ -1,12 +1,12 @@
 ﻿namespace Codefarts.UIControls
 {
     /// <summary>
-    /// Describes how content is positioned vertically in a container. 
+    /// Describes how content is positioned vertically in a container.
     /// </summary>
     public enum AlignmentY
     {
         /// <summary>
-        /// The contents align toward the upper edge of the container. 
+        /// The contents align toward the upper edge of the container.
         /// </summary>
         Top,
 
@@ -16,7 +16,7 @@
         Center,
 
         /// <summary>
-        /// The contents align toward the lower edge of the container. 
+        /// The contents align toward the lower edge of the container.
         /// </summary>
         Bottom
     }

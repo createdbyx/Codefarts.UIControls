@@ -79,7 +79,7 @@ namespace Codefarts.UIControls
         /// </summary>
         /// <param name="control">The control to retrieve grid information from.</param>
         /// <returns>The grid position of the control within the parent grid.</returns>
-        /// <remarks>If no grid position informaton exists the default value of zero will be ued for both Row & Column.</remarks>
+        /// <remarks>If no grid position information exists the default value of zero will be ued for both Row & Column.</remarks>
         /// <seealso cref="Grid.Row"/>
         /// <seealso cref="Grid.Column"/>
         public static Point GetGridPosition(this Control control)
